@@ -1,0 +1,28 @@
+{
+    "name": "nela-app",
+    "version": "1.0.0",
+    "description": "Family tree website update",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server",
+        "server": "nodemon server",
+        "client": "npm start --prefix client",
+        "dev": "concurrently \"npm run server\" \"npm run client\"",
+        "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
+        "postinstall": "cd client && npm install"
+    },
+    "author": "sebekos",
+    "license": "ISC",
+    "dependencies": {
+        "axios": "^0.19.2",
+        "bcryptjs": "^2.4.3",
+        "concurrently": "^5.1.0",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "express-validator": "^6.4.0",
+        "jsonwebtoken": "^8.5.1",
+        "mysql": "^2.18.1",
+        "nodemon": "^2.0.2",
+        "path": "^0.12.7"
+    }
+}
