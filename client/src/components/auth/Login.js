@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { login } from "../../redux/actions/auth";
-import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import GenForm from "../universal/GenForm";
@@ -12,7 +11,6 @@ import PrimaryButton from "../universal/PrimaryButton";
 const Container = styled.div`
     max-width: 400px;
     margin: 3rem auto;
-    box-sizing: border-box;
     -webkit-box-shadow: 1px 1px 3px 2px #ccc;
     -moz-box-shadow: 1px 1px 3px 2px #ccc;
     box-shadow: 1px 1px 3px 2px #ccc;
@@ -22,16 +20,11 @@ const Container = styled.div`
 `;
 
 const FormContainer = styled(GenForm)`
-    max-width: 400px;
     padding: 0 20px 20px;
 `;
 
 const SignInContainer = styled.div`
     padding: 20px 20px;
-`;
-
-const LoginButton = styled(PrimaryButton)`
-    margin-right: 5px;
 `;
 
 const Login = ({ login, isAuthenticated }) => {
@@ -46,21 +39,16 @@ const Login = ({ login, isAuthenticated }) => {
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
-        login(email, password);
+        login(formData);
     };
 
-    // Redirect if logged in
     if (isAuthenticated) {
-        return <Redirect to="/myprofile" />;
+        return <Redirect to="/dashboard" />;
     }
 
     return (
         <Container>
-            <SignInContainer>
-                <p className="lead">
-                    <i className="fas fa-user"></i> Sign Into Your Account
-                </p>
-            </SignInContainer>
+            <SignInContainer>Sign Into Your Account</SignInContainer>
             <FormContainer onSubmit={onSubmitHandler}>
                 <GenInput
                     type="email"
@@ -78,12 +66,9 @@ const Login = ({ login, isAuthenticated }) => {
                     onChange={onChangeHandler}
                     required
                 ></GenInput>
-                <LoginButton type="submit" onClick={onSubmitHandler}>
+                <PrimaryButton type="submit" onClick={onSubmitHandler}>
                     Login
-                </LoginButton>
-                <Link to="/pwreset">
-                    <small>Forgot password?</small>
-                </Link>
+                </PrimaryButton>
             </FormContainer>
         </Container>
     );
