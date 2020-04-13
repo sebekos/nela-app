@@ -10,6 +10,7 @@ import Dashboard from "./components/dashboard/dashboard";
 import Homepage from "./components/homepage/Homepage";
 import Login from "./components/auth/Login";
 import Navbar from "./components/layout/Navbar";
+import MainPage from "./components/mainpage/MainPage";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
@@ -22,6 +23,7 @@ const App = () => {
     return (
         <Provider store={store}>
             <Navbar />
+            <MainPage />
             <Router>
                 <ToastContainer hideProgressBar pauseOnHover={false} />
                 <Switch>
