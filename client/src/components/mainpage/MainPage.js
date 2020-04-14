@@ -1,16 +1,16 @@
 import React from "react";
 import styled from "styled-components";
-import LandingImage from "../../img/landing.jpeg";
+import LandingImage from "../../img/banner.jpg";
 
 const MainPageContainer = styled.div``;
 
 const MainBackground = styled.div`
     background-image: url(${LandingImage});
-    min-height: 600px;
+    min-height: 800px;
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: auto 100%;
+    background-size: 100% 100%;
 `;
 
 const SiteContainer = styled.div`
