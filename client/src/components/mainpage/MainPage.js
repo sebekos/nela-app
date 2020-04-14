@@ -6,7 +6,7 @@ const MainPageContainer = styled.div``;
 
 const MainBackground = styled.div`
     background-image: url(${LandingImage});
-    min-height: 800px;
+    min-height: 700px;
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
