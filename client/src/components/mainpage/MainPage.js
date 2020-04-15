@@ -5,12 +5,13 @@ import LandingImage from "../../img/banner.jpg";
 const MainPageContainer = styled.div``;
 
 const MainTitle = styled.div`
-    font-size: 2rem;
+    font-size: 3rem;
     color: #3e4444;
     text-align: center;
     padding: 5rem 0 1rem;
     width: 100%;
     background-color: white;
+    font-weight: bold;
 `;
 
 const MainBackground = styled.div`

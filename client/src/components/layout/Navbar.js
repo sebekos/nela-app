@@ -93,7 +93,7 @@ const Navbar = ({ isAuthenticated, logout, setNav, currMenu }) => {
 
     return (
         <Container>
-            <Title>Strona Rodin Pytlewskich</Title>
+            <Title>Pytlewskich</Title>
             <LinksContainer>
                 {isAuthenticated ? <AuthLinks onLogout={onLogout} /> : <GuestLinks currMenu={currMenu} onNav={onNav} />}
             </LinksContainer>
