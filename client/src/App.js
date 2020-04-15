@@ -20,8 +20,9 @@ const App = () => {
 
     return (
         <Provider store={store}>
-            <Navbar />
             <Router>
+                <Navbar />
+
                 <ToastContainer hideProgressBar pauseOnHover={false} />
                 <Switch>
                     <Route exact path="/" component={MainPage} />

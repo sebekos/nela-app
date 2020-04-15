@@ -17,3 +17,8 @@ body {
 .Toastify__toast-container {
     margin-top: 6rem;
 }
+
+/* Navbar */
+.active-link {
+    border-bottom: 1px solid #333;
+}
