@@ -6,11 +6,11 @@ const MainPageContainer = styled.div``;
 
 const MainBackground = styled.div`
     background-image: url(${LandingImage});
-    min-height: 700px;
+    min-height: 500px;
     background-attachment: fixed;
-    background-position: center;
+    background-position: center top;
     background-repeat: no-repeat;
-    background-size: 100% 100%;
+    background-size: auto;
 `;
 
 const SiteContainer = styled.div`
