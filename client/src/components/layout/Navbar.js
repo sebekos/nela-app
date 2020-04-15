@@ -12,7 +12,9 @@ const Container = styled.div`
     align-items: center;
     width: 100%;
     height: 4rem;
-    background-color: #ffcd26;
+    background-color: white;
+    position: fixed;
+    z-index: 1;
 `;
 
 const Title = styled.div`
