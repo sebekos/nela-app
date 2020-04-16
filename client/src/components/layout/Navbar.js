@@ -14,7 +14,6 @@ const Container = styled.div`
     height: 4rem;
     background-color: white;
     position: fixed;
-    z-index: 1;
 `;
 
 const Title = styled.div`
@@ -67,7 +66,7 @@ GuestLinks.propTypes = {
 const AuthLinks = ({ onLogout }) => {
     return (
         <>
-            <Link>Dashboard</Link>
+            <Link to="dashboard">Dashboard</Link>
             <Link onClick={onLogout}>Logout</Link>
         </>
     );

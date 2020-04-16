@@ -4,23 +4,19 @@ import { connect } from "react-redux";
 import { login } from "../../redux/actions/auth";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import GenForm from "../universal/GenForm";
 import GenInput from "../universal/GenInput";
 import PrimaryButton from "../universal/PrimaryButton";
 
-const Container = styled.div`
+const FormContainer = styled.form`
+    padding: 1rem;
+    margin: 5rem auto;
     max-width: 400px;
-    margin: 3rem auto;
     -webkit-box-shadow: 1px 1px 3px 2px #ccc;
     -moz-box-shadow: 1px 1px 3px 2px #ccc;
     box-shadow: 1px 1px 3px 2px #ccc;
     @media (max-width: 680px) {
         margin-top: 1rem;
     }
-`;
-
-const FormContainer = styled(GenForm)`
-    padding: 0 20px 20px;
 `;
 
 const SignInContainer = styled.div`
@@ -47,7 +43,7 @@ const Login = ({ login, isAuthenticated }) => {
     }
 
     return (
-        <Container>
+        <>
             <SignInContainer>Sign Into Your Account</SignInContainer>
             <FormContainer onSubmit={onSubmitHandler}>
                 <GenInput
@@ -70,7 +66,7 @@ const Login = ({ login, isAuthenticated }) => {
                     Login
                 </PrimaryButton>
             </FormContainer>
-        </Container>
+        </>
     );
 };
 

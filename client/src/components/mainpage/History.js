@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import TreeJpg from "../../img/tree.png";
 import PrimaryButton from "../universal/PrimaryButton";
-import { Link } from "react-router-dom";
 
 const Container = styled.div`
     display: grid;
@@ -13,7 +12,7 @@ const Container = styled.div`
 
 const ImgContainer = styled.div`
     max-width: 650px;
-    justify-self: end;
+    justify-self: start;
     padding: 5rem 1rem;
 `;
 
@@ -31,6 +30,7 @@ const TreeImage = () => {
 };
 
 const TextContainer = styled.div`
+    justify-self: end;
     text-align: center;
     max-width: 650px;
     padding: 5rem 3rem;
@@ -48,7 +48,6 @@ const TextDesc = styled.div`
 const FamilyButton = styled(PrimaryButton)`
     padding: 0.5rem 2rem;
     margin: 2rem;
-    font-size: 1rem;
 `;
 
 const Text = () => {
@@ -57,20 +56,18 @@ const Text = () => {
             <TextTitle>Nasza Rodzina</TextTitle>
             <TextDesc>AKTUALNIE WPROWADZAMY DANE</TextDesc>
             <TextDesc>Ale istnieje juz możliwośc przegladania efektow naszej pracy :)</TextDesc>
-            <Link to="rodzina">
-                <FamilyButton>Rodzina</FamilyButton>
-            </Link>
+            <FamilyButton>Rodzina</FamilyButton>
         </TextContainer>
     );
 };
 
-const Tree = () => {
+const History = () => {
     return (
         <Container>
-            <TreeImage />
             <Text />
+            <TreeImage />
         </Container>
     );
 };
 
-export default Tree;
+export default History;

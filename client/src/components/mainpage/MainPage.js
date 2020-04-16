@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Intro from "./Intro";
 import Tree from "./Tree";
+import History from "./History";
 
 const Container = styled.div``;
 
@@ -10,6 +11,7 @@ const MainPage = () => {
         <Container>
             <Intro />
             <Tree />
+            <History />
         </Container>
     );
 };

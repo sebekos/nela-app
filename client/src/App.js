@@ -8,6 +8,7 @@ import Dashboard from "./components/dashboard/dashboard";
 import Login from "./components/auth/Login";
 import Navbar from "./components/layout/Navbar";
 import MainPage from "./components/mainpage/MainPage";
+import Footer from "./components/layout/Footer";
 import "./App.css";
 
 import { ToastContainer } from "react-toastify";
@@ -22,13 +23,13 @@ const App = () => {
         <Provider store={store}>
             <Router>
                 <Navbar />
-
                 <ToastContainer hideProgressBar pauseOnHover={false} />
                 <Switch>
                     <Route exact path="/" component={MainPage} />
                     <Route exact path="/login" component={Login} />
                     <PrivateRoute exact path="/dashboard" component={Dashboard} />
                 </Switch>
+                <Footer />
             </Router>
         </Provider>
     );
