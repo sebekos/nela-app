@@ -7,7 +7,7 @@ const Container = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
     margin: auto;
-    background-color: #f0f0f0;
+    background-color: white;
 `;
 
 const ImgContainer = styled.div`
@@ -45,7 +45,7 @@ const TextDesc = styled.div`
     font-size: 1rem;
 `;
 
-const FamilyButton = styled(PrimaryButton)`
+const HistoryButton = styled(PrimaryButton)`
     padding: 0.5rem 2rem;
     margin: 2rem;
 `;
@@ -53,10 +53,18 @@ const FamilyButton = styled(PrimaryButton)`
 const Text = () => {
     return (
         <TextContainer>
-            <TextTitle>Nasza Rodzina</TextTitle>
-            <TextDesc>AKTUALNIE WPROWADZAMY DANE</TextDesc>
-            <TextDesc>Ale istnieje juz możliwośc przegladania efektow naszej pracy :)</TextDesc>
-            <FamilyButton>Rodzina</FamilyButton>
+            <TextTitle>Historia</TextTitle>
+            <TextDesc>Poszukiwania</TextDesc>
+            <TextDesc>
+                Z przekazów rodzinnych wiemy o dziejach naszego Rodu niegdyś już spisanego przez naszych pra, pra ... Księga z zapisami
+                narodzin, zgonów, nadaniami dóbr i ich konfiskatą za udział w powstaniach, oraz innymi dziejami Rodu była "wędrowna". Nie
+                wszyscy w dawnych czasach umieli pisać więc wędrowała do tego który umiał pisać. Księga która przetrwała różne dziejowe
+                zawieruchy spłonęła wraz z młynem w Lelowie dnia 03.09.1939 r., a wraz z nią archiwum rodzinne, książki - białe kruki,
+                pergaminy. Mamy jednak naszych nestorów jeszcze z doskonałą pamięcią, którzy nam opowiadają jak to dawniej bywało. Godziny
+                rozmów - wywiadów są nagrane na taśmach video. Jak się okazuje po wielu latach poszukiwań Pytlewskich w zasobach
+                archiwalnych, parafiach, materiałach historycznych, w dokumentach prywatnych zbiorów
+            </TextDesc>
+            <HistoryButton>Historia</HistoryButton>
         </TextContainer>
     );
 };
