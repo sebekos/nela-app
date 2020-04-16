@@ -14,6 +14,7 @@ const Container = styled.div`
     height: 4rem;
     background-color: white;
     position: fixed;
+    z-index: 1;
 `;
 
 const Title = styled.div`
