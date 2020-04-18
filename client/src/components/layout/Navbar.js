@@ -39,7 +39,7 @@ const LinksContainer = styled.div`
 `;
 
 const GuestLinks = ({ onNav, currMenu }) => {
-    const links = ["Home", "Newsy", "Historia", "Zjazdy", "Galeria", "Wiesci", "Contact"];
+    const links = ["Home", "Newsy", "Historia", "Zjazdy", "Galeria", "Wiesci", "Kontakt"];
     return (
         <>
             {links.map((link, index) => {

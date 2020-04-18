@@ -9,6 +9,7 @@ import Login from "./components/auth/Login";
 import Navbar from "./components/layout/Navbar";
 import MainPage from "./components/mainpage/MainPage";
 import Footer from "./components/layout/Footer";
+import Contact from "./components/contact/Contact";
 import "./App.css";
 
 import { ToastContainer } from "react-toastify";
@@ -26,6 +27,7 @@ const App = () => {
                 <ToastContainer hideProgressBar pauseOnHover={false} />
                 <Switch>
                     <Route exact path="/" component={MainPage} />
+                    <Route exact path="/kontakt" component={Contact} />
                     <Route exact path="/login" component={Login} />
                     <PrivateRoute exact path="/dashboard" component={Dashboard} />
                 </Switch>
