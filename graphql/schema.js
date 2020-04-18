@@ -12,7 +12,8 @@ const NewsType = new GraphQLObjectType({
         id: { type: GraphQLInt },
         title: { type: GraphQLString },
         text: { type: GraphQLString },
-        createdAt: { type: GraphQLString }
+        createdAt: { type: GraphQLString },
+        updatedAt: { type: GraphQLString }
     })
 });
 
@@ -25,6 +26,15 @@ const LoginType = new GraphQLObjectType({
     })
 });
 
+// User
+const UserType = new GraphQLObjectType({
+    name: "User",
+    fields: () => ({
+        uuid: { type: GraphQLString },
+        email: { type: GraphQLString }
+    })
+});
+
 // Root query
 const RootQuery = new GraphQLObjectType({
     name: "RootQueryType",
@@ -33,6 +43,15 @@ const RootQuery = new GraphQLObjectType({
             type: new GraphQLList(NewsType),
             resolve(parent, args, content) {
                 return News.findAll();
+            }
+        },
+        user: {
+            type: new GraphQLList(UserType),
+            async resolve(parent, args, content) {
+                if (!content.user) {
+                    throw new Error("Unauthorized Access");
+                }
+                return User.findAll({ where: { uuid: content.user.id } });
             }
         }
     }
@@ -67,6 +86,58 @@ const mutation = new GraphQLObjectType({
                     email: user.dataValues.email,
                     password: token
                 };
+            }
+        },
+        addNews: {
+            type: NewsType,
+            args: {
+                title: { type: new GraphQLNonNull(GraphQLString) },
+                text: { type: new GraphQLNonNull(GraphQLString) }
+            },
+            async resolve(parent, args, content) {
+                if (!content.user) {
+                    throw new Error("Unauthorized");
+                }
+                const { title, text } = args;
+                const newsFields = {
+                    title,
+                    text
+                };
+                try {
+                    newsFields.createdUser = content.user.id;
+                    newsFields.lastUser = content.user.id;
+                    const news = await News.create(newsFields);
+                    return news.dataValues;
+                } catch (err) {
+                    throw new Error("Server Error");
+                }
+            }
+        },
+        editNews: {
+            type: NewsType,
+            args: {
+                id: { type: new GraphQLNonNull(GraphQLInt) },
+                title: { type: new GraphQLNonNull(GraphQLString) },
+                text: { type: new GraphQLNonNull(GraphQLString) }
+            },
+            async resolve(parent, args, content) {
+                if (!content.user) {
+                    throw new Error("Unauthorized");
+                }
+                const { id, title, text } = args;
+                const newsFields = {
+                    title,
+                    text,
+                    lastUser: content.user.id
+                };
+                try {
+                    newsFields.lastUser = content.user.id;
+                    let news = await News.update(newsFields, { where: { id } });
+                    news = await News.findOne({ where: { id } });
+                    return news.dataValues;
+                } catch (err) {
+                    throw new Error("Server Error");
+                }
             }
         }
     }
