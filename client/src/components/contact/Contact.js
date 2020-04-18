@@ -2,9 +2,9 @@ import React from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
-    max-width: 1200px;
-    padding: 6rem 0 0;
+    max-width: 1100px;
     margin: auto;
+    padding: 0 5rem;
 `;
 
 const TextTitle = styled.div`
