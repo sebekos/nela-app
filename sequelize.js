@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const UserModel = require("./models/user");
+const NewsModel = require("./models/news");
 const dotenv = require("dotenv");
 require("dotenv").config();
 
@@ -10,6 +11,7 @@ const sequelize = new Sequelize(process.env.MYSQL_DATABASE, process.env.MYSQL_US
 });
 
 const User = UserModel(sequelize, Sequelize);
+const News = NewsModel(sequelize, Sequelize);
 
 try {
     sequelize.sync();
@@ -19,4 +21,4 @@ try {
     process.exit(1);
 }
 
-module.exports = User;
+module.exports = { User, News };
