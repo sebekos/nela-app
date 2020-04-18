@@ -1,4 +1,4 @@
-const User = require("../../sequelize");
+const { User } = require("../../sequelize");
 const { errorMsg } = require("../../utils/error");
 const { check, validationResult } = require("express-validator");
 const express = require("express");

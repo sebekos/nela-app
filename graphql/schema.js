@@ -1,12 +1,14 @@
-const { GraphQLObjectType, GraphQLString, GraphQLList } = require("graphql");
+const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLNonNull, GraphQLList, GraphQLSchema } = require("graphql");
+const { News } = require("../sequelize");
 
 // News
-const News = new GraphQLObjectType({
+const NewsType = new GraphQLObjectType({
     name: "News",
     fields: () => ({
-        createdUser: { type: GraphQLString },
+        id: { type: GraphQLInt },
         title: { type: GraphQLString },
-        text: { type: GraphQLString }
+        text: { type: GraphQLString },
+        createdAt: { type: GraphQLString }
     })
 });
 
@@ -15,8 +17,34 @@ const RootQuery = new GraphQLObjectType({
     name: "RootQueryType",
     fields: {
         news: {
-            type: new GraphQLList(News),
-            resolve(parent, args) {}
+            type: new GraphQLList(NewsType),
+            resolve(parent, args) {
+                return News.findAll();
+            }
         }
     }
+});
+
+// // Mutation
+// const mutation = new GraphQLObjectType({
+//     name: "Mutations",
+//     fields: {
+//         addNews: {
+//             type: NewsType,
+//             args: {
+//                 title: { type: new GraphQLNonNull(GraphQLString) },
+//                 text: { type: new GraphQLNonNull(GraphQLString) }
+//             },
+//             resolve(parent, args) {
+//                  News.create({
+//                     title: args.title,
+//                     text: args.text
+//                 })
+//             }
+//         }
+//     }
+// });
+
+module.exports = new GraphQLSchema({
+    query: RootQuery
 });
