@@ -1,11 +1,30 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
-import { connect } from "react-redux";
-import { login } from "../../redux/actions/auth";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import GenInput from "../universal/GenInput";
 import PrimaryButton from "../universal/PrimaryButton";
+import { useLazyQuery, gql } from "@apollo/client";
+
+// const LOGIN_QUERY = gql`
+//     query Login($email: String!, $password: String!) {
+//         login(email: $email, password: $password) {
+//             userId
+//             token
+//             tokenExpiration
+//         }
+//     }
+// `;
+
+const LOGIN_QUERY = gql`
+    {
+        login(email: "sebkpl@gmail.com", password: "123456") {
+            userId
+            token
+            tokenExpiration
+        }
+    }
+`;
 
 const FormContainer = styled.form`
     padding: 1rem;
@@ -23,7 +42,9 @@ const SignInContainer = styled.div`
     padding: 20px 20px;
 `;
 
-const Login = ({ login, isAuthenticated }) => {
+const Login = () => {
+    const [login, { loading, data, err }] = useLazyQuery(LOGIN_QUERY);
+
     const [formData, setFormData] = useState({
         email: "",
         password: ""
@@ -35,12 +56,20 @@ const Login = ({ login, isAuthenticated }) => {
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
-        login(formData);
+        login();
     };
 
-    if (isAuthenticated) {
-        return <Redirect to="/dashboard" />;
+    if (loading) {
+        return <p>Loading...</p>;
     }
+
+    if (data) {
+        console.log(data);
+    }
+
+    // if (loading) {
+    //     return <Redirect to="/dashboard" />;
+    // }
 
     return (
         <>
@@ -70,17 +99,4 @@ const Login = ({ login, isAuthenticated }) => {
     );
 };
 
-Login.propTypes = {
-    login: PropTypes.func.isRequired,
-    isAuthenticated: PropTypes.bool
-};
-
-const mapStateToProps = (state) => ({
-    isAuthenticated: state.auth.isAuthenticated
-});
-
-const mapDispatchToProps = {
-    login
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default Login;
