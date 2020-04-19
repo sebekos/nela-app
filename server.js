@@ -1,20 +1,24 @@
 const express = require("express");
 const path = require("path");
-const graphqlHTTP = require("express-graphql");
-const schema = require("./graphql/schema");
-const auth = require("./middleware/auth");
+const graphqlHttp = require("express-graphql");
+const isAuth = require("./middleware/is-auth");
+const graphQlSchema = require("./graphql/schema/index");
+const graphQlResolvers = require("./graphql/resolvers/index");
 
 // Init express
 const app = express();
 
+// Middleware
+app.use(isAuth);
+
 // Init graphql
 app.use(
     "/graphql",
-    graphqlHTTP(async (req) => ({
-        schema: schema,
-        graphiql: true,
-        context: auth(req)
-    }))
+    graphqlHttp({
+        schema: graphQlSchema,
+        rootValue: graphQlResolvers,
+        graphiql: true
+    })
 );
 
 // Setup port

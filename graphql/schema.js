@@ -94,8 +94,10 @@ const mutation = new GraphQLObjectType({
                 title: { type: new GraphQLNonNull(GraphQLString) },
                 text: { type: new GraphQLNonNull(GraphQLString) }
             },
-            async resolve(parent, args, content) {
-                if (!content.user) {
+            async resolve(args, req) {
+                if (!req.isAuth) {
+                    console.log("test");
+                    console.log(req);
                     throw new Error("Unauthorized");
                 }
                 const { title, text } = args;
