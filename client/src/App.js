@@ -19,9 +19,32 @@ const cache = new InMemoryCache({});
 
 const client = new ApolloClient({
     cache,
-    clientState: {
-        defaults: {
-            currency: "USD"
+    resolvers: {
+        Mutation: {
+            updateAuth: (_, args, { cache }) => {
+                console.log("inside update");
+                console.log(args);
+                cache.writeData({
+                    auth: {
+                        isAuthenticated: true,
+                        userId: args.userId,
+                        token: args.token,
+                        tokenExpiration: args.tokenExpiration,
+                        __typename: "Auth"
+                    }
+                });
+            }
+        }
+    }
+});
+
+cache.writeData({
+    data: {
+        auth: {
+            isAuthenticated: false,
+            userId: null,
+            token: null,
+            __typename: "Auth"
         }
     }
 });

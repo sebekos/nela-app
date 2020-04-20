@@ -1,7 +1,8 @@
 import React from "react";
-import { useQuery, gql } from "@apollo/client";
 import NewsItem from "./NewsItem";
 import styled from "styled-components";
+import { useQuery } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
 
 const NEWS_QUERY = gql`
     {

@@ -2,8 +2,15 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import GenInput from "../universal/GenInput";
 import PrimaryButton from "../universal/PrimaryButton";
-import { useLazyQuery } from "@apollo/react-hooks";
+import { Redirect } from "react-router-dom";
+import { useLazyQuery, useQuery, useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
+
+const MUTATION_UPDATE_AUTH = gql`
+    mutation($userId: String!, $token: String!, $tokenExpiration: String!) {
+        updateAuth(userId: $userId, token: $token, tokenExpiration: $tokenExpiration) @client
+    }
+`;
 
 const LOGIN_QUERY = gql`
     query Login($email: String!, $password: String!) {
@@ -11,6 +18,16 @@ const LOGIN_QUERY = gql`
             userId
             token
             tokenExpiration
+        }
+    }
+`;
+
+const LOCAL_STATE = gql`
+    {
+        auth @client {
+            isAuthenticated
+            userId
+            token
         }
     }
 `;
@@ -31,52 +48,56 @@ const SignInContainer = styled.div`
     padding: 20px 20px;
 `;
 
+const InputsContainer = ({ onChangeHandler, onSubmitHandler, email, password }) => {
+    return (
+        <>
+            <GenInput type="email" placeholder="Email Address" name="email" value={email} onChange={onChangeHandler} required></GenInput>
+            <GenInput
+                type="password"
+                placeholder="Password"
+                name="password"
+                value={password}
+                onChange={onChangeHandler}
+                required
+            ></GenInput>
+            <PrimaryButton type="submit" onClick={onSubmitHandler}>
+                Login
+            </PrimaryButton>
+        </>
+    );
+};
+
 const Login = () => {
+    const [updateAuth] = useMutation(MUTATION_UPDATE_AUTH, { variables: { userId: "test123", token: "asdsdasdas", tokenExpiration: "1" } });
     const [formData, setFormData] = useState({
         email: "",
         password: ""
     });
-
     const { email, password } = formData;
 
-    const [login, { loading, data }] = useLazyQuery(LOGIN_QUERY, { variables: { email, password } });
+    const [login, { data }] = useLazyQuery(LOGIN_QUERY);
+
+    // if (data) {
+    //     console.log(data);
+    //     updateAuth();
+    //     return <Redirect to="/dashboard" />;
+    // }
 
     const onChangeHandler = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
-        login();
+        console.log("here");
+        //login({ variables: { email, password } });
+        updateAuth();
     };
-
-    if (data) {
-        console.log(data);
-    }
 
     return (
         <>
             <SignInContainer>Sign Into Your Account</SignInContainer>
             <FormContainer onSubmit={onSubmitHandler}>
-                <GenInput
-                    type="email"
-                    placeholder="Email Address"
-                    name="email"
-                    value={email}
-                    onChange={onChangeHandler}
-                    required
-                ></GenInput>
-                <GenInput
-                    type="password"
-                    placeholder="Password"
-                    name="password"
-                    value={password}
-                    onChange={onChangeHandler}
-                    required
-                ></GenInput>
-                <PrimaryButton type="submit" onClick={onSubmitHandler}>
-                    Login
-                </PrimaryButton>
+                <InputsContainer onChangeHandler={onChangeHandler} onSubmitHandler={onSubmitHandler} email={email} password={password} />
             </FormContainer>
-            {loading ? <p>Loading</p> : null}
         </>
     );
 };
