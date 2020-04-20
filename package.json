@@ -14,7 +14,9 @@
     "author": "sebekos",
     "license": "ISC",
     "dependencies": {
+        "@apollo/react-hooks": "^3.1.5",
         "@brainhubeu/react-carousel": "^1.13.38",
+        "apollo-boost": "^0.4.7",
         "axios": "^0.19.2",
         "bcryptjs": "^2.4.3",
         "concurrently": "^5.1.0",

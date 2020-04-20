@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { Redirect } from "react-router-dom";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 import GenInput from "../universal/GenInput";
 import PrimaryButton from "../universal/PrimaryButton";
-import { useLazyQuery, useQuery, gql } from "@apollo/client";
+import { useLazyQuery } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
 
 const LOGIN_QUERY = gql`
     query Login($email: String!, $password: String!) {
@@ -13,21 +12,6 @@ const LOGIN_QUERY = gql`
             token
             tokenExpiration
         }
-    }
-`;
-
-const STATE_QUERY = gql`
-    query {
-        auth @client {
-            userId
-            token
-        }
-    }
-`;
-
-const STATE_QUERY2 = gql`
-    query {
-        currency @client
     }
 `;
 
@@ -48,41 +32,30 @@ const SignInContainer = styled.div`
 `;
 
 const Login = () => {
-    const { data } = useQuery(STATE_QUERY2);
+    const [formData, setFormData] = useState({
+        email: "",
+        password: ""
+    });
 
-    // const [formData, setFormData] = useState({
-    //     email: "",
-    //     password: ""
-    // });
+    const { email, password } = formData;
 
-    // const { email, password } = formData;
+    const [login, { loading, data }] = useLazyQuery(LOGIN_QUERY, { variables: { email, password } });
 
-    // const [login, { loading, data, err }] = useLazyQuery(LOGIN_QUERY, {
-    //     variables: {
-    //         email: formData.email,
-    //         password: formData.password
-    //     },
-    //     errorPolicy: "all"
-    // });
+    const onChangeHandler = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-    // const onChangeHandler = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
-
-    // const onSubmitHandler = async (e) => {
-    //     e.preventDefault();
-    //     //login();
-    // };
+    const onSubmitHandler = async (e) => {
+        e.preventDefault();
+        login();
+    };
 
     if (data) {
-        console.log("logged in");
         console.log(data);
-        //client.writeData({ data: { test: "test" } });
     }
 
     return (
         <>
-            {"hello"}
             <SignInContainer>Sign Into Your Account</SignInContainer>
-            {/* <FormContainer onSubmit={onSubmitHandler}>
+            <FormContainer onSubmit={onSubmitHandler}>
                 <GenInput
                     type="email"
                     placeholder="Email Address"
@@ -102,7 +75,8 @@ const Login = () => {
                 <PrimaryButton type="submit" onClick={onSubmitHandler}>
                     Login
                 </PrimaryButton>
-            </FormContainer> */}
+            </FormContainer>
+            {loading ? <p>Loading</p> : null}
         </>
     );
 };
