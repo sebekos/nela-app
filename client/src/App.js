@@ -22,14 +22,24 @@ const link = createHttpLink({
 });
 
 const client = new ApolloClient({
-    cache: new InMemoryCache(),
-    link
+    cache: new InMemoryCache({}),
+    link,
+    clientState: {
+        defaults: {
+            auth: {
+                userId: null,
+                token: null,
+                __typename: "Auth"
+            },
+            currency: "USD"
+        }
+    }
 });
 
 const App = () => {
-    useEffect(() => {
-        store.dispatch(loadUser());
-    }, []);
+    // useEffect(() => {
+    //     store.dispatch(loadUser());
+    // }, []);
 
     return (
         <ApolloProvider client={client}>

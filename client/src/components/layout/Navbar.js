@@ -84,7 +84,7 @@ AuthLinks.propTypes = {
 };
 
 const Navbar = () => {
-    const { loading, error, data } = useQuery(AUTH_QUERY);
+    //const { loading, error, data } = useQuery(AUTH_QUERY);
     const [currMenu, setCurrMenu] = useState("");
 
     useEffect(() => {
@@ -101,7 +101,7 @@ const Navbar = () => {
         setCurrMenu(e.target.getAttribute("route"));
     };
 
-    if (loading) return <p>Loading...</p>;
+    //if (loading) return <p>Loading...</p>;
 
     return (
         <Container>

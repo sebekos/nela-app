@@ -4,25 +4,30 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import GenInput from "../universal/GenInput";
 import PrimaryButton from "../universal/PrimaryButton";
-import { useLazyQuery, gql } from "@apollo/client";
-
-// const LOGIN_QUERY = gql`
-//     query Login($email: String!, $password: String!) {
-//         login(email: $email, password: $password) {
-//             userId
-//             token
-//             tokenExpiration
-//         }
-//     }
-// `;
+import { useLazyQuery, useQuery, gql } from "@apollo/client";
 
 const LOGIN_QUERY = gql`
-    {
-        login(email: "sebkpl@gmail.com", password: "123456") {
+    query Login($email: String!, $password: String!) {
+        login(email: $email, password: $password) {
             userId
             token
             tokenExpiration
         }
+    }
+`;
+
+const STATE_QUERY = gql`
+    query {
+        auth @client {
+            userId
+            token
+        }
+    }
+`;
+
+const STATE_QUERY2 = gql`
+    query {
+        currency @client
     }
 `;
 
@@ -43,38 +48,41 @@ const SignInContainer = styled.div`
 `;
 
 const Login = () => {
-    const [login, { loading, data, err }] = useLazyQuery(LOGIN_QUERY);
+    const { data } = useQuery(STATE_QUERY2);
 
-    const [formData, setFormData] = useState({
-        email: "",
-        password: ""
-    });
+    // const [formData, setFormData] = useState({
+    //     email: "",
+    //     password: ""
+    // });
 
-    const { email, password } = formData;
+    // const { email, password } = formData;
 
-    const onChangeHandler = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+    // const [login, { loading, data, err }] = useLazyQuery(LOGIN_QUERY, {
+    //     variables: {
+    //         email: formData.email,
+    //         password: formData.password
+    //     },
+    //     errorPolicy: "all"
+    // });
 
-    const onSubmitHandler = async (e) => {
-        e.preventDefault();
-        login();
-    };
+    // const onChangeHandler = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-    if (loading) {
-        return <p>Loading...</p>;
-    }
+    // const onSubmitHandler = async (e) => {
+    //     e.preventDefault();
+    //     //login();
+    // };
 
     if (data) {
+        console.log("logged in");
         console.log(data);
+        //client.writeData({ data: { test: "test" } });
     }
-
-    // if (loading) {
-    //     return <Redirect to="/dashboard" />;
-    // }
 
     return (
         <>
+            {"hello"}
             <SignInContainer>Sign Into Your Account</SignInContainer>
-            <FormContainer onSubmit={onSubmitHandler}>
+            {/* <FormContainer onSubmit={onSubmitHandler}>
                 <GenInput
                     type="email"
                     placeholder="Email Address"
@@ -94,7 +102,7 @@ const Login = () => {
                 <PrimaryButton type="submit" onClick={onSubmitHandler}>
                     Login
                 </PrimaryButton>
-            </FormContainer>
+            </FormContainer> */}
         </>
     );
 };
