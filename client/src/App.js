@@ -10,6 +10,7 @@ import Navbar from "./components/layout/Navbar";
 import MainPage from "./components/mainpage/MainPage";
 import Footer from "./components/layout/Footer";
 import Contact from "./components/contact/Contact";
+import News from "./components/news/News";
 import "./App.css";
 
 import { ToastContainer } from "react-toastify";
@@ -29,6 +30,7 @@ const App = () => {
                     <Route exact path="/" component={MainPage} />
                     <Route exact path="/kontakt" component={Contact} />
                     <Route exact path="/login" component={Login} />
+                    <Route exact path="/newsy" component={News} />
                     <PrivateRoute exact path="/dashboard" component={Dashboard} />
                 </Switch>
                 <Footer />
