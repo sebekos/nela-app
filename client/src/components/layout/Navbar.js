@@ -1,10 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { connect } from "react-redux";
-import { logout } from "../../redux/actions/auth";
-import { setNav } from "../../redux/actions/navbar";
 import { Link } from "react-router-dom";
+import { useQuery, gql } from "@apollo/client";
 import PropTypes from "prop-types";
+
+const AUTH_QUERY = gql`
+    {
+        user {
+            email
+            uuid
+        }
+    }
+`;
 
 const Container = styled.div`
     display: grid;
@@ -60,8 +67,7 @@ const GuestLinks = ({ onNav, currMenu }) => {
 };
 
 GuestLinks.propTypes = {
-    onNav: PropTypes.func.isRequired,
-    currMenu: PropTypes.string.isRequired
+    onNav: PropTypes.func.isRequired
 };
 
 const AuthLinks = ({ onLogout }) => {
@@ -77,45 +83,35 @@ AuthLinks.propTypes = {
     onLogout: PropTypes.func.isRequired
 };
 
-const Navbar = ({ isAuthenticated, logout, setNav, currMenu }) => {
+const Navbar = () => {
+    //const { loading, error, data } = useQuery(AUTH_QUERY);
+    const [currMenu, setCurrMenu] = useState("");
+
     useEffect(() => {
-        setNav(window.location.pathname.split("/")[1]);
-    }, [setNav]);
+        const path = window.location.pathname.split("/")[1];
+        path ? setCurrMenu(path) : setCurrMenu("Home");
+    }, []);
 
     const onLogout = (e) => {
         e.preventDefault();
-        logout();
+        console.log("logout");
     };
 
     const onNav = (e) => {
-        setNav(e.target.getAttribute("route"));
+        setCurrMenu(e.target.getAttribute("route"));
     };
+
+    //if (loading) return <p>Loading...</p>;
 
     return (
         <Container>
             <Title>Pytlewskich</Title>
             <LinksContainer>
-                {isAuthenticated ? <AuthLinks onLogout={onLogout} /> : <GuestLinks currMenu={currMenu} onNav={onNav} />}
+                {/* {isAuthenticated ? <AuthLinks onLogout={onLogout} /> : <GuestLinks currMenu={currMenu} onNav={onNav} />} */}
+                <GuestLinks onNav={onNav} currMenu={currMenu} />
             </LinksContainer>
         </Container>
     );
 };
 
-Navbar.propTypes = {
-    isAuthenticated: PropTypes.bool.isRequired,
-    logout: PropTypes.func.isRequired,
-    setNav: PropTypes.func.isRequired,
-    currMenu: PropTypes.string.isRequired
-};
-
-const mapStateToProps = (state) => ({
-    isAuthenticated: state.auth.isAuthenticated,
-    currMenu: state.navbar.currMenu
-});
-
-const mapDispatchAtProps = {
-    logout,
-    setNav
-};
-
-export default connect(mapStateToProps, mapDispatchAtProps)(Navbar);
+export default Navbar;

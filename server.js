@@ -1,16 +1,25 @@
 const express = require("express");
 const path = require("path");
+const graphqlHttp = require("express-graphql");
+const isAuth = require("./middleware/is-auth");
+const graphQlSchema = require("./graphql/schema/index");
+const graphQlResolvers = require("./graphql/resolvers/index");
 
 // Init express
 const app = express();
 
-// Init Middleware
-app.use(express.json());
+// Middleware
+app.use(isAuth);
 
-// Define Routes
-app.use("/api/auth", require("./routes/api/auth"));
-app.use("/api/user", require("./routes/api/user"));
-app.use("/api/news", require("./routes/api/news"));
+// Init graphql
+app.use(
+    "/graphql",
+    graphqlHttp({
+        schema: graphQlSchema,
+        rootValue: graphQlResolvers,
+        graphiql: true
+    })
+);
 
 // Setup port
 const PORT = process.env.PORT || 5000;
