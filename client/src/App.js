@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import PrivateRoute from "./components/routing/PrivateRoute";
-import Dashboard from "./components/dashboard/dashboard";
+import Dashboard from "./components/dashboard/Dashboard";
 import Login from "./components/auth/Login";
 import Navbar from "./components/layout/Navbar";
 import MainPage from "./components/mainpage/MainPage";
@@ -10,6 +10,7 @@ import Contact from "./components/contact/Contact";
 import News from "./components/news/News";
 import ApolloClient, { InMemoryCache } from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
+import resolvers from "./graphql/resolvers";
 import "./App.css";
 
 import { ToastContainer } from "react-toastify";
@@ -19,32 +20,10 @@ const cache = new InMemoryCache({});
 
 const client = new ApolloClient({
     cache,
-    resolvers: {
-        Mutation: {
-            updateAuth: (_, args, { cache }) => {
-                console.log("inside update");
-                console.log(args);
-                cache.writeData({
-                    auth: {
-                        isAuthenticated: true,
-                        userId: args.userId,
-                        token: args.token,
-                        tokenExpiration: args.tokenExpiration,
-                        __typename: "Auth"
-                    }
-                });
-            }
-        }
-    }
-});
-
-cache.writeData({
-    data: {
-        auth: {
-            isAuthenticated: false,
-            userId: null,
-            token: null,
-            __typename: "Auth"
+    resolvers,
+    clientState: {
+        defaults: {
+            currency: "USD"
         }
     }
 });
