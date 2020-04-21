@@ -1,17 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { useQuery, gql } from "@apollo/client";
 import PropTypes from "prop-types";
-
-const AUTH_QUERY = gql`
-    {
-        user {
-            email
-            uuid
-        }
-    }
-`;
 
 const Container = styled.div`
     display: grid;
@@ -84,7 +74,8 @@ AuthLinks.propTypes = {
 };
 
 const Navbar = () => {
-    //const { loading, error, data } = useQuery(AUTH_QUERY);
+    const token = localStorage.getItem("token");
+
     const [currMenu, setCurrMenu] = useState("");
 
     useEffect(() => {
@@ -94,22 +85,17 @@ const Navbar = () => {
 
     const onLogout = (e) => {
         e.preventDefault();
-        console.log("logout");
+        localStorage.removeItem("token");
     };
 
     const onNav = (e) => {
         setCurrMenu(e.target.getAttribute("route"));
     };
 
-    //if (loading) return <p>Loading...</p>;
-
     return (
         <Container>
             <Title>Pytlewskich</Title>
-            <LinksContainer>
-                {/* {isAuthenticated ? <AuthLinks onLogout={onLogout} /> : <GuestLinks currMenu={currMenu} onNav={onNav} />} */}
-                <GuestLinks onNav={onNav} currMenu={currMenu} />
-            </LinksContainer>
+            <LinksContainer>{token ? <AuthLinks onLogout={onLogout} /> : <GuestLinks currMenu={currMenu} onNav={onNav} />}</LinksContainer>
         </Container>
     );
 };

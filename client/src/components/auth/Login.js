@@ -59,6 +59,9 @@ const Login = () => {
     };
 
     if (data) {
+        const { token, tokenExpiration } = data.login;
+        localStorage.setItem("token", token);
+        localStorage.setItem("tokenExpiration", tokenExpiration);
         return <Redirect to="dashboard" />;
     }
 
