@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { Link, Redirect } from "react-router-dom";
+import { useQuery } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 const Container = styled.div`
@@ -64,7 +66,9 @@ const AuthLinks = ({ onLogout }) => {
     return (
         <>
             <Link to="dashboard">Dashboard</Link>
-            <Link onClick={onLogout}>Logout</Link>
+            <Link to="login" onClick={onLogout}>
+                Logout
+            </Link>
         </>
     );
 };
@@ -74,7 +78,7 @@ AuthLinks.propTypes = {
 };
 
 const Navbar = () => {
-    const token = localStorage.getItem("token");
+    const { data, client } = useQuery(CHECK_AUTH_QUERY);
 
     const [currMenu, setCurrMenu] = useState("");
 
@@ -85,7 +89,17 @@ const Navbar = () => {
 
     const onLogout = (e) => {
         e.preventDefault();
-        localStorage.removeItem("token");
+        client.writeData({
+            data: {
+                auth: {
+                    isAuth: false,
+                    userId: null,
+                    token: null,
+                    tokenExpiration: null,
+                    __typename: "UserAuth"
+                }
+            }
+        });
     };
 
     const onNav = (e) => {
@@ -95,9 +109,21 @@ const Navbar = () => {
     return (
         <Container>
             <Title>Pytlewskich</Title>
-            <LinksContainer>{token ? <AuthLinks onLogout={onLogout} /> : <GuestLinks currMenu={currMenu} onNav={onNav} />}</LinksContainer>
+            <LinksContainer>
+                {data && data.auth.isAuth ? <AuthLinks onLogout={onLogout} /> : <GuestLinks currMenu={currMenu} onNav={onNav} />}
+            </LinksContainer>
         </Container>
     );
 };
+
+const CHECK_AUTH_QUERY = gql`
+    {
+        auth @client {
+            isAuth
+            token
+            userId
+        }
+    }
+`;
 
 export default Navbar;

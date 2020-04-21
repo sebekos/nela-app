@@ -3,7 +3,7 @@ import styled from "styled-components";
 import GenInput from "../universal/GenInput";
 import PrimaryButton from "../universal/PrimaryButton";
 import { Redirect } from "react-router-dom";
-import { useLazyQuery } from "@apollo/react-hooks";
+import { useLazyQuery, useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 
 const FormContainer = styled.form`
@@ -48,22 +48,29 @@ const Login = () => {
     });
     const { email, password } = formData;
 
-    const [login, { data }] = useLazyQuery(LOGIN_QUERY);
+    //const [login, { data }] = useLazyQuery(LOGIN_QUERY);
+
+    const { data } = useQuery(CHECK_AUTH_QUERY);
+
+    if (data) {
+        console.log(data);
+    }
 
     const onChangeHandler = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
         console.log("here");
-        login({ variables: { email, password } });
+        //login({ variables: { email, password } });
     };
 
-    if (data) {
-        const { token, tokenExpiration } = data.login;
-        localStorage.setItem("token", token);
-        localStorage.setItem("tokenExpiration", tokenExpiration);
-        return <Redirect to="dashboard" />;
-    }
+    // if (data) {
+    //     console.log(data);
+    //     const { token, tokenExpiration } = data.login;
+    //     localStorage.setItem("token", token);
+    //     localStorage.setItem("tokenExpiration", tokenExpiration);
+    //     // return <Redirect to="dashboard" />;
+    // }
 
     return (
         <>
@@ -71,6 +78,7 @@ const Login = () => {
             <FormContainer onSubmit={onSubmitHandler}>
                 <InputsContainer onChangeHandler={onChangeHandler} onSubmitHandler={onSubmitHandler} email={email} password={password} />
             </FormContainer>
+            <button>Check</button>
         </>
     );
 };
@@ -84,5 +92,23 @@ const LOGIN_QUERY = gql`
         }
     }
 `;
+
+const CHECK_AUTH_QUERY = gql`
+    {
+        auth @client {
+            token
+        }
+    }
+`;
+
+// const AUTH_QUERY = gql`
+//     query Auth($userId: String!, $token: String!, $tokenExpiration: String!) {
+//         updateAuth(userId: $userId, token: $token, tokenExpiration: $tokenExpiration) {
+//             userId
+//             token
+//             tokenExpiration
+//         }
+//     }
+// `;
 
 export default Login;

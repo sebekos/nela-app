@@ -29,6 +29,12 @@ const Footer = () => {
             <Link to="/login">
                 <LoginText>Login</LoginText>
             </Link>
+            <Link to="/test">
+                <LoginText>Test</LoginText>
+            </Link>
+            <Link to="/newsy">
+                <LoginText>News</LoginText>
+            </Link>
         </Container>
     );
 };

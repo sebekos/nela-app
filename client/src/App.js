@@ -8,43 +8,28 @@ import MainPage from "./components/mainpage/MainPage";
 import Footer from "./components/layout/Footer";
 import Contact from "./components/contact/Contact";
 import News from "./components/news/News";
-import ApolloClient, { InMemoryCache } from "apollo-boost";
-import { ApolloProvider } from "@apollo/react-hooks";
-import resolvers from "./graphql/resolvers";
+import Test from "./components/test/Test";
 import "./App.css";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 
-const cache = new InMemoryCache({});
-
-const client = new ApolloClient({
-    cache,
-    resolvers,
-    clientState: {
-        defaults: {
-            currency: "USD"
-        }
-    }
-});
-
 const App = () => {
     return (
-        <ApolloProvider client={client}>
-            <Router>
-                <Navbar />
-                <ToastContainer hideProgressBar pauseOnHover={false} />
-                <Switch>
-                    <Route exact path="/" component={MainPage} />
-                    <Route exact path="/newsy" component={News} />
-                    <Route exact path="/kontakt" component={Contact} />
-                    <Route exact path="/login" component={Login} />
-                    <Route exact path="/newsy" component={News} />
-                    <PrivateRoute exact path="/dashboard" component={Dashboard} />
-                </Switch>
-                <Footer />
-            </Router>
-        </ApolloProvider>
+        <Router>
+            <Navbar />
+            <ToastContainer hideProgressBar pauseOnHover={false} />
+            <Switch>
+                <Route exact path="/" component={MainPage} />
+                <Route exact path="/newsy" component={News} />
+                <Route exact path="/kontakt" component={Contact} />
+                <Route exact path="/login" component={Login} />
+                <Route exact path="/newsy" component={News} />
+                <Route exact path="/test" component={Test} />
+                <PrivateRoute exact path="/dashboard" component={Dashboard} />
+            </Switch>
+            <Footer />
+        </Router>
     );
 };
 
