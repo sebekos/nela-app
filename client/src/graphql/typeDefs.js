@@ -1,9 +1,5 @@
 import { gql } from "apollo-boost";
 
-const typeDefs = gql`
-    extend type RootQuery {
-        isLoggedIn: Boolean!
-    }
-`;
+const typeDefs = gql``;
 
 export default typeDefs;

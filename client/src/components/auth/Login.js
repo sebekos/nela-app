@@ -62,8 +62,6 @@ const Login = () => {
     };
 
     if (!loginLoading && loginData) {
-        console.log("Got token");
-        console.log(loginData);
         const { userId, token, tokenExpiration } = loginData.login;
         client.writeData({
             data: {
@@ -79,8 +77,6 @@ const Login = () => {
     }
 
     if (authData && authData.auth.isAuth) {
-        console.log("Inside redirect data");
-        console.log(authData);
         return <Redirect to="dashboard" />;
     }
 
@@ -112,15 +108,5 @@ const CHECK_AUTH_QUERY = gql`
         }
     }
 `;
-
-// const AUTH_QUERY = gql`
-//     query Auth($userId: String!, $token: String!, $tokenExpiration: String!) {
-//         updateAuth(userId: $userId, token: $token, tokenExpiration: $tokenExpiration) {
-//             userId
-//             token
-//             tokenExpiration
-//         }
-//     }
-// `;
 
 export default Login;
