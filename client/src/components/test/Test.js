@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { useApolloClient } from "@apollo/react-hooks";
+import { useLazyQuery } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
 
 const Container = styled.div`
     padding: 5rem 0 0;
@@ -19,21 +20,17 @@ const FormContainer = styled.form`
 `;
 
 const Test = () => {
-    const client = useApolloClient();
+    const [chat, { data }] = useLazyQuery(IS_LOGGED_IN);
+
     const onClick = (e) => {
         e.preventDefault();
-        client.writeData({
-            data: {
-                auth: {
-                    isAuth: true,
-                    userId: "12345",
-                    token: "12345",
-                    tokenExpiration: "1",
-                    __typename: "UserAuth"
-                }
-            }
-        });
+        console.log("here");
+        chat();
     };
+
+    if (data) {
+        console.log(data);
+    }
 
     return (
         <Container>
@@ -43,5 +40,11 @@ const Test = () => {
         </Container>
     );
 };
+
+const IS_LOGGED_IN = gql`
+    {
+        isLoggedIn @client
+    }
+`;
 
 export default Test;

@@ -1,10 +1,14 @@
 const resolvers = {
+    Login: {
+        login: (_, args, { cache }) => {
+            console.log("inside login resolver");
+            return null;
+        }
+    },
     Query: {
-        numberSix() {
-            return 6;
-        },
-        numberSeven() {
-            return 7;
+        login: (_, args, { cache }) => {
+            console.log("inside login resolver");
+            return null;
         }
     },
     Mutation: {
@@ -21,6 +25,20 @@ const resolvers = {
                     }
                 }
             });
+            return null;
+        },
+        login: (_, args, { cache }) => {
+            console.log("inside login resolver");
+            return null;
+        }
+    },
+    AuthData: {
+        isInCart: (auth, _, { cache }) => {
+            console.log("inside isCart resolver");
+            return false;
+        },
+        login: (_, args, { cache }) => {
+            console.log("inside login resolver");
             return null;
         }
     }

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import GenInput from "../universal/GenInput";
 import PrimaryButton from "../universal/PrimaryButton";
 import { Redirect } from "react-router-dom";
-import { useLazyQuery, useQuery } from "@apollo/react-hooks";
+import { useLazyQuery, useQuery, useApolloClient } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 
 const FormContainer = styled.form`
@@ -42,35 +42,47 @@ const InputsContainer = ({ onChangeHandler, onSubmitHandler, email, password }) 
 };
 
 const Login = () => {
+    const client = useApolloClient();
     const [formData, setFormData] = useState({
         email: "",
         password: ""
     });
     const { email, password } = formData;
 
-    //const [login, { data }] = useLazyQuery(LOGIN_QUERY);
+    const [login, { data: loginData, loading: loginLoading }] = useLazyQuery(LOGIN_QUERY);
 
-    const { data } = useQuery(CHECK_AUTH_QUERY);
-
-    if (data) {
-        console.log(data);
-    }
+    const { data: authData } = useQuery(CHECK_AUTH_QUERY);
 
     const onChangeHandler = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
-        console.log("here");
-        //login({ variables: { email, password } });
+        console.log("onSubmitHandler");
+        login({ variables: { email, password } });
     };
 
-    // if (data) {
-    //     console.log(data);
-    //     const { token, tokenExpiration } = data.login;
-    //     localStorage.setItem("token", token);
-    //     localStorage.setItem("tokenExpiration", tokenExpiration);
-    //     // return <Redirect to="dashboard" />;
-    // }
+    if (!loginLoading && loginData) {
+        console.log("Got token");
+        console.log(loginData);
+        const { userId, token, tokenExpiration } = loginData.login;
+        client.writeData({
+            data: {
+                auth: {
+                    isAuth: true,
+                    userId,
+                    token,
+                    tokenExpiration,
+                    __typename: "UserAuth"
+                }
+            }
+        });
+    }
+
+    if (authData && authData.auth.isAuth) {
+        console.log("Inside redirect data");
+        console.log(authData);
+        return <Redirect to="dashboard" />;
+    }
 
     return (
         <>
@@ -78,7 +90,6 @@ const Login = () => {
             <FormContainer onSubmit={onSubmitHandler}>
                 <InputsContainer onChangeHandler={onChangeHandler} onSubmitHandler={onSubmitHandler} email={email} password={password} />
             </FormContainer>
-            <button>Check</button>
         </>
     );
 };
@@ -96,6 +107,7 @@ const LOGIN_QUERY = gql`
 const CHECK_AUTH_QUERY = gql`
     {
         auth @client {
+            isAuth
             token
         }
     }

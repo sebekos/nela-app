@@ -1,8 +1,9 @@
-const typeDefs = `
-type Query {
-    numberSix: Int! # Should always return the number 6 when queried
-    numberSeven: Int! # Should always return 7
-  }
+import { gql } from "apollo-boost";
+
+const typeDefs = gql`
+    extend type RootQuery {
+        isLoggedIn: Boolean!
+    }
 `;
 
 export default typeDefs;
