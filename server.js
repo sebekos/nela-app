@@ -1,26 +1,9 @@
-const express = require("express");
-const path = require("path");
-const graphqlHttp = require("express-graphql");
-const isAuth = require("./middleware/is-auth");
-const graphQlSchema = require("./graphql/schema/index");
-const graphQlResolvers = require("./graphql/resolvers/index");
+const { ApolloServer } = require("apollo-server");
+const typeDefs = require("./graphql/typeDefs/typeDefs");
+const resolvers = require("./graphql/resolvers/queries");
 
-// Init express
-const app = express();
+const server = new ApolloServer({ typeDefs, resolvers });
 
-// Middleware
-app.use(isAuth);
-
-// Init graphql
-app.use(
-    "/graphql",
-    graphqlHttp({
-        schema: graphQlSchema,
-        rootValue: graphQlResolvers,
-        graphiql: true
-    })
-);
-
-// Setup port
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+server.listen().then(({ url }) => {
+    console.log(`🚀 Server ready at ${url}`);
+});

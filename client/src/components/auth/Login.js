@@ -3,7 +3,7 @@ import styled from "styled-components";
 import GenInput from "../universal/GenInput";
 import PrimaryButton from "../universal/PrimaryButton";
 import { Redirect } from "react-router-dom";
-import { useLazyQuery, useQuery, useApolloClient } from "@apollo/react-hooks";
+import { useLazyQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 
 const FormContainer = styled.form`
@@ -42,43 +42,32 @@ const InputsContainer = ({ onChangeHandler, onSubmitHandler, email, password }) 
 };
 
 const Login = () => {
-    const client = useApolloClient();
     const [formData, setFormData] = useState({
         email: "",
         password: ""
     });
     const { email, password } = formData;
 
-    const [login, { data: loginData, loading: loginLoading }] = useLazyQuery(LOGIN_QUERY);
-
-    const { data: authData } = useQuery(CHECK_AUTH_QUERY);
+    const [login] = useLazyQuery(LOGIN_QUERY, {
+        onError: (err) => {
+            console.log(err);
+            // console.log(response);
+            // console.log(operation);
+            // console.log(graphQLErrors);
+            // console.log(networkError);
+            console.log("Invalid credentials");
+        },
+        onCompleted: () => {
+            console.log("Redirect");
+        }
+    });
 
     const onChangeHandler = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
-        console.log("onSubmitHandler");
         login({ variables: { email, password } });
     };
-
-    if (!loginLoading && loginData) {
-        const { userId, token, tokenExpiration } = loginData.login;
-        client.writeData({
-            data: {
-                auth: {
-                    isAuth: true,
-                    userId,
-                    token,
-                    tokenExpiration,
-                    __typename: "UserAuth"
-                }
-            }
-        });
-    }
-
-    if (authData && authData.auth.isAuth) {
-        return <Redirect to="dashboard" />;
-    }
 
     return (
         <>
@@ -93,18 +82,11 @@ const Login = () => {
 const LOGIN_QUERY = gql`
     query Login($email: String!, $password: String!) {
         login(email: $email, password: $password) {
+            _id
+            isAuth
             userId
             token
             tokenExpiration
-        }
-    }
-`;
-
-const CHECK_AUTH_QUERY = gql`
-    {
-        auth @client {
-            isAuth
-            token
         }
     }
 `;
