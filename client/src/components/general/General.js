@@ -18,12 +18,12 @@ const MainTitle = styled.div`
     font-weight: bold;
 `;
 
-const Dashboard = () => {
+const General = () => {
     return (
         <Container>
-            <MainTitle>Dashboard</MainTitle>
+            <MainTitle>Zjazdy</MainTitle>
         </Container>
     );
 };
 
-export default Dashboard;
+export default General;

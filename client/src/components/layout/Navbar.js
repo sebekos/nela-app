@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Link, Redirect } from "react-router-dom";
-import { useQuery } from "@apollo/react-hooks";
+import { Link } from "react-router-dom";
+import { useQuery, useLazyQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import styled from "styled-components";
 import PropTypes from "prop-types";
@@ -38,7 +38,7 @@ const LinksContainer = styled.div`
 `;
 
 const GuestLinks = ({ onNav, currMenu }) => {
-    const links = ["Home", "Newsy", "Historia", "Zjazdy", "Galeria", "Wiesci", "Kontakt"];
+    const links = ["Home", "Rodzina", "Newsy", "Historia", "Zjazdy", "Galeria", "Wiesci", "Kontakt"];
     return (
         <>
             {links.map((link, index) => {
@@ -47,7 +47,7 @@ const GuestLinks = ({ onNav, currMenu }) => {
                         route={link}
                         to={`/${link !== "Home" ? link : ""}`}
                         key={`guestlinks-${index}`}
-                        className={link === currMenu ? "active-link" : null}
+                        className={link.toLowerCase() === currMenu.toLowerCase() ? "active-link" : null}
                         onClick={onNav}
                     >
                         {link}
@@ -65,7 +65,6 @@ GuestLinks.propTypes = {
 const AuthLinks = ({ onLogout }) => {
     return (
         <>
-            <Link to="dashboard">Dashboard</Link>
             <Link to="login" onClick={onLogout}>
                 Logout
             </Link>
@@ -78,7 +77,13 @@ AuthLinks.propTypes = {
 };
 
 const Navbar = () => {
-    const { data, client } = useQuery(CHECK_AUTH_QUERY);
+    const {
+        data: {
+            auth: { isAuth }
+        }
+    } = useQuery(AUTH_CHECK_QUERY);
+
+    const [logout] = useLazyQuery(LOGOUT_QUERY, { fetchPolicy: "no-cache" });
 
     const [currMenu, setCurrMenu] = useState("");
 
@@ -89,40 +94,33 @@ const Navbar = () => {
 
     const onLogout = (e) => {
         e.preventDefault();
-        client.writeData({
-            data: {
-                auth: {
-                    isAuth: false,
-                    userId: null,
-                    token: null,
-                    tokenExpiration: null,
-                    __typename: "UserAuth"
-                }
-            }
-        });
+        logout();
     };
 
     const onNav = (e) => {
         setCurrMenu(e.target.getAttribute("route"));
+        window.scrollTo(0, 0);
     };
 
     return (
         <Container>
             <Title>Pytlewskich</Title>
-            <LinksContainer>
-                {data && data.auth.isAuth ? <AuthLinks onLogout={onLogout} /> : <GuestLinks currMenu={currMenu} onNav={onNav} />}
-            </LinksContainer>
+            <LinksContainer>{isAuth ? <AuthLinks onLogout={onLogout} /> : <GuestLinks currMenu={currMenu} onNav={onNav} />}</LinksContainer>
         </Container>
     );
 };
 
-const CHECK_AUTH_QUERY = gql`
+const AUTH_CHECK_QUERY = gql`
     {
         auth @client {
             isAuth
-            token
-            userId
         }
+    }
+`;
+
+const LOGOUT_QUERY = gql`
+    {
+        logout @client
     }
 `;
 

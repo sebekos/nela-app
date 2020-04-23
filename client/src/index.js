@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import ApolloClient, { InMemoryCache } from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
-// import resolvers from "./graphql/resolvers";
+import resolvers from "./graphql/resolvers";
 // import typeDefs from "./graphql/typeDefs";
 
 const cache = new InMemoryCache({
@@ -14,7 +14,7 @@ const cache = new InMemoryCache({
 
 const client = new ApolloClient({
     cache,
-    resolvers: {}
+    resolvers
 });
 
 cache.writeData({
@@ -24,7 +24,8 @@ cache.writeData({
             isAuth: false,
             userId: null,
             token: null,
-            tokenExpiration: null
+            tokenExpiration: null,
+            __typename: "auth"
         }
     }
 });

@@ -18,12 +18,12 @@ const MainTitle = styled.div`
     font-weight: bold;
 `;
 
-const Dashboard = () => {
+const History = () => {
     return (
         <Container>
-            <MainTitle>Dashboard</MainTitle>
+            <MainTitle>Historia</MainTitle>
         </Container>
     );
 };
 
-export default Dashboard;
+export default History;

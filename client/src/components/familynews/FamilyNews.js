@@ -18,12 +18,12 @@ const MainTitle = styled.div`
     font-weight: bold;
 `;
 
-const Dashboard = () => {
+const FamilyNews = () => {
     return (
         <Container>
-            <MainTitle>Dashboard</MainTitle>
+            <MainTitle>Wiesci Rodzinne</MainTitle>
         </Container>
     );
 };
 
-export default Dashboard;
+export default FamilyNews;

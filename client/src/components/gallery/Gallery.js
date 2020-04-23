@@ -18,12 +18,12 @@ const MainTitle = styled.div`
     font-weight: bold;
 `;
 
-const Dashboard = () => {
+const Gallery = () => {
     return (
         <Container>
-            <MainTitle>Dashboard</MainTitle>
+            <MainTitle>Galeria</MainTitle>
         </Container>
     );
 };
 
-export default Dashboard;
+export default Gallery;

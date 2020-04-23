@@ -57,7 +57,7 @@ const Text = () => {
             <TextTitle>Nasza Rodzina</TextTitle>
             <TextDesc>AKTUALNIE WPROWADZAMY DANE</TextDesc>
             <TextDesc>Ale istnieje juz możliwośc przegladania efektow naszej pracy :)</TextDesc>
-            <Link to="rodzina">
+            <Link to="Rodzina">
                 <FamilyButton>Rodzina</FamilyButton>
             </Link>
         </TextContainer>

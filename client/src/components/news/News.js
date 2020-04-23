@@ -4,20 +4,21 @@ import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 
-const NEWS_QUERY = gql`
-    {
-        news {
-            title
-            text
-            createdAt
-        }
-    }
-`;
-
 const Container = styled.div`
     max-width: 1100px;
     margin: auto;
     padding: 4rem 0 0;
+    min-height: 100vh;
+`;
+
+const MainTitle = styled.div`
+    font-size: 3rem;
+    color: #3e4444;
+    text-align: center;
+    padding: 0rem 0 1rem;
+    width: 100%;
+    background-color: white;
+    font-weight: bold;
 `;
 
 const Loading = styled.div`
@@ -40,11 +41,22 @@ const News = () => {
 
     return (
         <Container>
+            <MainTitle>Newsy</MainTitle>
             {data.news.map((data, index) => (
                 <NewsItem key={`newsitem-${index}`} data={data} />
             ))}
         </Container>
     );
 };
+
+const NEWS_QUERY = gql`
+    {
+        news {
+            title
+            text
+            createdAt
+        }
+    }
+`;
 
 export default News;

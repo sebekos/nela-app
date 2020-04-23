@@ -3,7 +3,8 @@ import styled from "styled-components";
 import GenInput from "../universal/GenInput";
 import PrimaryButton from "../universal/PrimaryButton";
 import { Redirect } from "react-router-dom";
-import { useLazyQuery } from "@apollo/react-hooks";
+import { toast } from "react-toastify";
+import { useLazyQuery, useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 
 const FormContainer = styled.form`
@@ -48,24 +49,37 @@ const Login = () => {
     });
     const { email, password } = formData;
 
-    const [login] = useLazyQuery(LOGIN_QUERY, {
+    const [login, { loading }] = useLazyQuery(LOGIN_QUERY, {
         variables: {
             email,
             password
         },
-        onError: () => {
-            console.log("Invalid credentials");
+        fetchPolicy: "network-only",
+        onError: (errors) => {
+            errors.graphQLErrors.forEach((error) => toast.error(error.message));
         },
-        onCompleted: () => {
-            console.log("Redirect");
+        onCompleted: (data) => {
+            localStorage.setItem("token", data.login.token);
+            localStorage.setItem("tokenExpiration", data.login.tokenExpiration);
         }
     });
+
     const onChangeHandler = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
         login();
     };
+
+    const {
+        data: {
+            auth: { isAuth }
+        }
+    } = useQuery(AUTH_CHECK_QUERY);
+
+    if (!loading && isAuth) {
+        return <Redirect to="dashboard" />;
+    }
 
     return (
         <>
@@ -85,6 +99,14 @@ const LOGIN_QUERY = gql`
             userId
             token
             tokenExpiration
+        }
+    }
+`;
+
+const AUTH_CHECK_QUERY = gql`
+    {
+        auth @client {
+            isAuth
         }
     }
 `;

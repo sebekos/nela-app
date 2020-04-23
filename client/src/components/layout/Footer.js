@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 
 const Container = styled.div`
     width: 100%;
-    height: 5rem;
     text-align: center;
     padding: 3rem;
     color: white;
@@ -20,6 +19,7 @@ const TitleText = styled.div`
 const LoginText = styled.div`
     margin: auto;
     font-size: 0.5rem;
+    color: white;
 `;
 
 const Footer = () => {
@@ -28,9 +28,6 @@ const Footer = () => {
             <TitleText>Contact</TitleText>
             <Link to="/login">
                 <LoginText>Login</LoginText>
-            </Link>
-            <Link to="/test">
-                <LoginText>Test</LoginText>
             </Link>
             <Link to="/newsy">
                 <LoginText>News</LoginText>

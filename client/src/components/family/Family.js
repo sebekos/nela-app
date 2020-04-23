@@ -18,12 +18,12 @@ const MainTitle = styled.div`
     font-weight: bold;
 `;
 
-const Dashboard = () => {
+const Family = () => {
     return (
         <Container>
-            <MainTitle>Dashboard</MainTitle>
+            <MainTitle>Rodzina</MainTitle>
         </Container>
     );
 };
 
-export default Dashboard;
+export default Family;
