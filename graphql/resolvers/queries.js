@@ -1,4 +1,4 @@
-const { User, News } = require("../../sequelize");
+const { News, User } = require("../../sequelize");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
@@ -6,7 +6,8 @@ require("dotenv").config();
 
 module.exports = {
     Query: {
-        login: async ({ email, password }) => {
+        login: async (_, args) => {
+            const { email, password } = args;
             const user = await User.findOne({ where: { email } });
             if (!user) {
                 throw new Error("Invalid credentials");

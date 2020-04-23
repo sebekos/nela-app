@@ -2,11 +2,11 @@ const { News } = require("../../sequelize");
 
 module.exports = {
     Mutation: {
-        addNews: async (args, req) => {
+        addNews: async (_, args) => {
             if (!req.isAuth) {
                 throw new Error("Unauthenticated!");
             }
-            const { title, text } = args.newsInput;
+            const { title, text } = args;
             const newsFields = {
                 title,
                 text

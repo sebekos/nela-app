@@ -49,24 +49,22 @@ const Login = () => {
     const { email, password } = formData;
 
     const [login] = useLazyQuery(LOGIN_QUERY, {
-        onError: (err) => {
-            console.log(err);
-            // console.log(response);
-            // console.log(operation);
-            // console.log(graphQLErrors);
-            // console.log(networkError);
+        variables: {
+            email,
+            password
+        },
+        onError: () => {
             console.log("Invalid credentials");
         },
         onCompleted: () => {
             console.log("Redirect");
         }
     });
-
     const onChangeHandler = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
-        login({ variables: { email, password } });
+        login();
     };
 
     return (

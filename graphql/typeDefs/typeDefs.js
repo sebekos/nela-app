@@ -8,6 +8,11 @@ const typeDefs = gql`
         createdAt: String!
     }
 
+    input NewsInput {
+        title: String!
+        text: String!
+    }
+
     type AuthData {
         _id: Int!
         isAuth: Boolean!
@@ -19,6 +24,10 @@ const typeDefs = gql`
     type Query {
         login(email: String!, password: String!): AuthData!
         news: [News!]!
+    }
+
+    type Mutation {
+        addNews(newsInput: NewsInput): News
     }
 `;
 
