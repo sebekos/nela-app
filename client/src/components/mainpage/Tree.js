@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import TreeJpg from "../../img/tree.png";
+import TreePng from "../../img/tree.png";
 import PrimaryButton from "../universal/PrimaryButton";
 import { Link } from "react-router-dom";
 
@@ -9,6 +9,7 @@ const Container = styled.div`
     grid-template-columns: 1fr 1fr;
     margin: auto;
     background-color: #f0f0f0;
+    align-items: center;
 `;
 
 const ImgContainer = styled.div`
@@ -22,10 +23,10 @@ const Img = styled.img`
     height: auto;
 `;
 
-const TreeImage = () => {
+const Image = () => {
     return (
         <ImgContainer>
-            <Img src={TreeJpg} />
+            <Img src={TreePng} />
         </ImgContainer>
     );
 };
@@ -67,7 +68,7 @@ const Text = () => {
 const Tree = () => {
     return (
         <Container>
-            <TreeImage />
+            <Image />
             <Text />
         </Container>
     );

@@ -3,6 +3,7 @@ import NewsItem from "./NewsItem";
 import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
+import PropTypes from "prop-types";
 
 const Container = styled.div`
     max-width: 1100px;
@@ -21,30 +22,49 @@ const MainTitle = styled.div`
     font-weight: bold;
 `;
 
-const Loading = styled.div`
+const LoadingContainer = styled.div`
     width: fit-content;
     margin: auto;
     padding: 5rem;
 `;
 
-const Error = styled.div`
+const Loading = () => {
+    return <LoadingContainer>Loading...</LoadingContainer>;
+};
+
+const ErrorContainer = styled.div`
     width: fit-content;
     margin: auto;
     padding: 5rem;
 `;
+
+const Error = () => {
+    return <ErrorContainer>Error :(</ErrorContainer>;
+};
+
+const NewsMap = ({ news }) => {
+    return (
+        <>
+            {news.map((data, index) => (
+                <NewsItem key={`newsitem-${index}`} data={data} />
+            ))}
+        </>
+    );
+};
+
+NewsMap.propTypes = {
+    news: PropTypes.array.isRequired
+};
 
 const News = () => {
     const { loading, error, data } = useQuery(NEWS_QUERY);
 
-    if (loading) return <Loading>Loading...</Loading>;
-    if (error) return <Error>Error :(</Error>;
-
     return (
         <Container>
             <MainTitle>Newsy</MainTitle>
-            {data.news.map((data, index) => (
-                <NewsItem key={`newsitem-${index}`} data={data} />
-            ))}
+            {loading ? <Loading /> : null}
+            {!loading && error ? <Error /> : null}
+            {!loading && data ? <NewsMap news={data.news} /> : null}
         </Container>
     );
 };

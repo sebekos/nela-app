@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import TreeJpg from "../../img/tree.png";
+import MapPng from "../../img/map.png";
 import PrimaryButton from "../universal/PrimaryButton";
 
 const Container = styled.div`
@@ -8,12 +8,13 @@ const Container = styled.div`
     grid-template-columns: 1fr 1fr;
     margin: auto;
     background-color: white;
+    align-items: center;
 `;
 
 const ImgContainer = styled.div`
     max-width: 650px;
     justify-self: start;
-    padding: 5rem 1rem;
+    padding: 5rem 3rem;
 `;
 
 const Img = styled.img`
@@ -21,10 +22,10 @@ const Img = styled.img`
     height: auto;
 `;
 
-const TreeImage = () => {
+const Image = () => {
     return (
         <ImgContainer>
-            <Img src={TreeJpg} />
+            <Img src={MapPng} />
         </ImgContainer>
     );
 };
@@ -73,7 +74,7 @@ const History = () => {
     return (
         <Container>
             <Text />
-            <TreeImage />
+            <Image />
         </Container>
     );
 };

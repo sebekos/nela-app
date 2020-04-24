@@ -5,6 +5,7 @@ import Tree from "./Tree";
 import History from "./History";
 import News from "./News";
 import Gallery from "./Gallery";
+import FamilyNews from "./FamilyNews";
 
 const Container = styled.div``;
 
@@ -16,7 +17,7 @@ const MainPage = () => {
             <History />
             <News />
             <Gallery />
-            <History />
+            <FamilyNews />
         </Container>
     );
 };

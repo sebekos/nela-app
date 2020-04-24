@@ -7,6 +7,13 @@ import { toast } from "react-toastify";
 import { useLazyQuery, useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 
+const Container = styled.div`
+    max-width: 1100px;
+    margin: auto;
+    padding: 4rem 0 0;
+    min-height: 100vh;
+`;
+
 const FormContainer = styled.form`
     padding: 1rem;
     margin: 5rem auto;
@@ -17,10 +24,6 @@ const FormContainer = styled.form`
     @media (max-width: 680px) {
         margin-top: 1rem;
     }
-`;
-
-const SignInContainer = styled.div`
-    padding: 20px 20px;
 `;
 
 const InputsContainer = ({ onChangeHandler, onSubmitHandler, email, password }) => {
@@ -82,12 +85,11 @@ const Login = () => {
     }
 
     return (
-        <>
-            <SignInContainer>Sign Into Your Account</SignInContainer>
+        <Container>
             <FormContainer onSubmit={onSubmitHandler}>
                 <InputsContainer onChangeHandler={onChangeHandler} onSubmitHandler={onSubmitHandler} email={email} password={password} />
             </FormContainer>
-        </>
+        </Container>
     );
 };
 
