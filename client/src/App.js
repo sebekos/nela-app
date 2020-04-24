@@ -1,5 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { useQuery } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
 import PrivateRoute from "./components/routing/PrivateRoute";
 import Dashboard from "./components/dashboard/Dashboard";
 import Login from "./components/auth/Login";
@@ -13,12 +15,14 @@ import General from "./components/general/General";
 import Gallery from "./components/gallery/Gallery";
 import FamilyNews from "./components/familynews/FamilyNews";
 import Family from "./components/family/Family";
+import NewsAddEdit from "./components/news-add-edit/NewsAddEdit";
 import "./App.css";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 
 const App = () => {
+    useQuery(LOAD_USER_QUERY);
     return (
         <Router>
             <Navbar />
@@ -35,10 +39,17 @@ const App = () => {
                 <Route exact path="/galeria" component={Gallery} />
                 <Route exact path="/wiesci" component={FamilyNews} />
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
+                <PrivateRoute exact path="/newsaddedit" component={NewsAddEdit} />
             </Switch>
             <Footer />
         </Router>
     );
 };
+
+const LOAD_USER_QUERY = gql`
+    {
+        loaduser @client
+    }
+`;
 
 export default App;

@@ -20,7 +20,8 @@ module.exports = {
             const token = jwt.sign({ userId: user.dataValues.uuid, email: user.dataValues.email }, process.env.jwtSecret, {
                 expiresIn: "1h"
             });
-            return { _id: 12345, isAuth: true, userId: user.dataValues.uuid, token: token, tokenExpiration: 1 };
+            const decoded = jwt.decode(token);
+            return { _id: 12345, isAuth: true, userId: decoded.userId, token: token, tokenExpiration: decoded.exp };
         },
         news: async () => {
             try {
