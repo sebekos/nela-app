@@ -1,11 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import timeFormat from "../../utils/timeFormat";
 
 const Container = styled.div`
-    width: 100%;
-    border: 1px solid black;
-    margin: 1rem;
+    max-width: 800px;
+    padding: 0.5rem;
+    color: #333;
+    margin: 1rem auto;
+    -webkit-box-shadow: 1px 1px 3px 2px #ccc;
+    -moz-box-shadow: 1px 1px 3px 2px #ccc;
+    box-shadow: 1px 1px 3px 2px #ccc;
 `;
 
 const TitleText = styled.div`
@@ -17,7 +22,8 @@ const BodyText = styled.div`
 `;
 
 const DateText = styled.div`
-    font-size: 0.5rem;
+    font-size: 0.7rem;
+    text-align: right;
 `;
 
 const NewsItem = ({ data: { title, text, createdAt } }) => {
@@ -25,7 +31,7 @@ const NewsItem = ({ data: { title, text, createdAt } }) => {
         <Container>
             <TitleText>{title}</TitleText>
             <BodyText>{text}</BodyText>
-            <DateText>{createdAt}</DateText>
+            <DateText>{timeFormat(createdAt / 1000)}</DateText>
         </Container>
     );
 };

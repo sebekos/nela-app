@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import GenInput from "../universal/GenInput";
+import GenTextArea from "../universal/GenTextArea";
 import PropTypes from "prop-types";
+import timeFormat from "../../utils/timeFormat";
 
 const Container = styled.div`
-    width: 100%;
-    border: 1px solid black;
-    margin: 1rem;
+    position: relative;
+    max-width: 800px;
+    padding: 0.5rem;
+    color: #333;
+    margin: 1rem auto;
+    -webkit-box-shadow: 1px 1px 3px 2px #ccc;
+    -moz-box-shadow: 1px 1px 3px 2px #ccc;
+    box-shadow: 1px 1px 3px 2px #ccc;
 `;
 
 const TitleText = styled.div`
@@ -17,21 +25,97 @@ const BodyText = styled.div`
 `;
 
 const DateText = styled.div`
-    font-size: 0.5rem;
+    font-size: 0.7rem;
+    text-align: right;
 `;
 
-const NewsItem = ({ data: { title, text, createdAt } }) => {
+const EditText = styled.div`
+    font-size: 0.7rem;
+    color: blue;
+    float: right;
+    cursor: pointer;
+`;
+
+const SaveText = styled.div`
+    padding: 0 0.3rem 0.3rem;
+    font-size: 0.7rem;
+    color: blue;
+    text-align: right;
+    cursor: pointer;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: 0;
+`;
+
+const ShowContainer = ({ text, title, onEdit }) => {
     return (
-        <Container>
+        <>
+            <EditText onClick={onEdit}>Edit Information</EditText>
             <TitleText>{title}</TitleText>
             <BodyText>{text}</BodyText>
-            <DateText>{createdAt}</DateText>
+        </>
+    );
+};
+
+ShowContainer.propTypes = {
+    title: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
+    onEdit: PropTypes.func.isRequired
+};
+
+const EditContainer = ({ text, title, onSave, onChange }) => {
+    return (
+        <>
+            <SaveText onClick={onSave}>Save</SaveText>
+            <GenInput name="title" onChange={onChange} value={title} type="text" />
+            <GenTextArea name="text" onChange={onChange} value={text} type="text" />
+        </>
+    );
+};
+
+EditContainer.propTypes = {
+    title: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
+    onSave: PropTypes.func.isRequired
+};
+
+const NewsAddEditItem = ({ data }) => {
+    const [edit, setEdit] = useState(false);
+
+    const [formData, setFormData] = useState({
+        title: data.title,
+        text: data.text
+    });
+
+    const { title, text } = formData;
+
+    const onChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const onEdit = () => {
+        setEdit(true);
+    };
+
+    const onSave = () => {
+        console.log("save");
+        setEdit(false);
+    };
+
+    return (
+        <Container>
+            {edit ? <EditContainer title={title} text={text} onSave={onSave} onChange={onChange} /> : null}
+            {!edit ? <ShowContainer title={title} text={text} onEdit={onEdit} onChange={onChange} /> : null}
+            <DateText>{timeFormat(data.createdAt / 1000)}</DateText>
         </Container>
     );
 };
 
-NewsItem.propTypes = {
+NewsAddEditItem.propTypes = {
     data: PropTypes.object.isRequired
 };
 
-export default NewsItem;
+export default NewsAddEditItem;

@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import PrimaryButton from "../universal/PrimaryButton";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
     max-width: 1100px;
@@ -18,10 +20,30 @@ const MainTitle = styled.div`
     font-weight: bold;
 `;
 
+const ButtonsContainer = styled.div`
+    width: fit-content;
+    margin: auto;
+`;
+
+const NewsyButton = styled(PrimaryButton)`
+    margin-right: 0.25rem;
+`;
+
+const Buttons = () => {
+    return (
+        <ButtonsContainer>
+            <Link to="newsaddedit">
+                <NewsyButton>Newsy</NewsyButton>
+            </Link>
+        </ButtonsContainer>
+    );
+};
+
 const Dashboard = () => {
     return (
         <Container>
             <MainTitle>Dashboard</MainTitle>
+            <Buttons />
         </Container>
     );
 };
