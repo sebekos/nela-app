@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+import { useMutation } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
 import styled from "styled-components";
 import GenInput from "../universal/GenInput";
 import GenTextArea from "../universal/GenTextArea";
 import PropTypes from "prop-types";
 import timeFormat from "../../utils/timeFormat";
+import { toast } from "react-toastify";
 
 const Container = styled.div`
     position: relative;
@@ -80,14 +83,25 @@ EditContainer.propTypes = {
 };
 
 const NewsAddEditItem = ({ data }) => {
+    const [updateNews] = useMutation(UPDATE_NEWS_QUERY, {
+        onError: (errors) => {
+            errors.graphQLErrors.forEach((error) => toast.error(error.message));
+        },
+        onCompleted: () => {
+            toast.success("News updated");
+            setEdit(false);
+        }
+    });
+
     const [edit, setEdit] = useState(false);
 
     const [formData, setFormData] = useState({
+        id: data.id,
         title: data.title,
         text: data.text
     });
 
-    const { title, text } = formData;
+    const { id, title, text } = formData;
 
     const onChange = (e) => {
         setFormData({
@@ -101,8 +115,13 @@ const NewsAddEditItem = ({ data }) => {
     };
 
     const onSave = () => {
-        console.log("save");
-        setEdit(false);
+        updateNews({
+            variables: {
+                id,
+                title: formData.title,
+                text: formData.text
+            }
+        });
     };
 
     return (
@@ -117,5 +136,16 @@ const NewsAddEditItem = ({ data }) => {
 NewsAddEditItem.propTypes = {
     data: PropTypes.object.isRequired
 };
+
+const UPDATE_NEWS_QUERY = gql`
+    mutation UpdateNews($id: Int!, $title: String!, $text: String!) {
+        updateNews(updateNewsInput: { id: $id, title: $title, text: $text }) {
+            id
+            title
+            text
+            createdAt
+        }
+    }
+`;
 
 export default NewsAddEditItem;

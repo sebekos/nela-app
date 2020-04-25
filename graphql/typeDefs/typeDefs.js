@@ -2,7 +2,7 @@ const { gql } = require("apollo-server");
 
 const typeDefs = gql`
     type News {
-        id: String!
+        id: Int!
         title: String!
         text: String!
         createdAt: String!
@@ -13,8 +13,14 @@ const typeDefs = gql`
         text: String!
     }
 
+    input UpdateNewsInput {
+        id: Int!
+        title: String!
+        text: String!
+    }
+
     type AuthData {
-        _id: Int!
+        id: String!
         isAuth: Boolean!
         userId: ID!
         token: String!
@@ -28,6 +34,7 @@ const typeDefs = gql`
 
     type Mutation {
         addNews(newsInput: NewsInput): News
+        updateNews(updateNewsInput: UpdateNewsInput): News
     }
 `;
 

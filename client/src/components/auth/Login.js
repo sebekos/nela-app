@@ -53,15 +53,12 @@ const Login = () => {
     const { email, password } = formData;
 
     const [login, { loading }] = useLazyQuery(LOGIN_QUERY, {
-        variables: {
-            email,
-            password
-        },
         fetchPolicy: "network-only",
         onError: (errors) => {
             errors.graphQLErrors.forEach((error) => toast.error(error.message));
         },
         onCompleted: (data) => {
+            toast.dismiss();
             localStorage.setItem("token", data.login.token);
             localStorage.setItem("tokenExpiration", data.login.tokenExpiration);
         }
@@ -69,9 +66,14 @@ const Login = () => {
 
     const onChangeHandler = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-    const onSubmitHandler = async (e) => {
+    const onSubmitHandler = (e) => {
         e.preventDefault();
-        login();
+        login({
+            variables: {
+                email,
+                password
+            }
+        });
     };
 
     const {
@@ -96,7 +98,7 @@ const Login = () => {
 const LOGIN_QUERY = gql`
     query Login($email: String!, $password: String!) {
         login(email: $email, password: $password) {
-            _id
+            id
             isAuth
             userId
             token

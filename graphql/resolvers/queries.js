@@ -21,7 +21,7 @@ module.exports = {
                 expiresIn: "1h"
             });
             const decoded = jwt.decode(token);
-            return { _id: 12345, isAuth: true, userId: decoded.userId, token: token, tokenExpiration: decoded.exp };
+            return { id: "auth", isAuth: true, userId: decoded.userId, token: token, tokenExpiration: decoded.exp };
         },
         news: async () => {
             try {

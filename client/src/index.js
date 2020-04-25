@@ -4,23 +4,30 @@ import App from "./App";
 import ApolloClient, { InMemoryCache } from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
 import resolvers from "./graphql/resolvers";
-// import typeDefs from "./graphql/typeDefs";
 
 const cache = new InMemoryCache({
-    dataIdFromObject: ({ _id }) => {
-        return _id;
+    dataIdFromObject: ({ id }) => {
+        return id;
     }
 });
 
 const client = new ApolloClient({
     cache,
-    resolvers
+    resolvers,
+    request: (operation) => {
+        const token = localStorage.getItem("token");
+        operation.setContext({
+            headers: {
+                "x-auth-token": token ? token : ""
+            }
+        });
+    }
 });
 
 cache.writeData({
     data: {
         auth: {
-            _id: 12345,
+            id: "auth",
             isAuth: false,
             userId: null,
             token: null,

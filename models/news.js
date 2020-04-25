@@ -13,6 +13,10 @@ module.exports = (sequelize, type) => {
             type: type.STRING,
             allowNull: false
         },
+        deleted: {
+            type: type.INTEGER,
+            allowNull: false
+        },
         createdUser: {
             type: type.STRING,
             allowNull: false

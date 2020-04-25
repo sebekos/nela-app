@@ -2,14 +2,18 @@ const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 require("dotenv").config();
 
-module.exports = (req, res, next) => {
+module.exports = (req) => {
     //Get token
     const token = req.header("x-auth-token");
 
+    let data = {
+        isAuth: false,
+        userId: null
+    };
+
     //Check if not token
     if (!token) {
-        req.isAuth = false;
-        return next();
+        return data;
     }
 
     // verify token
@@ -17,15 +21,12 @@ module.exports = (req, res, next) => {
     try {
         decoded = jwt.verify(token, process.env.jwtSecret);
     } catch (err) {
-        req.isAuth = false;
-        return next();
+        return data;
     }
     if (!decoded) {
-        req.isAuth = false;
-        return next();
+        return data;
     }
-    console.log(decoded);
-    req.isAuth = true;
-    req.userId = decoded.userId;
-    next();
+    data.isAuth = true;
+    data.userId = decoded.userId;
+    return data;
 };

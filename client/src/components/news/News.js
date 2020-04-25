@@ -42,6 +42,16 @@ const Error = () => {
     return <ErrorContainer>Error :(</ErrorContainer>;
 };
 
+const NoNewsContainer = styled.div`
+    width: fit-content;
+    margin: auto;
+    padding: 5rem;
+`;
+
+const NoNews = () => {
+    return <NoNewsContainer>No News :(</NoNewsContainer>;
+};
+
 const NewsMap = ({ news }) => {
     return (
         <>
@@ -64,7 +74,7 @@ const News = () => {
             <MainTitle>Newsy</MainTitle>
             {loading ? <Loading /> : null}
             {!loading && error ? <Error /> : null}
-            {!loading && data ? <NewsMap news={data.news} /> : null}
+            {!loading && data && data.news.length > 0 ? <NewsMap news={data.news} /> : <NoNews />}
         </Container>
     );
 };
@@ -72,6 +82,7 @@ const News = () => {
 const NEWS_QUERY = gql`
     {
         news {
+            id
             title
             text
             createdAt
