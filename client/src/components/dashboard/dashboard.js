@@ -39,7 +39,7 @@ const Buttons = () => {
             <Link to="newsaddedit">
                 <NewsyButton>Newsy</NewsyButton>
             </Link>
-            <Link to="zjazdaddedit">
+            <Link to="reunionaddedit">
                 <ZjazdButton>Zjazd</ZjazdButton>
             </Link>
         </ButtonsContainer>

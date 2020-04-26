@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import AddEditItem from "./NewsAddEditItem";
+import AddEditItem from "./ReunionAddEditItem";
 import GenInput from "../universal/GenInput";
 import GenTextArea from "../universal/GenTextArea";
 import SuccessButton from "../universal/SuccessButton";
@@ -54,7 +54,7 @@ const NoDataContainer = styled.div`
 `;
 
 const NoData = () => {
-    return <NoDataContainer>No News :(</NoDataContainer>;
+    return <NoDataContainer>No Reunions :(</NoDataContainer>;
 };
 
 const AddContainer = styled.div`
@@ -89,10 +89,10 @@ const MapContainer = styled.div`
     margin: 3rem auto;
 `;
 
-const Map = ({ news }) => {
+const Map = ({ reunion }) => {
     return (
         <MapContainer>
-            {news.map((data) => {
+            {reunion.map((data) => {
                 return <AddEditItem key={uuid()} data={data} />;
             })}
         </MapContainer>
@@ -100,18 +100,18 @@ const Map = ({ news }) => {
 };
 
 Map.propTypes = {
-    news: PropTypes.array.isRequired
+    reunion: PropTypes.array.isRequired
 };
 
 const AddEdit = () => {
-    const [addNews] = useMutation(ADD_NEWS_QUERY, {
+    const [addReunion] = useMutation(ADD_RUNION_QUERY, {
         onError: (errors) => {
             console.log(errors);
             errors.graphQLErrors.forEach((error) => toast.error(error.message));
         },
-        refetchQueries: [{ query: NEWS_QUERY }],
+        refetchQueries: [{ query: REUNIONS_QUERY }],
         onCompleted: () => {
-            toast.success("News added");
+            toast.success("Reunion added");
             setFormData({
                 title: "",
                 text: ""
@@ -133,29 +133,29 @@ const AddEdit = () => {
         });
     };
 
-    const { loading, error, data } = useQuery(NEWS_QUERY);
+    const { loading, error, data } = useQuery(REUNIONS_QUERY);
 
     const onAdd = (e) => {
         e.preventDefault();
-        addNews({ variables: { title, text } });
+        addReunion({ variables: { title, text } });
     };
 
     return (
         <Container>
-            <MainTitle>Newsy</MainTitle>
+            <MainTitle>Zjazdy</MainTitle>
             <Add title={title} text={text} onChange={onChange} onAdd={onAdd} />
             {loading ? <Loading /> : null}
             {!loading && error ? <Error /> : null}
-            {!loading && data && data.news.news.length > 0 ? <Map news={data.news.news} /> : <NoData />}
+            {!loading && data.reunion && data.reunion.reunion.length > 0 ? <Map reunion={data.reunion.reunion} /> : <NoData />}
         </Container>
     );
 };
 
-const NEWS_QUERY = gql`
+const REUNIONS_QUERY = gql`
     {
-        news {
+        reunion {
             id
-            news {
+            reunion {
                 id
                 title
                 text
@@ -165,9 +165,9 @@ const NEWS_QUERY = gql`
     }
 `;
 
-const ADD_NEWS_QUERY = gql`
-    mutation AddNews($title: String!, $text: String!) {
-        addNews(newsInput: { title: $title, text: $text }) {
+const ADD_RUNION_QUERY = gql`
+    mutation AddReunion($title: String!, $text: String!) {
+        addReunion(reunionInput: { title: $title, text: $text }) {
             id
             title
             text

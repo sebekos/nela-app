@@ -1,7 +1,36 @@
 const { gql } = require("apollo-server");
 
 const typeDefs = gql`
+    input NewsInput {
+        title: String!
+        text: String!
+    }
+
+    input ReunionInput {
+        title: String!
+        text: String!
+    }
+
+    input UpdateNewsInput {
+        id: Int!
+        title: String!
+        text: String!
+    }
+
+    input UpdateReunionInput {
+        id: Int!
+        title: String!
+        text: String!
+    }
+
     type News {
+        id: Int!
+        title: String!
+        text: String!
+        createdAt: String!
+    }
+
+    type Reunion {
         id: Int!
         title: String!
         text: String!
@@ -13,38 +42,9 @@ const typeDefs = gql`
         news: [News!]!
     }
 
-    input NewsInput {
-        title: String!
-        text: String!
-    }
-
-    input UpdateNewsInput {
-        id: Int!
-        title: String!
-        text: String!
-    }
-
-    type Reunion {
-        id: Int!
-        title: String!
-        text: String!
-        createdAt: String!
-    }
-
     type ReunionData {
         id: String!
-        reunion: [Reunion!]
-    }
-
-    input ReunionInput {
-        title: String!
-        text: String!
-    }
-
-    input UpdateReunionInput {
-        id: Int!
-        title: String!
-        text: String!
+        reunion: [Reunion!]!
     }
 
     type AuthData {

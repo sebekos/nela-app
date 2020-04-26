@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
+import { toast } from "react-toastify";
 import styled from "styled-components";
 import GenInput from "../universal/GenInput";
 import GenTextArea from "../universal/GenTextArea";
 import PropTypes from "prop-types";
 import timeFormat from "../../utils/timeFormat";
-import { toast } from "react-toastify";
 
 const Container = styled.div`
     position: relative;
@@ -83,7 +83,7 @@ EditContainer.propTypes = {
 };
 
 const AddEditItem = ({ data }) => {
-    const [updateNews] = useMutation(UPDATE_NEWS_QUERY, {
+    const [updateNews] = useMutation(UPDATE_REUNION_QUERY, {
         onError: (errors) => {
             errors.graphQLErrors.forEach((error) => toast.error(error.message));
         },
@@ -137,7 +137,7 @@ AddEditItem.propTypes = {
     data: PropTypes.object.isRequired
 };
 
-const UPDATE_NEWS_QUERY = gql`
+const UPDATE_REUNION_QUERY = gql`
     mutation UpdateNews($id: Int!, $title: String!, $text: String!) {
         updateNews(updateNewsInput: { id: $id, title: $title, text: $text }) {
             id

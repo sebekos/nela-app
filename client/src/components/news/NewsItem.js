@@ -26,7 +26,7 @@ const DateText = styled.div`
     text-align: right;
 `;
 
-const NewsItem = ({ data: { title, text, createdAt } }) => {
+const Item = ({ data: { title, text, createdAt } }) => {
     return (
         <Container>
             <TitleText>{title}</TitleText>
@@ -36,8 +36,8 @@ const NewsItem = ({ data: { title, text, createdAt } }) => {
     );
 };
 
-NewsItem.propTypes = {
+Item.propTypes = {
     data: PropTypes.object.isRequired
 };
 
-export default NewsItem;
+export default Item;

@@ -1,5 +1,5 @@
 import React from "react";
-import NewsItem from "./NewsItem";
+import Item from "./NewsItem";
 import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
@@ -43,31 +43,31 @@ const Error = () => {
     return <ErrorContainer>Error :(</ErrorContainer>;
 };
 
-const NoNewsContainer = styled.div`
+const NoDataContainer = styled.div`
     width: fit-content;
     margin: auto;
     padding: 5rem;
 `;
 
-const NoNews = () => {
-    return <NoNewsContainer>No News :(</NoNewsContainer>;
+const NoData = () => {
+    return <NoDataContainer>No News :(</NoDataContainer>;
 };
 
-const NewsMapContainer = styled.div`
+const MapContainer = styled.div`
     margin: 1rem auto 3rem;
 `;
 
-const NewsMap = ({ news }) => {
+const Map = ({ news }) => {
     return (
-        <NewsMapContainer>
+        <MapContainer>
             {news.map((data) => (
-                <NewsItem key={uuid()} data={data} />
+                <Item key={uuid()} data={data} />
             ))}
-        </NewsMapContainer>
+        </MapContainer>
     );
 };
 
-NewsMap.propTypes = {
+Map.propTypes = {
     news: PropTypes.array.isRequired
 };
 
@@ -78,7 +78,7 @@ const News = () => {
             <MainTitle>Newsy</MainTitle>
             {loading ? <Loading /> : null}
             {!loading && error ? <Error /> : null}
-            {!loading && data && data.news.news.length > 0 ? <NewsMap news={data.news.news} /> : <NoNews />}
+            {!loading && data && data.news.news.length > 0 ? <Map news={data.news.news} /> : <NoData />}
         </Container>
     );
 };

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import ReunionItem from "./ReunionItem";
+import Item from "./ReunionItem";
 import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import PropTypes from "prop-types";
@@ -42,39 +42,38 @@ const Error = () => {
     return <ErrorContainer>Error :(</ErrorContainer>;
 };
 
-const NoReunionContainer = styled.div`
+const NoDataContainer = styled.div`
     width: fit-content;
     margin: auto;
     padding: 5rem;
 `;
 
-const NoReunion = () => {
-    return <NoReunionContainer>No Reunions :(</NoReunionContainer>;
+const NoData = () => {
+    return <NoDataContainer>No Reunions :(</NoDataContainer>;
 };
 
-const NewsMap = ({ news }) => {
+const Map = ({ reunion }) => {
     return (
         <>
-            {news.map((data, index) => (
-                <ReunionItem key={`newsitem-${index}`} data={data} />
+            {reunion.map((data, index) => (
+                <Item key={`newsitem-${index}`} data={data} />
             ))}
         </>
     );
 };
 
-NewsMap.propTypes = {
-    news: PropTypes.array.isRequired
+Map.propTypes = {
+    reunion: PropTypes.array.isRequired
 };
 
 const Reunion = () => {
     const { loading, error, data } = useQuery(REUNION_QUERY);
-
     return (
         <Container>
             <MainTitle>Zjazdy</MainTitle>
             {loading ? <Loading /> : null}
             {!loading && error ? <Error /> : null}
-            {!loading && data.reunion.reunion && data.reunion.reunion.length > 0 ? <NewsMap news={data.reunion.reunion} /> : <NoReunion />}
+            {!loading && data.reunion.reunion && data.reunion.reunion.length > 0 ? <Map reunion={data.reunion.reunion} /> : <NoData />}
         </Container>
     );
 };
