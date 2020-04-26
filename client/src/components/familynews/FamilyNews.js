@@ -1,5 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import Happened from "./happened/Happened";
+import Hello from "./hello/Hello";
+import Later from "./later/Later";
 
 const Container = styled.div`
     max-width: 1100px;
@@ -18,10 +21,19 @@ const MainTitle = styled.div`
     font-weight: bold;
 `;
 
+const NewsGroupsContainer = styled.div`
+    margin: auto;
+`;
+
 const FamilyNews = () => {
     return (
         <Container>
             <MainTitle>Wiesci Rodzinne</MainTitle>
+            <NewsGroupsContainer>
+                <Happened />
+                <Hello />
+                <Later />
+            </NewsGroupsContainer>
         </Container>
     );
 };

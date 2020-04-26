@@ -2,6 +2,9 @@ const Sequelize = require("sequelize");
 const UserModel = require("./models/user");
 const NewsModel = require("./models/news");
 const ReunionModel = require("./models/reunion");
+const HappenedModel = require("./models/happened");
+const HelloModel = require("./models/hello");
+const LaterModel = require("./models/later");
 const dotenv = require("dotenv");
 require("dotenv").config();
 
@@ -14,6 +17,9 @@ const sequelize = new Sequelize(process.env.MYSQL_DATABASE, process.env.MYSQL_US
 const User = UserModel(sequelize, Sequelize);
 const News = NewsModel(sequelize, Sequelize);
 const Reunion = ReunionModel(sequelize, Sequelize);
+const Happened = HappenedModel(sequelize, Sequelize);
+const Hello = HelloModel(sequelize, Sequelize);
+const Later = LaterModel(sequelize, Sequelize);
 
 try {
     sequelize.sync();
@@ -23,4 +29,4 @@ try {
     process.exit(1);
 }
 
-module.exports = { User, News, Reunion };
+module.exports = { User, News, Reunion, Happened, Hello, Later };
