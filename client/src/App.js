@@ -17,6 +17,7 @@ import FamilyNews from "./components/familynews/FamilyNews";
 import Family from "./components/family/Family";
 import NewsAddEdit from "./components/news-add-edit/NewsAddEdit";
 import ReunionAddEdit from "./components/reunion-add-edit/ReunionAddEdit";
+import FamilyNewsAddEdit from "./components/familynews-add-edit/FamilyNewsAddEdit";
 import "./App.css";
 
 import { ToastContainer } from "react-toastify";
@@ -42,6 +43,7 @@ const App = () => {
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
                 <PrivateRoute exact path="/newsaddedit" component={NewsAddEdit} />
                 <PrivateRoute exact path="/reunionaddedit" component={ReunionAddEdit} />
+                <PrivateRoute exact path="/familynewsaddedit" component={FamilyNewsAddEdit} />
             </Switch>
             <Footer />
         </Router>

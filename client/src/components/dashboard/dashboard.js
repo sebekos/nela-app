@@ -33,6 +33,10 @@ const ZjazdButton = styled(PrimaryButton)`
     margin-right: 0.25rem;
 `;
 
+const WiesciButton = styled(PrimaryButton)`
+    margin-right: 0.25rem;
+`;
+
 const Buttons = () => {
     return (
         <ButtonsContainer>
@@ -41,6 +45,9 @@ const Buttons = () => {
             </Link>
             <Link to="reunionaddedit">
                 <ZjazdButton>Zjazd</ZjazdButton>
+            </Link>
+            <Link to="familynewsaddedit">
+                <WiesciButton>Wiesci</WiesciButton>
             </Link>
         </ButtonsContainer>
     );

@@ -1,9 +1,13 @@
 module.exports = (sequelize, type) => {
-    return sequelize.define("later", {
+    return sequelize.define("familynews", {
         id: {
             type: type.INTEGER,
             primaryKey: true,
             autoIncrement: true
+        },
+        news_type: {
+            type: type.INTEGER,
+            allowNull: false
         },
         text: {
             type: type.STRING,
