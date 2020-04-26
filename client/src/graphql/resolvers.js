@@ -12,28 +12,30 @@ const resolvers = {
             if (currTime >= decoded.exp) {
                 return null;
             } else {
-                const id = getCacheKey({ id: "auth" });
                 const data = {
+                    id: "auth",
                     isAuth: true,
                     userId: decoded.userId,
                     token: token,
-                    tokenExpiration: decoded.exp
+                    tokenExpiration: decoded.exp,
+                    __typename: "AuthData"
                 };
-                cache.writeData({ id, data });
+                cache.writeData({ data: { auth: data } });
             }
             return null;
         },
         logout: (_root, variables, { cache, getCacheKey }) => {
             localStorage.removeItem("token");
             localStorage.removeItem("tokenExpiration");
-            const id = getCacheKey({ id: "auth" });
             const data = {
+                id: "auth",
                 isAuth: false,
                 userId: null,
                 token: null,
-                tokenExpiration: null
+                tokenExpiration: null,
+                __typename: "AuthData"
             };
-            cache.writeData({ id, data });
+            cache.writeData({ data: { auth: data } });
             return null;
         }
     }

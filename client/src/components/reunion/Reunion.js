@@ -1,9 +1,8 @@
 import React from "react";
-import NewsItem from "./NewsItem";
 import styled from "styled-components";
+import ReunionItem from "./ReunionItem";
 import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
-import { uuid } from "uuidv4";
 import PropTypes from "prop-types";
 
 const Container = styled.div`
@@ -43,27 +42,23 @@ const Error = () => {
     return <ErrorContainer>Error :(</ErrorContainer>;
 };
 
-const NoNewsContainer = styled.div`
+const NoReunionContainer = styled.div`
     width: fit-content;
     margin: auto;
     padding: 5rem;
 `;
 
-const NoNews = () => {
-    return <NoNewsContainer>No News :(</NoNewsContainer>;
+const NoReunion = () => {
+    return <NoReunionContainer>No Reunions :(</NoReunionContainer>;
 };
-
-const NewsMapContainer = styled.div`
-    margin: 1rem auto 3rem;
-`;
 
 const NewsMap = ({ news }) => {
     return (
-        <NewsMapContainer>
-            {news.map((data) => (
-                <NewsItem key={uuid()} data={data} />
+        <>
+            {news.map((data, index) => (
+                <ReunionItem key={`newsitem-${index}`} data={data} />
             ))}
-        </NewsMapContainer>
+        </>
     );
 };
 
@@ -71,24 +66,24 @@ NewsMap.propTypes = {
     news: PropTypes.array.isRequired
 };
 
-const News = () => {
-    const { loading, error, data } = useQuery(NEWS_QUERY);
+const Reunion = () => {
+    const { loading, error, data } = useQuery(REUNION_QUERY);
+
     return (
         <Container>
-            <MainTitle>Newsy</MainTitle>
+            <MainTitle>Zjazdy</MainTitle>
             {loading ? <Loading /> : null}
             {!loading && error ? <Error /> : null}
-            {!loading && data && data.news.news.length > 0 ? <NewsMap news={data.news.news} /> : <NoNews />}
+            {!loading && data.reunion.reunion && data.reunion.reunion.length > 0 ? <NewsMap news={data.reunion.reunion} /> : <NoReunion />}
         </Container>
     );
 };
 
-const NEWS_QUERY = gql`
+const REUNION_QUERY = gql`
     {
-        news {
+        reunion {
             id
-            news {
-                id
+            reunion {
                 title
                 text
                 createdAt
@@ -97,4 +92,4 @@ const NEWS_QUERY = gql`
     }
 `;
 
-export default News;
+export default Reunion;

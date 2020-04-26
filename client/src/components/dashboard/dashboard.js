@@ -29,11 +29,18 @@ const NewsyButton = styled(PrimaryButton)`
     margin-right: 0.25rem;
 `;
 
+const ZjazdButton = styled(PrimaryButton)`
+    margin-right: 0.25rem;
+`;
+
 const Buttons = () => {
     return (
         <ButtonsContainer>
             <Link to="newsaddedit">
                 <NewsyButton>Newsy</NewsyButton>
+            </Link>
+            <Link to="zjazdaddedit">
+                <ZjazdButton>Zjazd</ZjazdButton>
             </Link>
         </ButtonsContainer>
     );

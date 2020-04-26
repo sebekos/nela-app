@@ -11,7 +11,7 @@ import Footer from "./components/layout/Footer";
 import Contact from "./components/contact/Contact";
 import News from "./components/news/News";
 import History from "./components/history/History";
-import General from "./components/general/General";
+import Reunion from "./components/reunion/Reunion";
 import Gallery from "./components/gallery/Gallery";
 import FamilyNews from "./components/familynews/FamilyNews";
 import Family from "./components/family/Family";
@@ -35,7 +35,7 @@ const App = () => {
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/newsy" component={News} />
                 <Route exact path="/historia" component={History} />
-                <Route exact path="/zjazdy" component={General} />
+                <Route exact path="/zjazdy" component={Reunion} />
                 <Route exact path="/galeria" component={Gallery} />
                 <Route exact path="/wiesci" component={FamilyNews} />
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />

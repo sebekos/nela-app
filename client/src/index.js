@@ -6,9 +6,9 @@ import { ApolloProvider } from "@apollo/react-hooks";
 import resolvers from "./graphql/resolvers";
 
 const cache = new InMemoryCache({
-    dataIdFromObject: ({ id }) => {
-        return id;
-    }
+    // dataIdFromObject: ({ id, __typename }) => {
+    //     return id;
+    // }
 });
 
 const client = new ApolloClient({
@@ -32,7 +32,11 @@ cache.writeData({
             userId: null,
             token: null,
             tokenExpiration: null,
-            __typename: "auth"
+            __typename: "AuthData"
+        },
+        news: {
+            id: "news",
+            __typename: "NewsData"
         }
     }
 });

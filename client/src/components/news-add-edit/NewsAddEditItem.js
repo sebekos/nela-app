@@ -70,8 +70,8 @@ const EditContainer = ({ text, title, onSave, onChange }) => {
     return (
         <>
             <SaveText onClick={onSave}>Save</SaveText>
-            <GenInput name="title" onChange={onChange} value={title} type="text" />
-            <GenTextArea name="text" onChange={onChange} value={text} type="text" />
+            <GenInput autoComplete="off" name="title" onChange={onChange} value={title} type="text" />
+            <GenTextArea autoComplete="off" name="text" onChange={onChange} value={text} type="text" />
         </>
     );
 };

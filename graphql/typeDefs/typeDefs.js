@@ -8,12 +8,40 @@ const typeDefs = gql`
         createdAt: String!
     }
 
+    type NewsData {
+        id: String!
+        news: [News!]!
+    }
+
     input NewsInput {
         title: String!
         text: String!
     }
 
     input UpdateNewsInput {
+        id: Int!
+        title: String!
+        text: String!
+    }
+
+    type Reunion {
+        id: Int!
+        title: String!
+        text: String!
+        createdAt: String!
+    }
+
+    type ReunionData {
+        id: String!
+        reunion: [Reunion!]
+    }
+
+    input ReunionInput {
+        title: String!
+        text: String!
+    }
+
+    input UpdateReunionInput {
         id: Int!
         title: String!
         text: String!
@@ -29,12 +57,15 @@ const typeDefs = gql`
 
     type Query {
         login(email: String!, password: String!): AuthData!
-        news: [News!]!
+        news: NewsData!
+        reunion: ReunionData!
     }
 
     type Mutation {
         addNews(newsInput: NewsInput): News
         updateNews(updateNewsInput: UpdateNewsInput): News
+        addReunion(reunionInput: ReunionInput): Reunion
+        updateReunion(updateReunionInput: UpdateReunionInput): Reunion
     }
 `;
 
