@@ -50,11 +50,11 @@ const SaveText = styled.div`
     margin-right: 0;
 `;
 
-const ShowContainer = ({ text, title, onEdit }) => {
+const ShowContainer = ({ text, type, onEdit }) => {
     return (
         <>
             <EditText onClick={onEdit}>Edit Information</EditText>
-            <TitleText>{title}</TitleText>
+            <TitleText>{type}</TitleText>
             <BodyText>{text}</BodyText>
         </>
     );
@@ -70,7 +70,6 @@ const EditContainer = ({ text, type, onSave, onChange }) => {
     return (
         <>
             <SaveText onClick={onSave}>Save</SaveText>
-            <GenTextArea autoComplete="off" name="text" onChange={onChange} value={text} type="text" />
             <GenSelect name="type" onChange={onChange} value={type}>
                 <option defaultValue disabled value="0">
                     News Type
@@ -79,6 +78,7 @@ const EditContainer = ({ text, type, onSave, onChange }) => {
                 <option value="2">Witamy w rodzinie</option>
                 <option value="3">Zabraklo miedzy nami</option>
             </GenSelect>
+            <GenTextArea autoComplete="off" name="text" onChange={onChange} value={text} type="text" />
         </>
     );
 };
