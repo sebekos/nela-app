@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Item from "./Item";
-import GenInput from "../universal/GenInput";
 import GenTextArea from "../universal/GenTextArea";
+import GenSelect from "../universal/GenSelect";
 import SuccessButton from "../universal/SuccessButton";
 import styled from "styled-components";
 import { useQuery, useMutation } from "@apollo/react-hooks";
@@ -54,7 +54,7 @@ const NoDataContainer = styled.div`
 `;
 
 const NoData = () => {
-    return <NoDataContainer>No News :(</NoDataContainer>;
+    return <NoDataContainer>No Family News :(</NoDataContainer>;
 };
 
 const AddContainer = styled.div`
@@ -68,19 +68,26 @@ const AddContainer = styled.div`
     box-shadow: 1px 1px 3px 2px #ccc;
 `;
 
-const Add = ({ title, text, onChange, onAdd }) => {
+const Add = ({ text, type, onChange, onAdd }) => {
     return (
         <AddContainer>
-            <GenInput autoComplete="off" placeholder="Title" name="title" onChange={onChange} value={title} type="text" />
             <GenTextArea autoComplete="off" placeholder="Body" name="text" onChange={onChange} value={text} type="text" />
+            <GenSelect name="type" onChange={onChange} value={type}>
+                <option defaultValue disabled value="0">
+                    News Type
+                </option>
+                <option value="1">Wydarzyło się</option>
+                <option value="2">Witamy w rodzinie</option>
+                <option value="3">Zabraklo miedzy nami</option>
+            </GenSelect>
             <SuccessButton onClick={onAdd}>Add</SuccessButton>
         </AddContainer>
     );
 };
 
 Add.propTypes = {
-    title: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
     onAdd: PropTypes.func.isRequired
 };
@@ -89,42 +96,42 @@ const MapContainer = styled.div`
     margin: 3rem auto;
 `;
 
-const Map = ({ news }) => {
+const Map = ({ data }) => {
     return (
         <MapContainer>
-            {news.map((data) => {
-                return <Item key={uuid()} data={data} />;
+            {data.map((item) => {
+                return <Item key={uuid()} data={item} />;
             })}
         </MapContainer>
     );
 };
 
 Map.propTypes = {
-    news: PropTypes.array.isRequired
+    data: PropTypes.array.isRequired
 };
 
 const AddEdit = () => {
-    const [addNews] = useMutation(ADD_NEWS_QUERY, {
+    const [addFamilyNews] = useMutation(ADD_FAMILY_NEWS_QUERY, {
         onError: (errors) => {
             console.log(errors);
             errors.graphQLErrors.forEach((error) => toast.error(error.message));
         },
-        refetchQueries: [{ query: NEWS_QUERY }],
+        refetchQueries: [{ query: FAMILY_NEWS_QUERY }],
         onCompleted: () => {
             toast.success("News added");
             setFormData({
-                title: "",
-                text: ""
+                text: "",
+                type: "0"
             });
         }
     });
 
     const [formData, setFormData] = useState({
-        title: "",
-        text: ""
+        text: "",
+        type: "0"
     });
 
-    const { title, text } = formData;
+    const { text, type } = formData;
 
     const onChange = (e) => {
         setFormData({
@@ -133,44 +140,44 @@ const AddEdit = () => {
         });
     };
 
-    const { loading, error, data } = useQuery(NEWS_QUERY);
+    const { loading, error, data } = useQuery(FAMILY_NEWS_QUERY);
 
     const onAdd = (e) => {
         e.preventDefault();
-        addNews({ variables: { title, text } });
+        addFamilyNews({ variables: { text, type: parseInt(type) } });
     };
 
     return (
         <Container>
             <MainTitle>Wiesci</MainTitle>
-            <Add title={title} text={text} onChange={onChange} onAdd={onAdd} />
+            <Add text={text} type={type} onChange={onChange} onAdd={onAdd} />
             {loading ? <Loading /> : null}
             {!loading && error ? <Error /> : null}
-            {!loading && data && data.news.news.length > 0 ? <Map news={data.news.news} /> : <NoData />}
+            {!loading && data && data.familynews.familynews.length > 0 ? <Map data={data.familynews.familynews} /> : <NoData />}
         </Container>
     );
 };
 
-const NEWS_QUERY = gql`
+const FAMILY_NEWS_QUERY = gql`
     {
-        news {
+        familynews {
             id
-            news {
+            familynews {
                 id
-                title
                 text
+                type
                 createdAt
             }
         }
     }
 `;
 
-const ADD_NEWS_QUERY = gql`
-    mutation AddNews($title: String!, $text: String!) {
-        addNews(newsInput: { title: $title, text: $text }) {
+const ADD_FAMILY_NEWS_QUERY = gql`
+    mutation AddFamilyNews($text: String!, $type: Int!) {
+        addFamilyNews(familyNewsInput: { text: $text, type: $type }) {
             id
-            title
             text
+            type
             createdAt
         }
     }

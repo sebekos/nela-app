@@ -1,4 +1,4 @@
-const { News, User, Reunion } = require("../../sequelize");
+const { News, User, Reunion, FamilyNews } = require("../../sequelize");
 const { AuthenticationError } = require("apollo-server");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -47,6 +47,19 @@ module.exports = {
             } catch (error) {
                 console.log(error);
                 throw new Error("Reunion data error");
+            }
+        },
+        familynews: async () => {
+            try {
+                const returnData = await FamilyNews.findAll({ raw: true, order: [["createdAt", "DESC"]] });
+                const returnStuff = {
+                    id: "familynews",
+                    familynews: returnData
+                };
+                return returnStuff;
+            } catch (error) {
+                console.log(error);
+                throw new Error("News data error");
             }
         }
     }

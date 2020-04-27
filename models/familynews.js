@@ -5,7 +5,7 @@ module.exports = (sequelize, type) => {
             primaryKey: true,
             autoIncrement: true
         },
-        news_type: {
+        type: {
             type: type.INTEGER,
             allowNull: false
         },

@@ -1,4 +1,4 @@
-const { News, Reunion } = require("../../sequelize");
+const { News, Reunion, FamilyNews } = require("../../sequelize");
 
 module.exports = {
     Mutation: {
@@ -75,6 +75,45 @@ module.exports = {
                 let reunion = await Reunion.update(reunionFields, { where: { id } });
                 reunion = await Reunion.findOne({ where: { id } });
                 return reunion.dataValues;
+            } catch (err) {
+                console.log(err);
+                throw new Error("Server Error");
+            }
+        },
+        addFamilyNews: async (obj, args, context, info) => {
+            if (!context.isAuth) {
+                throw new Error("Unauthenticated!");
+            }
+            const { text, type } = args.familyNewsInput;
+            const familyNewsFields = {
+                type,
+                text,
+                deleted: 0,
+                createdUser: context.userId,
+                lastUser: context.userId
+            };
+            try {
+                const familynews = await FamilyNews.create(familyNewsFields);
+                return familynews.dataValues;
+            } catch (err) {
+                console.log(err);
+                throw new Error("Server Error");
+            }
+        },
+        updateFamilyNews: async (obj, args, context, info) => {
+            if (!context.isAuth) {
+                throw new Error("Unauthenticated!");
+            }
+            const { id, text, type } = args.updateFamilyNewsInput;
+            const familyNewsFields = {
+                text,
+                type,
+                lastUser: context.userId
+            };
+            try {
+                let familynews = await FamilyNews.update(familyNewsFields, { where: { id } });
+                familynews = await FamilyNews.findOne({ where: { id } });
+                return familynews.dataValues;
             } catch (err) {
                 console.log(err);
                 throw new Error("Server Error");
