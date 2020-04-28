@@ -49,6 +49,9 @@ const Buttons = () => {
             <Link to="familynewsaddedit">
                 <WiesciButton>Wiesci</WiesciButton>
             </Link>
+            <Link to="galleryaddedit">
+                <WiesciButton>Galeria</WiesciButton>
+            </Link>
         </ButtonsContainer>
     );
 };
