@@ -1,5 +1,6 @@
 const { News, User, Reunion, FamilyNews } = require("../../sequelize");
 const { AuthenticationError } = require("apollo-server");
+const { Op } = require("sequelize");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
@@ -49,9 +50,13 @@ module.exports = {
                 throw new Error("Reunion data error");
             }
         },
-        familynews: async () => {
+        familynews: async (_, args) => {
             try {
-                const returnData = await FamilyNews.findAll({ raw: true, order: [["createdAt", "DESC"]] });
+                const returnData = await FamilyNews.findAll({
+                    raw: true,
+                    where: { type: args.filter ? args.filter : { [Op.ne]: 0 } },
+                    order: [["createdAt", "DESC"]]
+                });
                 const returnStuff = {
                     id: "familynews",
                     familynews: returnData

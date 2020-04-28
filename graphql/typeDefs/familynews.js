@@ -23,7 +23,7 @@ type FamilyNewsData {
 }
 
 extend type Query {
-    familynews: FamilyNewsData!
+    familynews(filter: Int): FamilyNewsData!
 }
 
 extend type Mutation {
