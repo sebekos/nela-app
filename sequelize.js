@@ -3,6 +3,8 @@ const UserModel = require("./models/user");
 const NewsModel = require("./models/news");
 const ReunionModel = require("./models/reunion");
 const FamilyNewsModel = require("./models/familynews");
+const GalleryModel = require("./models/gallery");
+const PhotoModel = require("./models/photo");
 const dotenv = require("dotenv");
 require("dotenv").config();
 
@@ -16,6 +18,8 @@ const User = UserModel(sequelize, Sequelize);
 const News = NewsModel(sequelize, Sequelize);
 const Reunion = ReunionModel(sequelize, Sequelize);
 const FamilyNews = FamilyNewsModel(sequelize, Sequelize);
+const Gallery = GalleryModel(sequelize, Sequelize);
+const Photo = PhotoModel(sequelize, Sequelize);
 
 try {
     sequelize.sync();
@@ -25,4 +29,4 @@ try {
     process.exit(1);
 }
 
-module.exports = { User, News, Reunion, FamilyNews };
+module.exports = { User, News, Reunion, FamilyNews, Gallery, Photo };

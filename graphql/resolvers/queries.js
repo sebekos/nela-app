@@ -1,4 +1,4 @@
-const { News, User, Reunion, FamilyNews } = require("../../sequelize");
+const { News, User, Reunion, FamilyNews, Gallery } = require("../../sequelize");
 const { AuthenticationError } = require("apollo-server");
 const { Op } = require("sequelize");
 const bcrypt = require("bcryptjs");
@@ -60,6 +60,19 @@ module.exports = {
                 const returnStuff = {
                     id: "familynews",
                     familynews: returnData
+                };
+                return returnStuff;
+            } catch (error) {
+                console.log(error);
+                throw new Error("News data error");
+            }
+        },
+        galleries: async () => {
+            try {
+                const returnData = await Gallery.findAll({ raw: true, order: [["createdAt", "DESC"]] });
+                const returnStuff = {
+                    id: "galleries",
+                    galleries: returnData
                 };
                 return returnStuff;
             } catch (error) {

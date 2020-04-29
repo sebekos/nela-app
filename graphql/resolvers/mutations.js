@@ -1,4 +1,4 @@
-const { News, Reunion, FamilyNews } = require("../../sequelize");
+const { News, Reunion, FamilyNews, Gallery } = require("../../sequelize");
 
 module.exports = {
     Mutation: {
@@ -114,6 +114,45 @@ module.exports = {
                 let familynews = await FamilyNews.update(familyNewsFields, { where: { id } });
                 familynews = await FamilyNews.findOne({ where: { id } });
                 return familynews.dataValues;
+            } catch (err) {
+                console.log(err);
+                throw new Error("Server Error");
+            }
+        },
+        addGallery: async (obj, args, context, info) => {
+            if (!context.isAuth) {
+                throw new Error("Unauthenticated!");
+            }
+            const { title, text } = args.galleryInput;
+            const galleryFields = {
+                title,
+                text,
+                deleted: 0,
+                createdUser: context.userId,
+                lastUser: context.userId
+            };
+            try {
+                const gallery = await Gallery.create(galleryFields);
+                return gallery.dataValues;
+            } catch (err) {
+                console.log(err);
+                throw new Error("Server Error");
+            }
+        },
+        updateGallery: async (obj, args, context, info) => {
+            if (!context.isAuth) {
+                throw new Error("Unauthenticated!");
+            }
+            const { id, title, text } = args.updateGalleryInput;
+            const galleryFields = {
+                title,
+                text,
+                lastUser: context.userId
+            };
+            try {
+                let gallery = await Gallery.update(galleryFields, { where: { id } });
+                gallery = await Gallery.findOne({ where: { id } });
+                return gallery.dataValues;
             } catch (err) {
                 console.log(err);
                 throw new Error("Server Error");
