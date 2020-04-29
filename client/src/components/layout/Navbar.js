@@ -65,8 +65,8 @@ GuestLinks.propTypes = {
 const AuthLinks = ({ onLogout }) => {
     return (
         <>
-            <Link to="dashboard">Dashboard</Link>
-            <Link to="login" onClick={onLogout}>
+            <Link to="/dashboard">Dashboard</Link>
+            <Link to="/login" onClick={onLogout}>
                 Logout
             </Link>
         </>

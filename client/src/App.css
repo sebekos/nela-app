@@ -26,3 +26,19 @@ body {
 .active-link {
     border-bottom: 1px solid #333;
 }
+
+/* Image upload */
+.fileContainer {
+    border-radius: 0;
+    width: fit-content;
+    padding: 1rem;
+}
+
+.chooseFileButton {
+    border-radius: 0 !important;
+}
+
+.uploadPictureContainer {
+    padding: 5px !important;
+    margin: 0.5rem !important;
+}

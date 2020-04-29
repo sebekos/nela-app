@@ -24,6 +24,7 @@ type Galleries {
 
 extend type Query {
     galleries: Galleries!
+    gallery(filter: Int!): Gallery!
 }
 
 extend type Mutation {

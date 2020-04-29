@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import GenInput from "../universal/GenInput";
 import GenTextArea from "../universal/GenTextArea";
+import LightButton from "../universal/LightButton";
+import DangerButton from "../universal/DangerButton";
+import SuccessButton from "../universal/SuccessButton";
 import PropTypes from "prop-types";
 import timeFormat from "../../utils/timeFormat";
 import { toast } from "react-toastify";
@@ -82,6 +86,41 @@ EditContainer.propTypes = {
     onSave: PropTypes.func.isRequired
 };
 
+const ButtonContainer = styled.div`
+    width: fit-content;
+    margin: auto;
+`;
+
+const AddButton = styled(SuccessButton)`
+    margin-right: 0.25rem;
+`;
+
+const SortButton = styled(LightButton)`
+    margin-right: 0.25rem;
+`;
+
+const DeleteButton = styled(DangerButton)``;
+
+const Buttons = ({ currid }) => {
+    return (
+        <ButtonContainer>
+            <Link to={`addphotos/${currid}`}>
+                <AddButton>Add</AddButton>
+            </Link>
+            <Link to={`sortphotos/${currid}`}>
+                <SortButton>Sort</SortButton>
+            </Link>
+            <Link to={`deletephotos/${currid}`}>
+                <DeleteButton>Delete</DeleteButton>
+            </Link>
+        </ButtonContainer>
+    );
+};
+
+Buttons.propTypes = {
+    currid: PropTypes.number
+};
+
 const AddEditItem = ({ data }) => {
     const [updateNews] = useMutation(UPDATE_NEWS_QUERY, {
         onError: (errors) => {
@@ -128,6 +167,7 @@ const AddEditItem = ({ data }) => {
         <Container>
             {edit ? <EditContainer title={title} text={text} onSave={onSave} onChange={onChange} /> : null}
             {!edit ? <ShowContainer title={title} text={text} onEdit={onEdit} onChange={onChange} /> : null}
+            <Buttons currid={id} />
             <DateText>{timeFormat(data.createdAt / 1000)}</DateText>
         </Container>
     );

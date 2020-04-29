@@ -79,6 +79,16 @@ module.exports = {
                 console.log(error);
                 throw new Error("News data error");
             }
+        },
+        gallery: async (_, args) => {
+            const id = args.filter;
+            try {
+                const returnData = await Gallery.findOne({ where: { id } });
+                return returnData;
+            } catch (error) {
+                console.log(error);
+                throw new Error("News data error");
+            }
         }
     }
 };
