@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Item from "./ReunionItem";
 import { useQuery } from "@apollo/react-hooks";
-import { gql } from "apollo-boost";
+import gql from "graphql-tag";
 import PropTypes from "prop-types";
 
 const Container = styled.div`

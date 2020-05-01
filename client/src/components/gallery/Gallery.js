@@ -2,7 +2,7 @@ import React from "react";
 import Item from "./Item";
 import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
-import { gql } from "apollo-boost";
+import gql from "graphql-tag";
 import { uuid } from "uuidv4";
 import PropTypes from "prop-types";
 

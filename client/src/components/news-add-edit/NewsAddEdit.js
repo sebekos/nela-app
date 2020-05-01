@@ -5,7 +5,7 @@ import GenTextArea from "../universal/GenTextArea";
 import SuccessButton from "../universal/SuccessButton";
 import styled from "styled-components";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import { gql } from "apollo-boost";
+import gql from "graphql-tag";
 import { toast } from "react-toastify";
 import { uuid } from "uuidv4";
 import PropTypes from "prop-types";

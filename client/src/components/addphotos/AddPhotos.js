@@ -4,7 +4,7 @@ import Uploader from "./Uploader";
 import SuccessButton from "../universal/SuccessButton";
 import { bulkResize } from "../../utils/photo";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import { gql } from "apollo-boost";
+import gql from "graphql-tag";
 import { toast } from "react-toastify";
 import PropTypes from "prop-types";
 

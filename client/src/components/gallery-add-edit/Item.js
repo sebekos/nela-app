@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useMutation } from "@apollo/react-hooks";
-import { gql } from "apollo-boost";
+import gql from "graphql-tag";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import GenInput from "../universal/GenInput";

@@ -4,7 +4,7 @@ import App from "./App";
 import ApolloClient from "apollo-client";
 import resolvers from "./graphql/resolvers";
 import { ApolloProvider } from "@apollo/react-hooks";
-import { InMemoryCache } from "apollo-boost";
+import { InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloLink } from "apollo-link";
 import { createUploadLink } from "apollo-upload-client";
 import { ErrorLink } from "apollo-link-error";

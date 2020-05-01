@@ -5,7 +5,7 @@ import PrimaryButton from "../universal/PrimaryButton";
 import { Redirect } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useLazyQuery, useQuery } from "@apollo/react-hooks";
-import { gql } from "apollo-boost";
+import gql from "graphql-tag";
 
 const Container = styled.div`
     max-width: 1100px;

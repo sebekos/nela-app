@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Happened from "./happened/Happened";
 import Hello from "./hello/Hello";
 import Later from "./later/Later";
-import { gql } from "apollo-boost";
+import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import PropTypes from "prop-types";
 
