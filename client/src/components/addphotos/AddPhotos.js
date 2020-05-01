@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Uploader from "./Uploader";
 import SuccessButton from "../universal/SuccessButton";
-import { useQuery } from "@apollo/react-hooks";
+import { bulkResize } from "../../utils/photo";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import { toast } from "react-toastify";
 import PropTypes from "prop-types";
@@ -94,6 +95,16 @@ const AddPhotos = ({ match }) => {
     const [pictures, setPictures] = useState([]);
     const [uploadBtn, setUploadBtn] = useState(false);
 
+    const [uploadFile] = useMutation(UPLOAD_QUERY, {
+        onError: (errors) => {
+            console.log(errors);
+            errors.graphQLErrors.forEach((error) => toast.error(error.message));
+        },
+        onCompleted: () => {
+            toast.success("Files uploaded");
+        }
+    });
+
     const { loading, error, data } = useQuery(GALLERY_QUERY, {
         variables: {
             filter: parseInt(match.params.id)
@@ -113,8 +124,18 @@ const AddPhotos = ({ match }) => {
     };
 
     const onUpload = async (e) => {
-        setUploadBtn(false);
-        toast.success("Photos uploaded successfully");
+        //const file = pictures[0];
+        //console.log(file);
+        //uploadFile({ variables: { file } });
+        //setUploadBtn(false);
+        let res = await bulkResize(pictures);
+        let formData = new FormData();
+        formData.append("group", match.params.id);
+        res.forEach((photo, index) => {
+            console.log("Adding photo - " + index);
+            formData.append(`photo-${index}`, photo);
+        });
+        uploadFile({ variables: { file: formData } });
     };
 
     return (
@@ -137,6 +158,14 @@ const GALLERY_QUERY = gql`
             text
             createdAt
         }
+    }
+`;
+
+// https://medium.com/@enespalaz/file-upload-with-graphql-9a4927775ef7
+
+const UPLOAD_QUERY = gql`
+    mutation SingleUpload($file: Upload!) {
+        singleUpload(file: $file)
     }
 `;
 

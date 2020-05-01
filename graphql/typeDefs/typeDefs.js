@@ -4,6 +4,7 @@ const reunion = require("./reunion");
 const auth = require("./auth");
 const familynews = require("./familynews");
 const gallery = require("./gallery");
+const upload = require("./upload");
 
 const typeDefs = gql`
     type Query {
@@ -17,6 +18,7 @@ const typeDefs = gql`
     ${reunion}
     ${familynews}
     ${gallery}
+    ${upload}
 `;
 
 module.exports = typeDefs;

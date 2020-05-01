@@ -1,17 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import ApolloClient, { InMemoryCache } from "apollo-boost";
+import { InMemoryCache } from "apollo-boost";
+import ApolloClient from "apollo-client";
 import { ApolloProvider } from "@apollo/react-hooks";
 import resolvers from "./graphql/resolvers";
+import { createUploadLink } from "apollo-upload-client";
 
-const cache = new InMemoryCache({
-    // dataIdFromObject: ({ id, __typename }) => {
-    //     return id;
-    // }
-});
+const cache = new InMemoryCache({});
+
+const link = createUploadLink({ uri: "/graphql" });
 
 const client = new ApolloClient({
+    link,
     cache,
     resolvers,
     request: (operation) => {

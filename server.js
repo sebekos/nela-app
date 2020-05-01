@@ -8,7 +8,11 @@ const server = new ApolloServer({
     typeDefs,
     resolvers: { ...Queries, ...Mutations },
     context: ({ req }) => {
-        return isAuth(req);
+        const authData = isAuth(req);
+        return {
+            ...authData,
+            req
+        };
     }
 });
 
