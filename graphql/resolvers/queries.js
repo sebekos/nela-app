@@ -19,7 +19,7 @@ module.exports = {
                 throw new AuthenticationError("Invalid credentials");
             }
             const token = jwt.sign({ userId: user.dataValues.uuid, email: user.dataValues.email }, process.env.jwtSecret, {
-                expiresIn: "1h"
+                expiresIn: "1h" //1h
             });
             const decoded = jwt.decode(token);
             return { id: "auth", isAuth: true, userId: decoded.userId, token: token, tokenExpiration: decoded.exp };

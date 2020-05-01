@@ -96,10 +96,7 @@ const AddPhotos = ({ match }) => {
     const [uploadBtn, setUploadBtn] = useState(false);
 
     const [uploadFile] = useMutation(UPLOAD_QUERY, {
-        onError: (errors) => {
-            console.log(errors);
-            errors.graphQLErrors.forEach((error) => toast.error(error.message));
-        },
+        onError: (err) => console.log(err),
         onCompleted: () => {
             toast.success("Files uploaded");
         }
@@ -108,9 +105,6 @@ const AddPhotos = ({ match }) => {
     const { loading, error, data } = useQuery(GALLERY_QUERY, {
         variables: {
             filter: parseInt(match.params.id)
-        },
-        onError: (errors) => {
-            errors.graphQLErrors.forEach((error) => toast.error(error.message));
         }
     });
 
@@ -124,18 +118,17 @@ const AddPhotos = ({ match }) => {
     };
 
     const onUpload = async (e) => {
-        //const file = pictures[0];
-        //console.log(file);
-        //uploadFile({ variables: { file } });
-        //setUploadBtn(false);
-        let res = await bulkResize(pictures);
-        let formData = new FormData();
-        formData.append("group", match.params.id);
-        res.forEach((photo, index) => {
-            console.log("Adding photo - " + index);
-            formData.append(`photo-${index}`, photo);
-        });
-        uploadFile({ variables: { file: formData } });
+        const file = pictures[0];
+        console.log(file);
+        uploadFile({ variables: { file } });
+        // let res = await bulkResize(pictures);
+        // let formData = new FormData();
+        // formData.append("group", match.params.id);
+        // res.forEach((photo, index) => {
+        //     console.log("Adding photo - " + index);
+        //     formData.append(`photo-${index}`, photo);
+        // });
+        // uploadFile({ variables: { file: formData } });
     };
 
     return (

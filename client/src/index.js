@@ -1,28 +1,34 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import { InMemoryCache } from "apollo-boost";
 import ApolloClient from "apollo-client";
-import { ApolloProvider } from "@apollo/react-hooks";
 import resolvers from "./graphql/resolvers";
+import { ApolloProvider } from "@apollo/react-hooks";
+import { InMemoryCache } from "apollo-boost";
+import { ApolloLink } from "apollo-link";
 import { createUploadLink } from "apollo-upload-client";
+import { ErrorLink } from "apollo-link-error";
+import { ToastContainer } from "react-toastify";
+import { errorHandler } from "./utils/errors";
+import "react-toastify/dist/ReactToastify.min.css";
 
 const cache = new InMemoryCache({});
 
-const link = createUploadLink({ uri: "/graphql" });
+const uploadLink = createUploadLink({
+    uri: "/graphql",
+    headers: {
+        "x-auth-token": localStorage.getItem("token")
+    }
+});
+
+const errorLink = new ErrorLink(({ graphQLErrors, networkError }) => {
+    errorHandler(graphQLErrors, networkError);
+});
 
 const client = new ApolloClient({
-    link,
+    link: ApolloLink.from([errorLink, uploadLink]),
     cache,
-    resolvers,
-    request: (operation) => {
-        const token = localStorage.getItem("token");
-        operation.setContext({
-            headers: {
-                "x-auth-token": token ? token : ""
-            }
-        });
-    }
+    resolvers
 });
 
 cache.writeData({
@@ -34,16 +40,13 @@ cache.writeData({
             token: null,
             tokenExpiration: null,
             __typename: "AuthData"
-        },
-        news: {
-            id: "news",
-            __typename: "NewsData"
         }
     }
 });
 
 ReactDOM.render(
     <ApolloProvider client={client}>
+        <ToastContainer hideProgressBar pauseOnHover={false} />
         <App />
     </ApolloProvider>,
     document.getElementById("root")

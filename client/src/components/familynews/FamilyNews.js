@@ -66,11 +66,7 @@ NewsGroups.propTypes = {
 };
 
 const FamilyNews = () => {
-    const { loading, data, error } = useQuery(FAMILY_NEWS_QUERY, {
-        onError: () => {
-            console.log("error");
-        }
-    });
+    const { loading, data, error } = useQuery(FAMILY_NEWS_QUERY);
     return (
         <Container>
             <MainTitle>Wiesci Rodzinne</MainTitle>

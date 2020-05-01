@@ -112,10 +112,6 @@ Map.propTypes = {
 
 const AddEdit = () => {
     const [addFamilyNews] = useMutation(ADD_FAMILY_NEWS_QUERY, {
-        onError: (errors) => {
-            console.log(errors);
-            errors.graphQLErrors.forEach((error) => toast.error(error.message));
-        },
         refetchQueries: [{ query: FAMILY_NEWS_QUERY }],
         onCompleted: () => {
             toast.success("News added");
@@ -123,7 +119,8 @@ const AddEdit = () => {
                 text: "",
                 type: "0"
             });
-        }
+        },
+        onError: (err) => console.log(err)
     });
 
     const [formData, setFormData] = useState({

@@ -22,15 +22,11 @@ import GalleryAddEdit from "./components/gallery-add-edit/GalleryAddEdit";
 import AddPhotos from "./components/addphotos/AddPhotos";
 import "./App.css";
 
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.min.css";
-
 const App = () => {
     useQuery(LOAD_USER_QUERY);
     return (
         <Router>
             <Navbar />
-            <ToastContainer hideProgressBar pauseOnHover={false} />
             <Switch>
                 <Route exact path="/" component={MainPage} />
                 <Route exact path="/rodzina" component={Family} />

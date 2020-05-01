@@ -54,9 +54,7 @@ const Login = () => {
 
     const [login, { loading }] = useLazyQuery(LOGIN_QUERY, {
         fetchPolicy: "network-only",
-        onError: (errors) => {
-            errors.graphQLErrors.forEach((error) => toast.error(error.message));
-        },
+        onError: (err) => console.log(err),
         onCompleted: (data) => {
             toast.dismiss();
             localStorage.setItem("token", data.login.token);

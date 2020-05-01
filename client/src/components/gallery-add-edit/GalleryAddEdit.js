@@ -105,11 +105,8 @@ Map.propTypes = {
 
 const GalleryAddEdit = () => {
     const [addNews] = useMutation(ADD_GALLERY_QUERY, {
-        onError: (errors) => {
-            console.log(errors);
-            errors.graphQLErrors.forEach((error) => toast.error(error.message));
-        },
         refetchQueries: [{ query: GALLERIES_QUERY }],
+        onError: (err) => console.log(err),
         onCompleted: () => {
             toast.success("Gallery added");
             setFormData({

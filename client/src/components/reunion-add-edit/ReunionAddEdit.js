@@ -105,11 +105,8 @@ Map.propTypes = {
 
 const AddEdit = () => {
     const [addReunion] = useMutation(ADD_RUNION_QUERY, {
-        onError: (errors) => {
-            console.log(errors);
-            errors.graphQLErrors.forEach((error) => toast.error(error.message));
-        },
         refetchQueries: [{ query: REUNIONS_QUERY }],
+        onError: (err) => console.log(err),
         onCompleted: () => {
             toast.success("Reunion added");
             setFormData({

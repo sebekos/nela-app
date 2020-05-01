@@ -7,13 +7,7 @@ const isAuth = require("./middleware/is-auth");
 const server = new ApolloServer({
     typeDefs,
     resolvers: { ...Queries, ...Mutations },
-    context: ({ req }) => {
-        const authData = isAuth(req);
-        return {
-            ...authData,
-            req
-        };
-    }
+    context: ({ req }) => isAuth(req)
 });
 
 server.listen().then(({ url }) => {

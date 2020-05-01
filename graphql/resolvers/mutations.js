@@ -1,4 +1,5 @@
 const { News, Reunion, FamilyNews, Gallery } = require("../../sequelize");
+const { AuthenticationError } = require("apollo-server");
 const multiparty = require("multiparty");
 const path = require("path");
 const fs = require("fs");
@@ -7,7 +8,7 @@ module.exports = {
     Mutation: {
         addNews: async (obj, args, context, info) => {
             if (!context.isAuth) {
-                throw new Error("Unauthenticated!");
+                throw new AuthenticationError("Unauthenticated!");
             }
             const { title, text } = args.newsInput;
             const newsFields = {
@@ -22,12 +23,12 @@ module.exports = {
                 return news.dataValues;
             } catch (err) {
                 console.log(err);
-                throw new Error("Server Error");
+                throw new AuthenticationError("Server Error");
             }
         },
         updateNews: async (obj, args, context, info) => {
             if (!context.isAuth) {
-                throw new Error("Unauthenticated!");
+                throw new AuthenticationError("Unauthenticated!");
             }
             const { id, title, text } = args.updateNewsInput;
             const newsFields = {
@@ -41,12 +42,12 @@ module.exports = {
                 return news.dataValues;
             } catch (err) {
                 console.log(err);
-                throw new Error("Server Error");
+                throw new AuthenticationError("Server Error");
             }
         },
         addReunion: async (obj, args, context, info) => {
             if (!context.isAuth) {
-                throw new Error("Unauthenticated!");
+                throw new AuthenticationError("Unauthenticated!");
             }
             const { title, text } = args.reunionInput;
             const reunionFields = {
@@ -61,12 +62,12 @@ module.exports = {
                 return reunion.dataValues;
             } catch (err) {
                 console.log(err);
-                throw new Error("Server Error");
+                throw new AuthenticationError("Server Error");
             }
         },
         updateReunion: async (obj, args, context, info) => {
             if (!context.isAuth) {
-                throw new Error("Unauthenticated!");
+                throw new AuthenticationError("Unauthenticated!");
             }
             const { id, title, text } = args.reunionNewsInput;
             const reunionFields = {
@@ -80,12 +81,12 @@ module.exports = {
                 return reunion.dataValues;
             } catch (err) {
                 console.log(err);
-                throw new Error("Server Error");
+                throw new AuthenticationError("Server Error");
             }
         },
         addFamilyNews: async (obj, args, context, info) => {
             if (!context.isAuth) {
-                throw new Error("Unauthenticated!");
+                throw new AuthenticationError("Unauthenticated!");
             }
             const { text, type } = args.familyNewsInput;
             const familyNewsFields = {
@@ -100,12 +101,12 @@ module.exports = {
                 return familynews.dataValues;
             } catch (err) {
                 console.log(err);
-                throw new Error("Server Error");
+                throw new AuthenticationError("Server Error");
             }
         },
         updateFamilyNews: async (obj, args, context, info) => {
             if (!context.isAuth) {
-                throw new Error("Unauthenticated!");
+                throw new AuthenticationError("Unauthenticated!");
             }
             const { id, text, type } = args.updateFamilyNewsInput;
             const familyNewsFields = {
@@ -119,12 +120,12 @@ module.exports = {
                 return familynews.dataValues;
             } catch (err) {
                 console.log(err);
-                throw new Error("Server Error");
+                throw new AuthenticationError("Server Error");
             }
         },
         addGallery: async (obj, args, context, info) => {
             if (!context.isAuth) {
-                throw new Error("Unauthenticated!");
+                throw new AuthenticationError("Unauthenticated!");
             }
             const { title, text } = args.galleryInput;
             const galleryFields = {
@@ -139,12 +140,12 @@ module.exports = {
                 return gallery.dataValues;
             } catch (err) {
                 console.log(err);
-                throw new Error("Server Error");
+                throw new AuthenticationError("Server Error");
             }
         },
         updateGallery: async (obj, args, context, info) => {
             if (!context.isAuth) {
-                throw new Error("Unauthenticated!");
+                throw new AuthenticationError("Unauthenticated!");
             }
             const { id, title, text } = args.updateGalleryInput;
             const galleryFields = {
@@ -158,13 +159,13 @@ module.exports = {
                 return gallery.dataValues;
             } catch (err) {
                 console.log(err);
-                throw new Error("Server Error");
+                throw new AuthenticationError("Server Error");
             }
         },
         singleUpload: async (_, { file }, context) => {
             // const form = new multiparty.Form();
             // form.parse(context.req, async (error, fields, files) => {
-            //     if (error) throw new Error(error);
+            //     if (error) throw new AuthenticationError(error);
             //     try {
             //         Object.keys(files).map((photo) => {
             //             console.log(photo);
@@ -190,9 +191,9 @@ module.exports = {
                 } catch (error) {
                     console.log("error");
                     console.log(error);
+                    return false;
                 }
             });
-            // console.log(filename);
             return true;
         }
     }
