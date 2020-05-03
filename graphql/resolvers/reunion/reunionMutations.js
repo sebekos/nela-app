@@ -1,5 +1,5 @@
 const { Reunion } = require("../../../sequelize");
-const { AuthenticationError } = require("apollo-server");
+const { AuthenticationError } = require("apollo-server-express");
 
 module.exports = {
     addReunion: async (obj, args, context, info) => {
@@ -16,7 +16,7 @@ module.exports = {
         };
         try {
             const reunion = await Reunion.create(reunionFields);
-            return reunion.dataValues;
+            return reunion;
         } catch (err) {
             console.log(err);
             throw new Error("Server Error");
@@ -35,7 +35,7 @@ module.exports = {
         try {
             let reunion = await Reunion.update(reunionFields, { where: { id } });
             reunion = await Reunion.findOne({ where: { id } });
-            return reunion.dataValues;
+            return reunion;
         } catch (err) {
             console.log(err);
             throw new Error("Server Error");

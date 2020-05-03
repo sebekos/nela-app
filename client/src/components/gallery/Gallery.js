@@ -55,6 +55,8 @@ const NoData = () => {
 
 const MapContainer = styled.div`
     margin: 1rem auto 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
 `;
 
 const Map = ({ data }) => {
@@ -78,19 +80,20 @@ const News = () => {
             <MainTitle>Galeria</MainTitle>
             {loading ? <Loading /> : null}
             {!loading && error ? <Error /> : null}
-            {!loading && data && data.galleries.galleries.length > 0 ? <Map data={data.galleries.galleries} /> : <NoData />}
+            {!loading && data && data.ui_galleries.galleries.length > 0 ? <Map data={data.ui_galleries.galleries} /> : <NoData />}
         </Container>
     );
 };
 
 const GALLERIES_QUERY = gql`
     {
-        galleries {
+        ui_galleries {
             galleries {
                 id
                 title
                 text
                 createdAt
+                thumb_1
             }
         }
     }

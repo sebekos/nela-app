@@ -15,6 +15,7 @@ type Gallery {
     title: String!
     text: String!
     createdAt: String!
+    thumb_1: String
 }
 
 type Galleries {
@@ -33,9 +34,21 @@ input GalleryUpload{
     thumbnail: Upload!
 }
 
+type Photo {
+    id: Int!
+    key: Int!
+    order: Int!
+    link_main: String!
+    link_thumb: String!
+    deleted: Int!
+    createdAt: String!
+}
+
 extend type Query {
+    ui_galleries: Galleries!
     galleries: Galleries!
     gallery(filter: Int!): Gallery!
+    photos(filter: Int!): [Photo!]!
 }
 
 extend type Mutation {

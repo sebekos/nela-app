@@ -13,7 +13,6 @@ import { errorHandler } from "./utils/errors";
 import "react-toastify/dist/ReactToastify.min.css";
 
 const cache = new InMemoryCache({});
-
 const uploadLink = createUploadLink({
     uri: "/graphql",
     headers: {

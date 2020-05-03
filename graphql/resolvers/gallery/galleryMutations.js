@@ -1,5 +1,5 @@
 const { Gallery, Photo } = require("../../../sequelize");
-const { AuthenticationError } = require("apollo-server");
+const { AuthenticationError } = require("apollo-server-express");
 const { createWriteStream } = require("fs");
 const { uuid } = require("uuidv4");
 const fs = require("fs");
@@ -20,7 +20,7 @@ module.exports = {
         };
         try {
             const gallery = await Gallery.create(galleryFields);
-            return gallery.dataValues;
+            return gallery;
         } catch (err) {
             console.log(err);
             throw new Error("Server Error");
@@ -39,7 +39,7 @@ module.exports = {
         try {
             let gallery = await Gallery.update(galleryFields, { where: { id } });
             gallery = await Gallery.findOne({ where: { id } });
-            return gallery.dataValues;
+            return gallery;
         } catch (err) {
             console.log(err);
             throw new Error("Server Error");
@@ -55,7 +55,7 @@ module.exports = {
             throw new Error(`50 photo max, currently at ${totalPhotos}`);
         }
         // Check path
-        const currPath = path.join(__dirname, `../../../images/gallery/${galleryId}`);
+        const currPath = path.join(__dirname, `../../../public/images/gallery/${galleryId}`);
         if (!fs.existsSync(currPath)) {
             fs.mkdirSync(currPath);
         }

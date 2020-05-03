@@ -1,5 +1,5 @@
 const { News } = require("../../../sequelize");
-const { AuthenticationError } = require("apollo-server");
+const { AuthenticationError } = require("apollo-server-express");
 
 module.exports = {
     addNews: async (obj, args, context, info) => {
@@ -16,7 +16,7 @@ module.exports = {
         };
         try {
             const news = await News.create(newsFields);
-            return news.dataValues;
+            return news;
         } catch (err) {
             console.log(err);
             throw new Error("Server Error");
@@ -35,7 +35,7 @@ module.exports = {
         try {
             let news = await News.update(newsFields, { where: { id } });
             news = await News.findOne({ where: { id } });
-            return news.dataValues;
+            return news;
         } catch (err) {
             console.log(err);
             throw new Error("Server Error");

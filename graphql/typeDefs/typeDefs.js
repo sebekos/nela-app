@@ -1,4 +1,4 @@
-const { gql } = require("apollo-server");
+const { gql } = require("apollo-server-express");
 const news = require("./news");
 const reunion = require("./reunion");
 const auth = require("./auth");
