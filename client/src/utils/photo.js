@@ -4,10 +4,27 @@ export const reSizer = (picture) => {
     return new Promise((resolve, reject) =>
         Resizer.imageFileResizer(
             picture,
-            200, //800
-            300, //1100
+            2000, //800
+            1100, //1100
             "JPEG",
-            100,
+            80,
+            0,
+            (res) => {
+                resolve(res);
+            },
+            "blob"
+        )
+    );
+};
+
+export const reSizerThumbnail = (picture) => {
+    return new Promise((resolve, reject) =>
+        Resizer.imageFileResizer(
+            picture,
+            600, //800
+            250, //1100
+            "JPEG",
+            50,
             0,
             (res) => {
                 resolve(res);
@@ -18,13 +35,11 @@ export const reSizer = (picture) => {
 };
 
 export const bulkResize = async (pictures) => {
-    return new Promise(async (resolve, reject) => {
-        await Promise.all(
-            pictures.map((picture) => {
-                return new Promise((resolve, reject) => resolve(reSizer(picture)));
-            })
-        ).then((results) => {
-            resolve(results);
-        });
-    });
+    var imagesObj = [];
+    for (let i = 0; i < pictures.length; i++) {
+        const thumbnail = await reSizerThumbnail(pictures[i]);
+        const reg = await reSizer(pictures[i]);
+        imagesObj[i] = { thumbnail, reg };
+    }
+    return imagesObj;
 };

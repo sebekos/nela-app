@@ -1,4 +1,4 @@
-const { Gallery } = require("../../../sequelize");
+const { Gallery, Photo } = require("../../../sequelize");
 const { AuthenticationError } = require("apollo-server");
 const { createWriteStream } = require("fs");
 const { uuid } = require("uuidv4");
@@ -45,26 +45,12 @@ module.exports = {
             throw new Error("Server Error");
         }
     },
-    // singleUpload: async (_, { file }, context) => {
-    //     const { createReadStream, filename, mimetype } = await file;
-    //     await new Promise((res) => {
-    //         try {
-    //             createReadStream()
-    //                 .pipe(createWriteStream(path.join(__dirname, "../../images", filename)))
-    //                 .on("close", res);
-    //         } catch (error) {
-    //             console.log(error);
-    //             throw new Error("Server Error");
-    //         }
-    //     });
-    //     return true;
-    // },
-    multiUpload: async (_, { files, galleryId }, context) => {
+    galleryUpload: async (_, { files, galleryId }, context) => {
         if (!context.isAuth) {
             throw new AuthenticationError("Unauthenticated!");
         }
         // Check files
-        const totalPhotos = Object.keys(files).length;
+        const totalPhotos = files.length;
         if (totalPhotos < 1 || totalPhotos > 50) {
             throw new Error(`50 photo max, currently at ${totalPhotos}`);
         }
@@ -74,16 +60,32 @@ module.exports = {
             fs.mkdirSync(currPath);
         }
         for (let i = 0; i < totalPhotos; i++) {
-            const { createReadStream } = await files[i];
-            await new Promise((res) => {
-                try {
-                    createReadStream()
-                        .pipe(createWriteStream(path.join(currPath, `${uuid()}.jpeg`)))
-                        .on("close", res);
-                } catch (error) {
-                    throw new Error("Server Error");
-                }
-            });
+            const { createReadStream: reg_stream } = await files[i].reg;
+            const { createReadStream: thumbnail_stream } = await files[i].thumbnail;
+            const imageUuid = uuid();
+            const imageName_reg = `${imageUuid}_reg.jpeg`;
+            const imagePath_reg = path.join(currPath, imageName_reg);
+            const imageName_thumbnail = `${imageUuid}_thumbnail.jpeg`;
+            const imagePath_thumbnail = path.join(currPath, imageName_thumbnail);
+            const photoData = {
+                key: galleryId,
+                order: 0,
+                link_main: imageName_reg,
+                link_thumb: imageName_thumbnail,
+                createdUser: context.userId,
+                lastUser: context.userId,
+                deleted: 0
+            };
+            try {
+                await new Promise(async (res) => {
+                    reg_stream().pipe(createWriteStream(imagePath_reg)).on("close", res);
+                    thumbnail_stream().pipe(createWriteStream(imagePath_thumbnail)).on("close", res);
+                });
+                await Photo.create(photoData);
+            } catch (error) {
+                console.log(error);
+                throw new Error("Server Error");
+            }
         }
         return true;
     }

@@ -9,6 +9,7 @@ const server = new ApolloServer({
     resolvers: { ...Queries, ...Mutations },
     context: ({ req }) => {
         const data = isAuth(req);
+        console.log(data);
         return data;
     }
 });

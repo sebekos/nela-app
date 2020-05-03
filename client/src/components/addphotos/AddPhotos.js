@@ -120,7 +120,7 @@ const AddPhotos = ({ match }) => {
     const onUpload = async () => {
         const galleryId = parseInt(match.params.id);
         const res = await bulkResize(pictures);
-        console.log({ files: res, galleryId });
+        console.log({ variables: { files: res, galleryId } });
         uploadFile({ variables: { files: res, galleryId } });
     };
 
@@ -148,8 +148,8 @@ const GALLERY_QUERY = gql`
 `;
 
 const UPLOAD_QUERY = gql`
-    mutation MultiUpload($files: [Upload!]!, $galleryId: Int!) {
-        multiUpload(files: $files, galleryId: $galleryId)
+    mutation GalleryUpload($files: [GalleryUpload!]!, $galleryId: Int!) {
+        galleryUpload(files: $files, galleryId: $galleryId)
     }
 `;
 
