@@ -4,8 +4,8 @@ import Uploader from "./Uploader";
 import SuccessButton from "../universal/SuccessButton";
 import { bulkResize } from "../../utils/photo";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import gql from "graphql-tag";
 import { toast } from "react-toastify";
+import gql from "graphql-tag";
 import PropTypes from "prop-types";
 
 const Container = styled.div`
@@ -120,6 +120,7 @@ const AddPhotos = ({ match }) => {
     const onUpload = async () => {
         const galleryId = parseInt(match.params.id);
         const res = await bulkResize(pictures);
+        console.log({ files: res, galleryId });
         uploadFile({ variables: { files: res, galleryId } });
     };
 
