@@ -18,6 +18,11 @@ const uploadLink = createUploadLink({
     uri: "/graphql",
     headers: {
         "x-auth-token": localStorage.getItem("token")
+    },
+    fetchOptions: {
+        onProgress: (progress) => {
+            console.log(progress);
+        }
     }
 });
 

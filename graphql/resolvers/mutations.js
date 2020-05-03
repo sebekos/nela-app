@@ -1,8 +1,7 @@
 const { News, Reunion, FamilyNews, Gallery } = require("../../sequelize");
 const { AuthenticationError } = require("apollo-server");
-const multiparty = require("multiparty");
+const { createWriteStream } = require("fs");
 const path = require("path");
-const fs = require("fs");
 
 module.exports = {
     Mutation: {
@@ -23,7 +22,7 @@ module.exports = {
                 return news.dataValues;
             } catch (err) {
                 console.log(err);
-                throw new AuthenticationError("Server Error");
+                throw new Error("Server Error");
             }
         },
         updateNews: async (obj, args, context, info) => {
@@ -42,7 +41,7 @@ module.exports = {
                 return news.dataValues;
             } catch (err) {
                 console.log(err);
-                throw new AuthenticationError("Server Error");
+                throw new Error("Server Error");
             }
         },
         addReunion: async (obj, args, context, info) => {
@@ -62,7 +61,7 @@ module.exports = {
                 return reunion.dataValues;
             } catch (err) {
                 console.log(err);
-                throw new AuthenticationError("Server Error");
+                throw new Error("Server Error");
             }
         },
         updateReunion: async (obj, args, context, info) => {
@@ -81,7 +80,7 @@ module.exports = {
                 return reunion.dataValues;
             } catch (err) {
                 console.log(err);
-                throw new AuthenticationError("Server Error");
+                throw new Error("Server Error");
             }
         },
         addFamilyNews: async (obj, args, context, info) => {
@@ -101,7 +100,7 @@ module.exports = {
                 return familynews.dataValues;
             } catch (err) {
                 console.log(err);
-                throw new AuthenticationError("Server Error");
+                throw new Error("Server Error");
             }
         },
         updateFamilyNews: async (obj, args, context, info) => {
@@ -120,7 +119,7 @@ module.exports = {
                 return familynews.dataValues;
             } catch (err) {
                 console.log(err);
-                throw new AuthenticationError("Server Error");
+                throw new Error("Server Error");
             }
         },
         addGallery: async (obj, args, context, info) => {
@@ -140,7 +139,7 @@ module.exports = {
                 return gallery.dataValues;
             } catch (err) {
                 console.log(err);
-                throw new AuthenticationError("Server Error");
+                throw new Error("Server Error");
             }
         },
         updateGallery: async (obj, args, context, info) => {
@@ -159,41 +158,42 @@ module.exports = {
                 return gallery.dataValues;
             } catch (err) {
                 console.log(err);
-                throw new AuthenticationError("Server Error");
+                throw new Error("Server Error");
             }
         },
         singleUpload: async (_, { file }, context) => {
-            // const form = new multiparty.Form();
-            // form.parse(context.req, async (error, fields, files) => {
-            //     if (error) throw new AuthenticationError(error);
-            //     try {
-            //         Object.keys(files).map((photo) => {
-            //             console.log(photo);
-            //             let path = files[photo][0].path;
-            //             let buffer = fs.readFileSync(path);
-            //             console.log(path);
-            //         });
-            //     } catch (error) {
-            //         console.log(error);
-            //     }
-            // });
-            // const fileData = await file;
-            // console.log(fileData);
-            // console.log("here");
-            // console.log(filename);
-            // console.log(__dirname);
-
+            const { createReadStream, filename, mimetype } = await file;
             await new Promise((res) => {
                 try {
                     createReadStream()
                         .pipe(createWriteStream(path.join(__dirname, "../../images", filename)))
                         .on("close", res);
                 } catch (error) {
-                    console.log("error");
                     console.log(error);
-                    return false;
+                    throw new Error("Server Error");
                 }
             });
+            return true;
+        },
+        multiUpload: async (_, { files, galleryId }, context) => {
+            const totalPhotos = Object.keys(files).length;
+            if (totalPhotos < 1 || totalPhotos > 50) {
+                throw new Error(`50 photo max, currently at ${totalPhotos}`);
+            }
+            for (let i = 0; i < totalPhotos; i++) {
+                const { createReadStream, filename, mimetype } = await files[i];
+                await new Promise((res) => {
+                    try {
+                        createReadStream()
+                            .pipe(createWriteStream(path.join(__dirname, "../../images", `${galleryId}-${i}.jpeg`)))
+                            .on("close", res);
+                    } catch (error) {
+                        console.log("error");
+                        console.log(error);
+                        throw new Error("Server Error");
+                    }
+                });
+            }
             return true;
         }
     }

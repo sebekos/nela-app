@@ -117,18 +117,10 @@ const AddPhotos = ({ match }) => {
         }
     };
 
-    const onUpload = async (e) => {
-        const file = pictures[0];
-        console.log(file);
-        uploadFile({ variables: { file } });
-        // let res = await bulkResize(pictures);
-        // let formData = new FormData();
-        // formData.append("group", match.params.id);
-        // res.forEach((photo, index) => {
-        //     console.log("Adding photo - " + index);
-        //     formData.append(`photo-${index}`, photo);
-        // });
-        // uploadFile({ variables: { file: formData } });
+    const onUpload = async () => {
+        const galleryId = parseInt(match.params.id);
+        const res = await bulkResize(pictures);
+        uploadFile({ variables: { files: res, galleryId } });
     };
 
     return (
@@ -154,11 +146,9 @@ const GALLERY_QUERY = gql`
     }
 `;
 
-// https://medium.com/@enespalaz/file-upload-with-graphql-9a4927775ef7
-
 const UPLOAD_QUERY = gql`
-    mutation SingleUpload($file: Upload!) {
-        singleUpload(file: $file)
+    mutation MultiUpload($files: [Upload!]!, $galleryId: Int!) {
+        multiUpload(files: $files, galleryId: $galleryId)
     }
 `;
 

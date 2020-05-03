@@ -7,5 +7,6 @@ type File {
 
 extend type Mutation {
     singleUpload(file: Upload!): Boolean!
+    multiUpload(files: [Upload!]!, galleryId: Int!): Boolean!
 }
 `;
