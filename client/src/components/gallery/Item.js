@@ -7,7 +7,7 @@ const Container = styled.div`
     max-width: 350px;
     padding: 0;
     color: #333;
-    margin: 1rem auto;
+    margin: 1rem auto 0;
     -webkit-box-shadow: 1px 1px 3px 2px #ccc;
     -moz-box-shadow: 1px 1px 3px 2px #ccc;
     box-shadow: 1px 1px 3px 2px #ccc;
@@ -22,7 +22,10 @@ const TitleText = styled.div`
 `;
 
 const BodyText = styled.div`
-    font-size: 1rem;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 `;
 
 const DateText = styled.div`
@@ -33,7 +36,6 @@ const DateText = styled.div`
 const ImageContainer = styled.div`
     height: 200px;
     overflow: hidden;
-    border: 1px solid grey;
 `;
 
 const ImageSrc = styled.img`

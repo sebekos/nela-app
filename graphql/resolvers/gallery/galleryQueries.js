@@ -14,7 +14,7 @@ module.exports = {
                 WHERE id IN(
                     SELECT DISTINCT MP.key FROM main.photos AS MP
                 )
-                ORDER BY createdAt ASC;
+                ORDER BY createdAt DESC;
             `);
             const returnStuff = {
                 id: "galleries",
@@ -37,7 +37,7 @@ module.exports = {
                 (SELECT link_thumb FROM main.photos AS MP WHERE MP.key = MG.id LIMIT 1) AS thumb_1
                 FROM main.galleries AS MG
                 WHERE deleted = 0
-                ORDER BY createdAt ASC;
+                ORDER BY createdAt DESC;
             `);
             const returnStuff = {
                 id: "galleries",

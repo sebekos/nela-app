@@ -13,11 +13,18 @@ import { errorHandler } from "./utils/errors";
 import "react-toastify/dist/ReactToastify.min.css";
 
 const cache = new InMemoryCache({});
+
+const middlewareLink = new ApolloLink((operation, forward) => {
+    operation.setContext({
+        headers: {
+            "x-auth-token": localStorage.getItem("token") || null
+        }
+    });
+    return forward(operation);
+});
+
 const uploadLink = createUploadLink({
     uri: "/graphql",
-    headers: {
-        "x-auth-token": localStorage.getItem("token")
-    },
     fetchOptions: {
         onProgress: (progress) => {
             console.log(progress);
@@ -30,7 +37,7 @@ const errorLink = new ErrorLink(({ graphQLErrors, networkError }) => {
 });
 
 const client = new ApolloClient({
-    link: ApolloLink.from([errorLink, uploadLink]),
+    link: ApolloLink.from([middlewareLink, errorLink, uploadLink]),
     cache,
     resolvers
 });
