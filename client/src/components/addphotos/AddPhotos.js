@@ -7,6 +7,7 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 import { toast } from "react-toastify";
 import gql from "graphql-tag";
 import PropTypes from "prop-types";
+import axios from "axios";
 
 const Container = styled.div`
     max-width: 1100px;
@@ -118,10 +119,28 @@ const AddPhotos = ({ match }) => {
     };
 
     const onUpload = async () => {
-        const galleryId = parseInt(match.params.id);
-        const res = await bulkResize(pictures);
-        console.log({ variables: { files: res, galleryId } });
-        uploadFile({ variables: { files: res, galleryId } });
+        let res = await bulkResize(pictures);
+        console.log(res);
+        let formData = new FormData();
+        formData.append("galleryId", match.params.id);
+        res.map((photo, index) => {
+            formData.append(`reg-${index}`, photo.reg);
+            formData.append(`thumb-${index}`, photo.thumbnail);
+        });
+        const resData = await axios.post(`/upload`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data"
+            },
+            onUploadProgress: (progressEvent) => {
+                const { loaded, total } = progressEvent;
+                console.log(loaded);
+            }
+        });
+        // await uploadPhotos(formData);
+        // const galleryId = parseInt(match.params.id);
+        // const res = await bulkResize(pictures);
+        // console.log({ variables: { files: res, galleryId } });
+        // uploadFile({ variables: { files: res, galleryId } });
     };
 
     return (
