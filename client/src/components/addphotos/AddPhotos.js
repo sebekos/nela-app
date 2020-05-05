@@ -3,8 +3,7 @@ import styled from "styled-components";
 import Uploader from "./Uploader";
 import SuccessButton from "../universal/SuccessButton";
 import { bulkResize } from "../../utils/photo";
-import { useQuery, useMutation } from "@apollo/react-hooks";
-import { toast } from "react-toastify";
+import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import PropTypes from "prop-types";
 import axios from "axios";
@@ -96,13 +95,6 @@ const AddPhotos = ({ match }) => {
     const [pictures, setPictures] = useState([]);
     const [uploadBtn, setUploadBtn] = useState(false);
 
-    const [uploadFile] = useMutation(UPLOAD_QUERY, {
-        onError: (err) => console.log(err),
-        onCompleted: () => {
-            toast.success("Files uploaded");
-        }
-    });
-
     const { loading, error, data } = useQuery(GALLERY_QUERY, {
         variables: {
             filter: parseInt(match.params.id)
@@ -120,27 +112,21 @@ const AddPhotos = ({ match }) => {
 
     const onUpload = async () => {
         let res = await bulkResize(pictures);
-        console.log(res);
         let formData = new FormData();
         formData.append("galleryId", match.params.id);
-        res.map((photo, index) => {
+        res.forEach((photo, index) => {
             formData.append(`reg-${index}`, photo.reg);
             formData.append(`thumb-${index}`, photo.thumbnail);
         });
-        const resData = await axios.post(`/upload`, formData, {
+        await axios.post(`/upload`, formData, {
             headers: {
                 "Content-Type": "multipart/form-data"
             },
             onUploadProgress: (progressEvent) => {
                 const { loaded, total } = progressEvent;
-                console.log(loaded);
+                console.log(`${loaded}/${total}`);
             }
         });
-        // await uploadPhotos(formData);
-        // const galleryId = parseInt(match.params.id);
-        // const res = await bulkResize(pictures);
-        // console.log({ variables: { files: res, galleryId } });
-        // uploadFile({ variables: { files: res, galleryId } });
     };
 
     return (
@@ -163,12 +149,6 @@ const GALLERY_QUERY = gql`
             text
             createdAt
         }
-    }
-`;
-
-const UPLOAD_QUERY = gql`
-    mutation GalleryUpload($files: [GalleryUpload!]!, $galleryId: Int!) {
-        galleryUpload(files: $files, galleryId: $galleryId)
     }
 `;
 
