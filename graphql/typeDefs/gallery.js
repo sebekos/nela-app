@@ -29,11 +29,6 @@ type File {
     encoding: String!
 }
 
-input GalleryUpload{
-    reg: Upload!
-    thumbnail: Upload!
-}
-
 type Photo {
     id: Int!
     key: Int!
@@ -54,6 +49,5 @@ extend type Query {
 extend type Mutation {
     addGallery(galleryInput: GalleryInput): Gallery
     updateGallery(updateGalleryInput: UpdateGalleryInput): Gallery
-    galleryUpload(files: [GalleryUpload!]!, galleryId: Int!): Boolean!
 }
 `;

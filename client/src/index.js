@@ -6,7 +6,7 @@ import resolvers from "./graphql/resolvers";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloLink } from "apollo-link";
-import { createUploadLink } from "apollo-upload-client";
+import { createHttpLink } from "apollo-link-http";
 import { ErrorLink } from "apollo-link-error";
 import { ToastContainer } from "react-toastify";
 import { errorHandler } from "./utils/errors";
@@ -23,13 +23,8 @@ const middlewareLink = new ApolloLink((operation, forward) => {
     return forward(operation);
 });
 
-const uploadLink = createUploadLink({
-    uri: "/graphql",
-    fetchOptions: {
-        onProgress: (progress) => {
-            console.log(progress);
-        }
-    }
+const httpLink = createHttpLink({
+    uri: "/graphql"
 });
 
 const errorLink = new ErrorLink(({ graphQLErrors, networkError }) => {
@@ -37,7 +32,7 @@ const errorLink = new ErrorLink(({ graphQLErrors, networkError }) => {
 });
 
 const client = new ApolloClient({
-    link: ApolloLink.from([middlewareLink, errorLink, uploadLink]),
+    link: ApolloLink.from([middlewareLink, errorLink, httpLink]),
     cache,
     resolvers
 });
