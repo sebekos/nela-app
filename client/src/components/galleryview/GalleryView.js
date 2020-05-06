@@ -10,13 +10,14 @@ import timeFormat from "../../utils/timeFormat";
 
 const Container = styled.div`
     max-width: 1000px;
-    margin: auto;
+    margin: 0 auto 2rem;
     padding: 6rem 0 0;
     min-height: 100vh;
 `;
 
 const InfoContainer = styled.div`
     max-width: 400px;
+    margin: 2rem;
 `;
 
 const TitleText = styled.div`
@@ -25,6 +26,7 @@ const TitleText = styled.div`
 
 const BodyText = styled.div`
     font-size: 1rem;
+    padding: 1rem 0;
 `;
 
 const DateText = styled.div`
