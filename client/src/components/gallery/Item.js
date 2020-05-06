@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import timeFormat from "../../utils/timeFormat";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
     max-width: 350px;
@@ -59,12 +60,14 @@ Image.propTypes = {
 const Item = ({ data: { id, title, text, createdAt, thumb_1 } }) => {
     return (
         <Container>
-            <Image thumb_1={thumb_1} id={id} />
-            <TextContainer>
-                <TitleText>{title}</TitleText>
-                <BodyText>{text}</BodyText>
-                <DateText>{timeFormat(createdAt / 1000)}</DateText>
-            </TextContainer>
+            <Link to={`/galeria/${id}`} style={{ textDecoration: "none", color: "#333" }}>
+                <Image thumb_1={thumb_1} id={id} />
+                <TextContainer>
+                    <TitleText>{title}</TitleText>
+                    <BodyText>{text}</BodyText>
+                    <DateText>{timeFormat(createdAt / 1000)}</DateText>
+                </TextContainer>
+            </Link>
         </Container>
     );
 };

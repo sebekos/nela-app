@@ -20,6 +20,7 @@ import ReunionAddEdit from "./components/reunion-add-edit/ReunionAddEdit";
 import FamilyNewsAddEdit from "./components/familynews-add-edit/FamilyNewsAddEdit";
 import GalleryAddEdit from "./components/gallery-add-edit/GalleryAddEdit";
 import AddPhotos from "./components/addphotos/AddPhotos";
+import GalleryView from "./components/galleryview/GalleryView";
 import "./App.css";
 
 const App = () => {
@@ -37,6 +38,7 @@ const App = () => {
                 <Route exact path="/historia" component={History} />
                 <Route exact path="/zjazdy" component={Reunion} />
                 <Route exact path="/galeria" component={Gallery} />
+                <Route exact path="/galeria/:id" component={GalleryView} />
                 <Route exact path="/wiesci" component={FamilyNews} />
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
                 <PrivateRoute exact path="/newsaddedit" component={NewsAddEdit} />

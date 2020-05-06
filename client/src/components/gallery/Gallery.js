@@ -2,8 +2,8 @@ import React from "react";
 import Item from "./Item";
 import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
-import gql from "graphql-tag";
 import { uuid } from "uuidv4";
+import gql from "graphql-tag";
 import PropTypes from "prop-types";
 
 const Container = styled.div`
