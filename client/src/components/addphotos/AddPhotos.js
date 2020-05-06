@@ -118,15 +118,19 @@ const AddPhotos = ({ match }) => {
             formData.append(`reg-${index}`, photo.reg);
             formData.append(`thumb-${index}`, photo.thumbnail);
         });
-        await axios.post(`/upload`, formData, {
-            headers: {
-                "Content-Type": "multipart/form-data"
-            },
-            onUploadProgress: (progressEvent) => {
-                const { loaded, total } = progressEvent;
-                console.log(`${loaded}/${total}`);
-            }
-        });
+        await axios
+            .post(`/upload`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                },
+                onUploadProgress: (progressEvent) => {
+                    const { loaded, total } = progressEvent;
+                    console.log(`${loaded}/${total}`);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
 
     return (
