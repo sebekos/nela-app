@@ -4,6 +4,7 @@ import Uploader from "./Uploader";
 import SuccessButton from "../universal/SuccessButton";
 import { bulkResize } from "../../utils/photo";
 import { useQuery } from "@apollo/react-hooks";
+import { toast } from "react-toastify";
 import gql from "graphql-tag";
 import PropTypes from "prop-types";
 import axios from "axios";
@@ -127,6 +128,9 @@ const AddPhotos = ({ match }) => {
                     const { loaded, total } = progressEvent;
                     console.log(`${loaded}/${total}`);
                 }
+            })
+            .then(() => {
+                toast.success("Photos uploaded");
             })
             .catch((err) => {
                 console.log(err);

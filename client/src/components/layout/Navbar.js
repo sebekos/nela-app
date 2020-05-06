@@ -100,7 +100,6 @@ const Navbar = () => {
 
     const onNav = (e) => {
         setCurrMenu(e.target.getAttribute("route"));
-        window.scrollTo(0, 0);
     };
 
     return (

@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import timeFormat from "../../../utils/timeFormat";
 
 const Container = styled.div`
-    max-width: 800px;
+    width: 500px;
     padding: 0.5rem;
     color: #333;
     margin: 1rem auto;

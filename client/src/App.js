@@ -21,12 +21,14 @@ import FamilyNewsAddEdit from "./components/familynews-add-edit/FamilyNewsAddEdi
 import GalleryAddEdit from "./components/gallery-add-edit/GalleryAddEdit";
 import AddPhotos from "./components/addphotos/AddPhotos";
 import GalleryView from "./components/galleryview/GalleryView";
+import ScrollToTop from "./utils/scrollToTop";
 import "./App.css";
 
 const App = () => {
     useQuery(LOAD_USER_QUERY);
     return (
         <Router>
+            <ScrollToTop />
             <Navbar />
             <Switch>
                 <Route exact path="/" component={MainPage} />

@@ -6,7 +6,7 @@ input GalleryInput {
 
 input UpdateGalleryInput {
     id: Int!
-    title: Int!
+    title: String!
     text: String!
 }
 

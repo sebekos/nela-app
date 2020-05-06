@@ -122,12 +122,12 @@ Buttons.propTypes = {
 };
 
 const AddEditItem = ({ data }) => {
-    const [updateNews] = useMutation(UPDATE_NEWS_QUERY, {
-        onError: (errors) => {
-            errors.graphQLErrors.forEach((error) => toast.error(error.message));
+    const [updateGallery] = useMutation(UPDATE_GALLERY_QUERY, {
+        onError: (error) => {
+            console.log(error);
         },
         onCompleted: () => {
-            toast.success("News updated");
+            toast.success("Gallery updated");
             setEdit(false);
         }
     });
@@ -154,7 +154,7 @@ const AddEditItem = ({ data }) => {
     };
 
     const onSave = () => {
-        updateNews({
+        updateGallery({
             variables: {
                 id,
                 title: formData.title,
@@ -177,9 +177,9 @@ AddEditItem.propTypes = {
     data: PropTypes.object.isRequired
 };
 
-const UPDATE_NEWS_QUERY = gql`
-    mutation UpdateNews($id: Int!, $title: String!, $text: String!) {
-        updateNews(updateNewsInput: { id: $id, title: $title, text: $text }) {
+const UPDATE_GALLERY_QUERY = gql`
+    mutation UpdateGallery($id: Int!, $title: String!, $text: String!) {
+        updateGallery(updateGalleryInput: { id: $id, title: $title, text: $text }) {
             id
             title
             text

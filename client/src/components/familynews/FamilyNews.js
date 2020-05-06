@@ -8,7 +8,7 @@ import { useQuery } from "@apollo/react-hooks";
 import PropTypes from "prop-types";
 
 const Container = styled.div`
-    max-width: 800px;
+    max-width: fit-content;
     margin: auto;
     padding: 4rem 0 0;
     min-height: 100vh;

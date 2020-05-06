@@ -8,16 +8,26 @@ import { useLazyQuery, useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 
 const Container = styled.div`
-    max-width: 1100px;
+    max-width: fit-content;
     margin: auto;
     padding: 4rem 0 0;
     min-height: 100vh;
 `;
 
+const MainTitle = styled.div`
+    font-size: 3rem;
+    color: #3e4444;
+    text-align: center;
+    padding: 0rem 0 1rem;
+    width: 100%;
+    background-color: white;
+    font-weight: bold;
+`;
+
 const FormContainer = styled.form`
     padding: 1rem;
     margin: 5rem auto;
-    max-width: 400px;
+    width: 400px;
     -webkit-box-shadow: 1px 1px 3px 2px #ccc;
     -moz-box-shadow: 1px 1px 3px 2px #ccc;
     box-shadow: 1px 1px 3px 2px #ccc;
@@ -92,6 +102,7 @@ const Login = () => {
 
     return (
         <Container>
+            <MainTitle>Login</MainTitle>
             <FormContainer onSubmit={onSubmitHandler}>
                 <InputsContainer onChangeHandler={onChangeHandler} onSubmitHandler={onSubmitHandler} email={email} password={password} />
             </FormContainer>
