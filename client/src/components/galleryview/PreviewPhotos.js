@@ -14,6 +14,7 @@ const ImageContainer = styled.div`
     height: 150px;
     overflow: hidden;
     width: fit-content;
+    cursor: pointer;
 `;
 
 const ImageSrc = styled.img`
@@ -23,9 +24,9 @@ const ImageSrc = styled.img`
     object-fit: cover;
 `;
 
-const Image = ({ link_thumb, galId }) => {
+const Image = ({ link_thumb, galId, onClickThumbnail }) => {
     return (
-        <ImageContainer>
+        <ImageContainer onClick={onClickThumbnail}>
             <ImageSrc src={`/images/gallery/${galId}/${link_thumb}`} alt="photo" />
         </ImageContainer>
     );
@@ -33,15 +34,16 @@ const Image = ({ link_thumb, galId }) => {
 
 Image.propTypes = {
     link_thumb: PropTypes.string.isRequired,
-    galId: PropTypes.number
+    galId: PropTypes.number,
+    onClickThumbnail: PropTypes.func.isRequired
 };
 
-const PhotoSetup = ({ photos }) => {
+const PreviewPhotos = ({ onClickThumbnail, photos }) => {
     return (
         <Container>
             {photos.map((photo) => {
                 return (
-                    <Image key={uuid()} link_thumb={photo.link_thumb} galId={photo.key}>
+                    <Image onClickThumbnail={onClickThumbnail} key={uuid()} link_thumb={photo.link_thumb} galId={photo.key}>
                         photo
                     </Image>
                 );
@@ -50,8 +52,9 @@ const PhotoSetup = ({ photos }) => {
     );
 };
 
-PhotoSetup.propTypes = {
-    photos: PropTypes.array.isRequired
+PreviewPhotos.propTypes = {
+    photos: PropTypes.array.isRequired,
+    onClickThumbnail: PropTypes.func.isRequired
 };
 
-export default PhotoSetup;
+export default PreviewPhotos;

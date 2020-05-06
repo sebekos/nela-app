@@ -1,7 +1,7 @@
 import React from "react";
 import ApError from "../universal/ApError";
 import ApLoading from "../universal/ApLoading";
-import PhotoSetup from "./PhotoSetup";
+import PhotoViewer from "./PhotoViewer";
 import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
@@ -53,7 +53,6 @@ const GalleryView = ({ match }) => {
             filter: parseInt(match.params.id)
         }
     });
-    console.log(data);
     return (
         <Container>
             {!loading && error ? <ApError /> : null}
@@ -61,7 +60,7 @@ const GalleryView = ({ match }) => {
             {!loading && data.gallery ? (
                 <Info title={data.gallery.title} text={data.gallery.text} createdAt={data.gallery.createdAt} />
             ) : null}
-            {!loading && data.photos && data.photos && data.photos.length > 0 ? <PhotoSetup photos={data.photos} /> : null}
+            {!loading && data.photos && data.photos && data.photos.length > 0 ? <PhotoViewer photos={data.photos} /> : null}
         </Container>
     );
 };
