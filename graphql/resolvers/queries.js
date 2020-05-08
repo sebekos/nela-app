@@ -3,6 +3,7 @@ const news = require("./news/newsQueries");
 const reunion = require("./reunion/reunionQueries");
 const familynews = require("./familynews/familynewsQueries");
 const gallery = require("./gallery/galleryQueries");
+const person = require("./person/personQueries");
 
 module.exports = {
     Query: {
@@ -10,6 +11,7 @@ module.exports = {
         ...news,
         ...reunion,
         ...familynews,
-        ...gallery
+        ...gallery,
+        ...person
     }
 };

@@ -1,18 +1,14 @@
-const { FamilyNews } = require("../../../sequelize");
+const { Person } = require("../../../sequelize");
 const { Op } = require("sequelize");
 
 module.exports = {
-    familynews: async (_, args) => {
+    person: async (_, args) => {
         try {
-            const returnData = await FamilyNews.findAll({
+            const returnData = await Person.findOne({
                 where: { type: args.filter ? args.filter : { [Op.ne]: 0 } },
                 order: [["createdAt", "DESC"]]
             });
-            const returnStuff = {
-                id: "familynews",
-                familynews: returnData
-            };
-            return returnStuff;
+            return returnData;
         } catch (error) {
             console.log(error);
             throw new Error("News data error");
