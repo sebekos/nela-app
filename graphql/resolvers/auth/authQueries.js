@@ -23,8 +23,7 @@ module.exports = {
             const decoded = jwt.decode(token);
             return { id: "auth", isAuth: true, userId: decoded.userId, token: token, tokenExpiration: decoded.exp };
         } catch (error) {
-            console.log(error);
-            throw new Error("Server Error");
+            throw new AuthenticationError(error);
         }
     }
 };

@@ -18,8 +18,7 @@ module.exports = {
             const familynews = await FamilyNews.create(familyNewsFields);
             return familynews;
         } catch (err) {
-            console.log(err);
-            throw new Error("Server Error");
+            throw new Error(err);
         }
     },
     updateFamilyNews: async (obj, args, context, info) => {
@@ -37,8 +36,7 @@ module.exports = {
             familynews = await FamilyNews.findOne({ where: { id } });
             return familynews;
         } catch (err) {
-            console.log(err);
-            throw new Error("Server Error");
+            throw new Error(err);
         }
     }
 };

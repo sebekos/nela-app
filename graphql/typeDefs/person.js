@@ -39,5 +39,6 @@ extend type Query {
 extend type Mutation {
     addPerson(personInput: PersonInput): Person
     updatePerson(updatePersonInput: UpdatePersonInput): Person
+    deletePerson(id: Int!): Boolean!
 }
 `;

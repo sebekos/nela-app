@@ -10,8 +10,7 @@ module.exports = {
             };
             return returnStuff;
         } catch (error) {
-            console.log(error);
-            throw new Error("Reunion data error");
+            throw new Error(err);
         }
     }
 };

@@ -22,8 +22,7 @@ module.exports = {
             };
             return returnStuff;
         } catch (error) {
-            console.log(error);
-            throw new Error("News data error");
+            throw new Error(err);
         }
     },
     galleries: async () => {
@@ -45,8 +44,7 @@ module.exports = {
             };
             return returnStuff;
         } catch (error) {
-            console.log(error);
-            throw new Error("News data error");
+            throw new Error(err);
         }
     },
     gallery: async (_, args) => {
@@ -57,8 +55,7 @@ module.exports = {
             returnData["photos"] = photosData;
             return returnData;
         } catch (error) {
-            console.log(error);
-            throw new Error("News data error");
+            throw new Error(err);
         }
     },
     photos: async (_, args) => {
@@ -67,8 +64,7 @@ module.exports = {
             const returnData = await Photo.findAll({ where: { key: id } });
             return returnData;
         } catch (error) {
-            console.log(error);
-            throw new Error("News data error");
+            throw new Error(err);
         }
     }
 };

@@ -18,8 +18,7 @@ module.exports = {
             const gallery = await Gallery.create(galleryFields);
             return gallery;
         } catch (err) {
-            console.log(err);
-            throw new Error("Server Error");
+            throw new Error(err);
         }
     },
     updateGallery: async (obj, args, context, info) => {
@@ -37,8 +36,7 @@ module.exports = {
             gallery = await Gallery.findOne({ where: { id } });
             return gallery;
         } catch (err) {
-            console.log(err);
-            throw new Error("Server Error");
+            throw new Error(err);
         }
     }
 };

@@ -18,8 +18,7 @@ module.exports = {
             const reunion = await Reunion.create(reunionFields);
             return reunion;
         } catch (err) {
-            console.log(err);
-            throw new Error("Server Error");
+            throw new Error(err);
         }
     },
     updateReunion: async (obj, args, context, info) => {
@@ -37,8 +36,7 @@ module.exports = {
             reunion = await Reunion.findOne({ where: { id } });
             return reunion;
         } catch (err) {
-            console.log(err);
-            throw new Error("Server Error");
+            throw new Error(err);
         }
     }
 };

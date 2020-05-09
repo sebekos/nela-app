@@ -5,7 +5,6 @@ import styled from "styled-components";
 import GenInput from "../universal/GenInput";
 import GenTextArea from "../universal/GenTextArea";
 import PropTypes from "prop-types";
-import timeFormat from "../../utils/timeFormat";
 import { toast } from "react-toastify";
 
 const Container = styled.div`
@@ -27,11 +26,6 @@ const BodyText = styled.div`
     font-size: 1rem;
 `;
 
-const DateText = styled.div`
-    font-size: 0.7rem;
-    text-align: right;
-`;
-
 const EditText = styled.div`
     font-size: 0.7rem;
     color: blue;
@@ -42,20 +36,31 @@ const EditText = styled.div`
 const SaveText = styled.div`
     padding: 0 0.3rem 0.3rem;
     font-size: 0.7rem;
-    color: blue;
+    color: green;
     text-align: right;
     cursor: pointer;
     width: fit-content;
-    margin-left: auto;
-    margin-right: 0;
 `;
 
-const personKeys = ["first_name", "middle_name", "last_name", "birth_date", "passed_date", "link_photo", "notes"];
+const CancelText = styled(SaveText)`
+    color: #333;
+`;
+
+const DeleteText = styled(SaveText)`
+    color: red;
+`;
+
+const SaveEditDeleteContainer = styled.div`
+    display: flex;
+    margin-left: auto;
+    margin-right: 0;
+    width: fit-content;
+`;
 
 const ShowContainer = ({ first_name, middle_name, last_name, birth_date, passed_date, notes, onEdit }) => {
     return (
         <>
-            <EditText onClick={onEdit}>Edit Information</EditText>
+            <EditText onClick={onEdit}>Edit Person</EditText>
             <TitleText>{first_name}</TitleText>
             <TitleText>{middle_name}</TitleText>
             <TitleText>{last_name}</TitleText>
@@ -76,10 +81,14 @@ ShowContainer.propTypes = {
     onEdit: PropTypes.func.isRequired
 };
 
-const EditContainer = ({ first_name, middle_name, last_name, birth_date, passed_date, notes, onSave, onChange }) => {
+const EditContainer = ({ first_name, middle_name, last_name, birth_date, passed_date, notes, onSave, onChange, onEdit, onDelete }) => {
     return (
         <>
-            <SaveText onClick={onSave}>Save</SaveText>
+            <SaveEditDeleteContainer>
+                <SaveText onClick={onSave}>Save</SaveText>
+                <CancelText onClick={onEdit}>Cancel</CancelText>
+                <DeleteText onClick={onDelete}>Delete</DeleteText>
+            </SaveEditDeleteContainer>
             <GenInput autoComplete="off" placeholder="First Name" name="first_name" onChange={onChange} value={first_name} type="text" />
             <GenInput autoComplete="off" placeholder="Middle Name" name="middle_name" onChange={onChange} value={middle_name} type="text" />
             <GenInput autoComplete="off" placeholder="Last Name" name="last_name" onChange={onChange} value={last_name} type="text" />
@@ -98,7 +107,9 @@ EditContainer.propTypes = {
     passed_date: PropTypes.string,
     notes: PropTypes.string,
     onSave: PropTypes.func.isRequired,
-    onChange: PropTypes.func.isRequired
+    onChange: PropTypes.func.isRequired,
+    onEdit: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired
 };
 
 const Item = ({ data }) => {
@@ -110,15 +121,23 @@ const Item = ({ data }) => {
         }
     });
 
+    const [deletePerson] = useMutation(DELETE_PERSON_QUERY, {
+        onError: (errors) => console.log(errors),
+        onCompleted: () => {
+            toast.success("Person deleted");
+            setEdit(false);
+        }
+    });
+
     const [edit, setEdit] = useState(false);
 
     const [formData, setFormData] = useState({
-        first_name: data.first_name,
-        middle_name: data.middle_name,
+        first_name: data.first_name ? data.first_name : "",
+        middle_name: data.middle_name ? data.middle_name : "",
         last_name: data.last_name,
-        birth_date: data.birth_date,
-        passed_date: data.passed_date,
-        notes: data.notes
+        birth_date: data.birth_date ? data.birth_date : "",
+        passed_date: data.passed_date ? data.passed_date : "",
+        notes: data.notes ? data.notes : ""
     });
 
     const { first_name, middle_name, last_name, birth_date, passed_date, notes } = formData;
@@ -131,11 +150,16 @@ const Item = ({ data }) => {
     };
 
     const onEdit = () => {
-        setEdit(true);
+        setEdit(!edit);
     };
 
     const onSave = () => {
         updatePerson({ variables: { first_name, middle_name, last_name, birth_date, passed_date, notes } });
+    };
+
+    const onDelete = () => {
+        console.log("Delete");
+        deletePerson({ variables: { id: parseInt(data.id) } });
     };
 
     return (
@@ -150,6 +174,8 @@ const Item = ({ data }) => {
                     notes={notes}
                     onSave={onSave}
                     onChange={onChange}
+                    onEdit={onEdit}
+                    onDelete={onDelete}
                 />
             ) : null}
             {!edit ? (
@@ -163,7 +189,6 @@ const Item = ({ data }) => {
                     onEdit={onEdit}
                 />
             ) : null}
-            <DateText>{timeFormat(data.createdAt / 1000)}</DateText>
         </Container>
     );
 };
@@ -199,6 +224,12 @@ const UPDATE_PERSON_QUERY = gql`
             passed_date
             notes
         }
+    }
+`;
+
+const DELETE_PERSON_QUERY = gql`
+    mutation($id: Int!) {
+        deletePerson(id: $id)
     }
 `;
 

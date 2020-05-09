@@ -14,8 +14,7 @@ module.exports = {
             };
             return returnStuff;
         } catch (error) {
-            console.log(error);
-            throw new Error("News data error");
+            throw new Error(err);
         }
     }
 };

@@ -15,11 +15,9 @@ const personKeys = [
 
 module.exports = {
     addPerson: async (obj, args, context, info) => {
-        // if (!context.isAuth) {
-        //     throw new AuthenticationError("Unauthenticated!");
-        // }
-        console.log(context);
-        console.log(args);
+        if (!context.isAuth) {
+            throw new AuthenticationError("Unauthenticated!");
+        }
         const userInputs = args.personInput;
         const personFields = personKeys.reduce((memo, val) => {
             if (userInputs[val]) memo[val] = userInputs[val];
@@ -27,13 +25,11 @@ module.exports = {
         }, {});
         personFields.lastUser = context.userId;
         personFields.createdUser = context.userId;
-
         try {
             const person = await Person.create(personFields);
             return person;
         } catch (err) {
-            console.log(err);
-            throw new Error("Server Error");
+            throw new Error(err);
         }
     },
     updatePerson: async (obj, args, context, info) => {
@@ -46,13 +42,28 @@ module.exports = {
             return memo;
         }, {});
         personFields.lastUser = context.userId;
-
         try {
             const person = await Person.update(personFields);
             return person;
         } catch (err) {
+            throw new Error(err);
+        }
+    },
+    deletePerson: async (obj, args, context, info) => {
+        console.log(args);
+        if (!context.isAuth) {
+            throw new AuthenticationError("Unauthenticated!");
+        }
+        const id = args.id;
+        const personFields = {
+            deleted: 1
+        };
+        try {
+            await Person.update(personFields, { where: { id } });
+            return true;
+        } catch (err) {
             console.log(err);
-            throw new Error("Server Error");
+            throw new Error(err);
         }
     }
 };

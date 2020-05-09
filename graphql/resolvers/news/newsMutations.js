@@ -18,8 +18,7 @@ module.exports = {
             const news = await News.create(newsFields);
             return news;
         } catch (err) {
-            console.log(err);
-            throw new Error("Server Error");
+            throw new Error(err);
         }
     },
     updateNews: async (obj, args, context, info) => {
@@ -37,8 +36,7 @@ module.exports = {
             news = await News.findOne({ where: { id } });
             return news;
         } catch (err) {
-            console.log(err);
-            throw new Error("Server Error");
+            throw new Error(err);
         }
     }
 };
