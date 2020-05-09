@@ -21,6 +21,7 @@ import FamilyNewsAddEdit from "./components/familynews-add-edit/FamilyNewsAddEdi
 import GalleryAddEdit from "./components/gallery-add-edit/GalleryAddEdit";
 import AddPhotos from "./components/addphotos/AddPhotos";
 import GalleryView from "./components/galleryview/GalleryView";
+import PersonAddEdit from "./components/person-add-edit/PersonAddEdit";
 import ScrollToTop from "./utils/scrollToTop";
 import "./App.css";
 
@@ -43,6 +44,7 @@ const App = () => {
                 <Route exact path="/galeria/:id" component={GalleryView} />
                 <Route exact path="/wiesci" component={FamilyNews} />
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
+                <PrivateRoute exact path="/personaddedit" component={PersonAddEdit} />
                 <PrivateRoute exact path="/newsaddedit" component={NewsAddEdit} />
                 <PrivateRoute exact path="/reunionaddedit" component={ReunionAddEdit} />
                 <PrivateRoute exact path="/familynewsaddedit" component={FamilyNewsAddEdit} />

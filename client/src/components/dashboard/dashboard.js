@@ -40,6 +40,9 @@ const WiesciButton = styled(PrimaryButton)`
 const Buttons = () => {
     return (
         <ButtonsContainer>
+            <Link to="personaddedit">
+                <WiesciButton>Rodzina</WiesciButton>
+            </Link>
             <Link to="newsaddedit">
                 <NewsyButton>Newsy</NewsyButton>
             </Link>

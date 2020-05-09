@@ -76,12 +76,6 @@ const Login = () => {
 
     const onSubmitHandler = (e) => {
         e.preventDefault();
-        console.log({
-            variables: {
-                email,
-                password
-            }
-        });
         login({
             variables: {
                 email,
