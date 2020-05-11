@@ -5,9 +5,6 @@ const typeDefs = gql`
         loaduser: Boolean!
         logout: Boolean!
     }
-    type Mutation {
-        removePerson(id: Int!): Boolean!
-    }
 `;
 
 export default typeDefs;

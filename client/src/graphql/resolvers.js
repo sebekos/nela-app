@@ -38,13 +38,6 @@ const resolvers = {
             cache.writeData({ data: { auth: data } });
             return true;
         }
-    },
-    Mutation: {
-        removePerson: (_root, variables, { cache, getCacheKey }) => {
-            console.log("Person");
-            console.log(variables);
-            return true;
-        }
     }
 };
 

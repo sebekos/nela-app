@@ -121,8 +121,8 @@ const Item = ({ data }) => {
         }
     });
 
-    const [deletePerson] = useMutation(LOCAL_REMOVE_PERSON, {
-        // refetchQueries: [{ query: LOCAL_REMOVE_PERSON }],
+    const [deletePerson] = useMutation(DELETE_PERSON_QUERY, {
+        refetchQueries: [{ query: PEOPLE_QUERY }],
         onError: (errors) => console.log(errors),
         onCompleted: () => {
             toast.success("Person deleted");
@@ -233,9 +233,17 @@ const DELETE_PERSON_QUERY = gql`
     }
 `;
 
-const LOCAL_REMOVE_PERSON = gql`
-    mutation($id: Int!) {
-        removePerson(id: $id) @client
+const PEOPLE_QUERY = gql`
+    {
+        people {
+            id
+            first_name
+            middle_name
+            last_name
+            birth_date
+            passed_date
+            notes
+        }
     }
 `;
 
