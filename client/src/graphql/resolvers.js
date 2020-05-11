@@ -22,7 +22,7 @@ const resolvers = {
                 };
                 cache.writeData({ data: { auth: data } });
             }
-            return null;
+            return true;
         },
         logout: (_root, variables, { cache, getCacheKey }) => {
             localStorage.removeItem("token");
@@ -36,7 +36,14 @@ const resolvers = {
                 __typename: "AuthData"
             };
             cache.writeData({ data: { auth: data } });
-            return null;
+            return true;
+        }
+    },
+    Mutation: {
+        removePerson: (_root, variables, { cache, getCacheKey }) => {
+            console.log("Person");
+            console.log(variables);
+            return true;
         }
     }
 };
