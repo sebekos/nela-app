@@ -1,5 +1,5 @@
 module.exports = (sequelize, type) => {
-    return sequelize.define("relation_parent", {
+    return sequelize.define("sibling", {
         id: {
             type: type.INTEGER,
             primaryKey: true,
@@ -9,7 +9,7 @@ module.exports = (sequelize, type) => {
             type: type.INTEGER,
             allowNull: false
         },
-        parent_key: {
+        sibling_key: {
             type: type.INTEGER,
             allowNull: false
         },

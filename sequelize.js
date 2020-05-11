@@ -6,10 +6,10 @@ const FamilyNewsModel = require("./models/familynews");
 const GalleryModel = require("./models/gallery");
 const PhotoModel = require("./models/photo");
 const PersonModel = require("./models/person");
-const RelateParentModel = require("./models/relation_parent");
-const RelateChildModel = require("./models/relation_child");
-const RelateSiblingModel = require("./models/relation_sibling");
-const RelateSpouseModel = require("./models/relation_spouse");
+const ParentModel = require("./models/parent");
+const ChildModel = require("./models/child");
+const SiblingModel = require("./models/sibling");
+const SpouseModel = require("./models/spouse");
 const dotenv = require("dotenv");
 require("dotenv").config();
 
@@ -27,10 +27,10 @@ const FamilyNews = FamilyNewsModel(sequelize, Sequelize);
 const Gallery = GalleryModel(sequelize, Sequelize);
 const Photo = PhotoModel(sequelize, Sequelize);
 const Person = PersonModel(sequelize, Sequelize);
-const RelateParent = RelateParentModel(sequelize, Sequelize);
-const RelateChild = RelateChildModel(sequelize, Sequelize);
-const RelateSibling = RelateSiblingModel(sequelize, Sequelize);
-const RelateSpouse = RelateSpouseModel(sequelize, Sequelize);
+const Parent = ParentModel(sequelize, Sequelize);
+const Child = ChildModel(sequelize, Sequelize);
+const Sibling = SiblingModel(sequelize, Sequelize);
+const Spouse = SpouseModel(sequelize, Sequelize);
 
 try {
     sequelize.sync();
@@ -48,9 +48,9 @@ module.exports = {
     Gallery,
     Photo,
     Person,
-    RelateParent,
-    RelateChild,
-    RelateSibling,
-    RelateSpouse,
+    Parent,
+    Child,
+    Sibling,
+    Spouse,
     sequelize
 };

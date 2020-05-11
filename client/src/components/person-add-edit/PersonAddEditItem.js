@@ -6,6 +6,7 @@ import GenInput from "../universal/GenInput";
 import GenTextArea from "../universal/GenTextArea";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
+import PersonRelations from "./personrelations/PersonRelations";
 
 const Container = styled.div`
     position: relative;
@@ -189,6 +190,7 @@ const Item = ({ data }) => {
                     onEdit={onEdit}
                 />
             ) : null}
+            <PersonRelations edit={edit} id={data.id} />
         </Container>
     );
 };
