@@ -50,13 +50,13 @@ module.exports = {
         }
     },
     deletePerson: async (obj, args, context, info) => {
-        console.log(args);
         if (!context.isAuth) {
             throw new AuthenticationError("Unauthenticated!");
         }
         const id = args.id;
         const personFields = {
-            deleted: 1
+            deleted: 1,
+            lastUser: context.userId
         };
         try {
             await Person.update(personFields, { where: { id } });

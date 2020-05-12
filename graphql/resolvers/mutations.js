@@ -3,6 +3,7 @@ const reunion = require("./reunion/reunionMutations");
 const familynews = require("./familynews/familynewsMutations");
 const gallery = require("./gallery/galleryMutations");
 const person = require("./person/personMutations");
+const parent = require("./parent/parentMutations");
 
 module.exports = {
     Mutation: {
@@ -10,6 +11,7 @@ module.exports = {
         ...reunion,
         ...familynews,
         ...gallery,
-        ...person
+        ...person,
+        ...parent
     }
 };

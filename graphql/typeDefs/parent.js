@@ -2,9 +2,6 @@ module.exports = `
 input ParentInput {
     person_key: Int!
     parent_key: Int!
-    deleted: Int!
-    createdUser: Int!
-    lastUser: Int!
 }
 
 type Parent {
@@ -13,10 +10,11 @@ type Parent {
 }
 
 extend type Query {
-    parent(filter: Int): Parent
+    parents(filter: Int): Parent
 }
 
 extend type Mutation {
     addParent(parentInput: ParentInput): Parent
+    deleteParent(id: Int!): Boolean
 }
 `;
