@@ -20,7 +20,7 @@ input UpdatePersonInput {
 }
 
 type Person {
-    id: String!
+    id: Int!
     first_name: String
     middle_name: String
     last_name: String!
@@ -31,9 +31,15 @@ type Person {
     createdAt: String!
 }
 
+type SearchResults {
+    id: String!
+    results: [Person!]
+}
+
 extend type Query {
-    person(filter: Int): Person!
+    person(filter: Int): Person
     people: [Person!]
+    searchPeople(search: String!): SearchResults!
 }
 
 extend type Mutation {

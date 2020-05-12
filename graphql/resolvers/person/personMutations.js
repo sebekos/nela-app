@@ -62,7 +62,6 @@ module.exports = {
             await Person.update(personFields, { where: { id } });
             return true;
         } catch (err) {
-            console.log(err);
             throw new Error(err);
         }
     }

@@ -1,13 +1,13 @@
-const { RelateParent } = require("../../../sequelize");
+const { Parent } = require("../../../sequelize");
 
 module.exports = {
     parents: async (_, args) => {
         try {
-            const returnData = await RelateParent.findAll({
-                where: { person_key: args.id }
+            const returnData = await Parent.findAll({
+                where: { person_key: args.filter }
             });
             return returnData;
-        } catch (error) {
+        } catch (err) {
             throw new Error(err);
         }
     }

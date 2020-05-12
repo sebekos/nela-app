@@ -10,7 +10,7 @@ type Parent {
 }
 
 extend type Query {
-    parents(filter: Int): Parent
+    parents(filter: Int): [Parent!]
 }
 
 extend type Mutation {

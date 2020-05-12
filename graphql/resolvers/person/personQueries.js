@@ -1,4 +1,4 @@
-const { Person } = require("../../../sequelize");
+const { Person, sequelize } = require("../../../sequelize");
 const { Op } = require("sequelize");
 
 module.exports = {
@@ -22,6 +22,37 @@ module.exports = {
             };
             return returnData;
         } catch (error) {
+            throw new Error(err);
+        }
+    },
+    searchPeople: async (_, args) => {
+        try {
+            const { search } = args;
+            const [results] = await sequelize.query(
+                `
+                SELECT
+                id,
+                first_name,
+                middle_name,
+                last_name,
+                birth_date,
+                passed_date
+                FROM main.people AS MP
+                WHERE MP.first_name LIKE :search AND deleted = 0
+                OR MP.middle_name LIKE :search AND deleted = 0
+                OR MP.last_name LIKE :search AND deleted = 0
+                ORDER BY MP.first_name ASC;
+                `,
+                {
+                    replacements: { search: `%${search}%` }
+                }
+            );
+            const returnStuff = {
+                id: "searchresults",
+                results: results
+            };
+            return returnStuff;
+        } catch (err) {
             throw new Error(err);
         }
     }

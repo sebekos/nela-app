@@ -13,6 +13,8 @@ const PersonRelationsContainer = styled.div`
 `;
 
 const PersonRelations = ({ edit, id }) => {
+    const { data, loading } = useQuery(PERSON_RELATIONS_QUERY);
+    console.log(data);
     return (
         <PersonRelationsContainer>
             <ParentRelation edit={edit} />
@@ -27,5 +29,18 @@ PersonRelations.propTypes = {
     edit: PropTypes.bool.isRequired,
     id: PropTypes.string.isRequired
 };
+
+const PERSON_RELATIONS_QUERY = gql`
+    query PersonData($id: Int!) {
+        person(filter: 1) {
+            id
+            first_name
+            middle_name
+            last_name
+            birth_date
+            passed_date
+        }
+    }
+`;
 
 export default PersonRelations;
