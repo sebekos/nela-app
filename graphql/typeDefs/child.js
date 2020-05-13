@@ -18,7 +18,7 @@ extend type Query {
 }
 
 extend type Mutation {
-    addChild(childInput: ChildInput): Child
+    addChild(childInput: ChildInput): Boolean
     deleteChild(id: Int!): Boolean
 }
 `;

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import GenInput from "../../universal/GenInput";
-import GenForm from "../../universal/GenForm";
-import SuccessButton from "../../universal/SuccessButton";
+import GenInput from "../universal/GenInput";
+import GenForm from "../universal/GenForm";
+import SuccessButton from "../universal/SuccessButton";
 import gql from "graphql-tag";
 import { useLazyQuery } from "@apollo/react-hooks";
 import { uuid } from "uuidv4";

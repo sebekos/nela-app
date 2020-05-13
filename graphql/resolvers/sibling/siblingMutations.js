@@ -20,7 +20,7 @@ module.exports = {
                 throw new Error("Sibling not found");
             }
             const sibling = await Sibling.create(siblingFields);
-            return sibling;
+            return true;
         } catch (err) {
             throw new Error(err);
         }

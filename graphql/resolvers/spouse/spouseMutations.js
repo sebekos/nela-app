@@ -19,8 +19,8 @@ module.exports = {
             if (!checkSpouse) {
                 throw new Error("Spouse not found");
             }
-            const spause = await Spouse.create(spouseFields);
-            return spause;
+            const spouse = await Spouse.create(spouseFields);
+            return true;
         } catch (err) {
             throw new Error(err);
         }

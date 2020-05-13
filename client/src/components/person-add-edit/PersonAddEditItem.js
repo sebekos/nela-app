@@ -152,25 +152,59 @@ const AddChild = styled(SuccessButton)`
 
 const AddSpouse = styled(SuccessButton)``;
 
-const FamilyEdit = () => {
+const FamilyEdit = ({ person_key }) => {
     const [searchPeople, { loading, data }] = useLazyQuery(SEARCH_PEOPLE_QUERY);
+
+    const [addParentMutation] = useMutation(ADD_PARENT_MUTATION, {
+        onError: (errors) => console.log(errors),
+        onCompleted: () => toast.success("Parent added")
+    });
+
+    const [addChildMutation] = useMutation(ADD_CHILD_MUTATION, {
+        onError: (errors) => console.log(errors),
+        onCompleted: () => toast.success("Child added")
+    });
+
+    const [addSiblingMutation] = useMutation(ADD_SIBLING_MUTATION, {
+        onError: (errors) => console.log(errors),
+        onCompleted: () => toast.success("Sibling added")
+    });
+
+    const [addSpouseMutation] = useMutation(ADD_SPOUSE_MUTATION, {
+        onError: (errors) => console.log(errors),
+        onCompleted: () => toast.success("Spouse added")
+    });
+
     const [search, setSearch] = useState("");
+
     const onChange = (e) => setSearch(e.target.value);
+
     const onSubmit = (e) => {
         e.preventDefault();
         searchPeople({ variables: { search } });
     };
-    const addParent = () => {
-        console.log("add parent");
+    const addParent = (e) => {
+        let parent_key = parseInt(e.target.parentElement.getAttribute("value"));
+        console.log({ variables: { person_key, parent_key } });
+        addParentMutation({ variables: { person_key, parent_key } });
     };
-    const addSibling = () => {
-        console.log("add sibling");
+
+    const addSibling = (e) => {
+        let sibling_key = parseInt(e.target.parentElement.getAttribute("value"));
+        console.log({ variables: { person_key, sibling_key } });
+        addSiblingMutation({ variables: { person_key, sibling_key } });
     };
-    const addChild = () => {
-        console.log("add child");
+
+    const addChild = (e) => {
+        let child_key = parseInt(e.target.parentElement.getAttribute("value"));
+        console.log({ variables: { person_key, child_key } });
+        addChildMutation({ variables: { person_key, child_key } });
     };
-    const addSpouse = () => {
-        console.log("add spouse");
+
+    const addSpouse = (e) => {
+        let spouse_key = parseInt(e.target.parentElement.getAttribute("value"));
+        console.log({ variables: { person_key, spouse_key } });
+        addSpouseMutation({ variables: { person_key, spouse_key } });
     };
 
     return (
@@ -181,7 +215,7 @@ const FamilyEdit = () => {
             {!loading && data && data.searchPeople && data.searchPeople.results.length > 0 ? (
                 data.searchPeople.results.map((person) => {
                     return (
-                        <PeopleItemContainer key={uuid()}>
+                        <PeopleItemContainer key={uuid()} value={person.id}>
                             <PersonText>
                                 {person.first_name} {person.last_name}
                             </PersonText>
@@ -266,7 +300,7 @@ const Item = ({ data }) => {
                         onEdit={onEdit}
                         onDelete={onDelete}
                     />
-                    <FamilyEdit />
+                    <FamilyEdit person_key={data.id} />
                 </>
             ) : null}
             {!edit ? (
@@ -352,6 +386,30 @@ const SEARCH_PEOPLE_QUERY = gql`
                 last_name
             }
         }
+    }
+`;
+
+const ADD_PARENT_MUTATION = gql`
+    mutation AddParent($person_key: Int!, $parent_key: Int!) {
+        addParent(parentInput: { person_key: $person_key, parent_key: $parent_key })
+    }
+`;
+
+const ADD_CHILD_MUTATION = gql`
+    mutation AddChild($person_key: Int!, $child_key: Int!) {
+        addChild(childInput: { person_key: $person_key, child_key: $child_key })
+    }
+`;
+
+const ADD_SIBLING_MUTATION = gql`
+    mutation AddSibling($person_key: Int!, $sibling_key: Int!) {
+        addSibling(siblingInput: { person_key: $person_key, sibling_key: $sibling_key })
+    }
+`;
+
+const ADD_SPOUSE_MUTATION = gql`
+    mutation AddSpouse($person_key: Int!, $spouse_key: Int!) {
+        addSpouse(spouseInput: { person_key: $person_key, spouse_key: $spouse_key })
     }
 `;
 

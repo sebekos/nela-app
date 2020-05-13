@@ -1,7 +1,7 @@
 module.exports = `
 input SiblingInput {
     person_key: Int!
-    child_key: Int!
+    sibling_key: Int!
 }
 
 type Sibling {
@@ -18,7 +18,7 @@ extend type Query {
 }
 
 extend type Mutation {
-    addSibling(siblingInput: SiblingInput): Sibling
+    addSibling(siblingInput: SiblingInput): Boolean
     deleteSibling(id: Int!): Boolean
 }
 `;

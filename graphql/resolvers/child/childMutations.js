@@ -20,7 +20,7 @@ module.exports = {
                 throw new Error("Child not found");
             }
             const child = await Child.create(childFields);
-            return child;
+            return true;
         } catch (err) {
             throw new Error(err);
         }
