@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation, useLazyQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import styled from "styled-components";
+import GenForm from "../universal/GenForm";
 import GenInput from "../universal/GenInput";
 import GenTextArea from "../universal/GenTextArea";
+import SuccessButton from "../universal/SuccessButton";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
-import PersonRelations from "./personrelations/PersonRelations";
+import { uuid } from "uuidv4";
 
 const Container = styled.div`
     position: relative;
@@ -82,6 +84,12 @@ ShowContainer.propTypes = {
     onEdit: PropTypes.func.isRequired
 };
 
+const FamilyShowContainer = styled.div``;
+
+const FamilyShow = () => {
+    return <FamilyShowContainer>FAMILY SHOW CONTAINER</FamilyShowContainer>;
+};
+
 const EditContainer = ({ first_name, middle_name, last_name, birth_date, passed_date, notes, onSave, onChange, onEdit, onDelete }) => {
     return (
         <>
@@ -113,6 +121,84 @@ EditContainer.propTypes = {
     onDelete: PropTypes.func.isRequired
 };
 
+const FamilyEditContainer = styled.div``;
+
+const Form = styled(GenForm)`
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+    padding: 0.5rem;
+`;
+
+const PeopleItemContainer = styled.div`
+    width: fit-content;
+    margin: 0.2rem auto;
+`;
+
+const PersonText = styled.span`
+    margin-right: 1rem;
+`;
+
+const AddParent = styled(SuccessButton)`
+    margin-right: 0.2rem;
+`;
+
+const AddSibling = styled(SuccessButton)`
+    margin-right: 0.2rem;
+`;
+
+const AddChild = styled(SuccessButton)`
+    margin-right: 0.2rem;
+`;
+
+const AddSpouse = styled(SuccessButton)``;
+
+const FamilyEdit = () => {
+    const [searchPeople, { loading, data }] = useLazyQuery(SEARCH_PEOPLE_QUERY);
+    const [search, setSearch] = useState("");
+    const onChange = (e) => setSearch(e.target.value);
+    const onSubmit = (e) => {
+        e.preventDefault();
+        searchPeople({ variables: { search } });
+    };
+    const addParent = () => {
+        console.log("add parent");
+    };
+    const addSibling = () => {
+        console.log("add sibling");
+    };
+    const addChild = () => {
+        console.log("add child");
+    };
+    const addSpouse = () => {
+        console.log("add spouse");
+    };
+
+    return (
+        <FamilyEditContainer>
+            <Form onSubmit={onSubmit}>
+                <GenInput onChange={onChange} type="text" value={search} />
+            </Form>
+            {!loading && data && data.searchPeople && data.searchPeople.results.length > 0 ? (
+                data.searchPeople.results.map((person) => {
+                    return (
+                        <PeopleItemContainer key={uuid()}>
+                            <PersonText>
+                                {person.first_name} {person.last_name}
+                            </PersonText>
+                            <AddParent onClick={addParent}>Parent</AddParent>
+                            <AddSibling onClick={addSibling}>Sibling</AddSibling>
+                            <AddChild onClick={addChild}>Child</AddChild>
+                            <AddSpouse onClick={addSpouse}>Spouse</AddSpouse>
+                        </PeopleItemContainer>
+                    );
+                })
+            ) : (
+                <p>No People</p>
+            )}
+        </FamilyEditContainer>
+    );
+};
+
 const Item = ({ data }) => {
     const [updatePerson] = useMutation(UPDATE_PERSON_QUERY, {
         onError: (errors) => console.log(errors),
@@ -134,6 +220,7 @@ const Item = ({ data }) => {
     const [edit, setEdit] = useState(false);
 
     const [formData, setFormData] = useState({
+        id: data.id ? data.id : 0,
         first_name: data.first_name ? data.first_name : "",
         middle_name: data.middle_name ? data.middle_name : "",
         last_name: data.last_name,
@@ -166,31 +253,36 @@ const Item = ({ data }) => {
     return (
         <Container>
             {edit ? (
-                <EditContainer
-                    first_name={first_name}
-                    middle_name={middle_name}
-                    last_name={last_name}
-                    birth_date={birth_date}
-                    passed_date={passed_date}
-                    notes={notes}
-                    onSave={onSave}
-                    onChange={onChange}
-                    onEdit={onEdit}
-                    onDelete={onDelete}
-                />
+                <>
+                    <EditContainer
+                        first_name={first_name}
+                        middle_name={middle_name}
+                        last_name={last_name}
+                        birth_date={birth_date}
+                        passed_date={passed_date}
+                        notes={notes}
+                        onSave={onSave}
+                        onChange={onChange}
+                        onEdit={onEdit}
+                        onDelete={onDelete}
+                    />
+                    <FamilyEdit />
+                </>
             ) : null}
             {!edit ? (
-                <ShowContainer
-                    first_name={first_name}
-                    middle_name={middle_name}
-                    last_name={last_name}
-                    birth_date={birth_date}
-                    passed_date={passed_date}
-                    notes={notes}
-                    onEdit={onEdit}
-                />
+                <>
+                    <ShowContainer
+                        first_name={first_name}
+                        middle_name={middle_name}
+                        last_name={last_name}
+                        birth_date={birth_date}
+                        passed_date={passed_date}
+                        notes={notes}
+                        onEdit={onEdit}
+                    />
+                    <FamilyShow />
+                </>
             ) : null}
-            <PersonRelations edit={edit} id={data.id} />
         </Container>
     );
 };
@@ -245,6 +337,20 @@ const PEOPLE_QUERY = gql`
             birth_date
             passed_date
             notes
+        }
+    }
+`;
+
+const SEARCH_PEOPLE_QUERY = gql`
+    query SearchPeople($search: String!) {
+        searchPeople(search: $search) {
+            id
+            results {
+                id
+                first_name
+                middle_name
+                last_name
+            }
         }
     }
 `;

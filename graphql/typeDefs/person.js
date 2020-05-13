@@ -20,7 +20,7 @@ input UpdatePersonInput {
 }
 
 type Person {
-    id: Int!
+    id: Int
     first_name: String
     middle_name: String
     last_name: String!
