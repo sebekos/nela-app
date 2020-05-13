@@ -5,6 +5,9 @@ const familynews = require("./familynews/familynewsQueries");
 const gallery = require("./gallery/galleryQueries");
 const person = require("./person/personQueries");
 const parent = require("./parent/parentQueries");
+const child = require("./child/childQueries");
+const sibling = require("./sibling/siblingQueries");
+const spouse = require("./spouse/spouseQueries");
 
 module.exports = {
     Query: {
@@ -14,6 +17,9 @@ module.exports = {
         ...familynews,
         ...gallery,
         ...person,
-        ...parent
+        ...parent,
+        ...child,
+        ...sibling,
+        ...spouse
     }
 };

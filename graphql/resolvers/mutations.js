@@ -4,6 +4,9 @@ const familynews = require("./familynews/familynewsMutations");
 const gallery = require("./gallery/galleryMutations");
 const person = require("./person/personMutations");
 const parent = require("./parent/parentMutations");
+const child = require("./child/childMutations");
+const sibling = require("./sibling/siblingMutations");
+const spouse = require("./spouse/spouseMutations");
 
 module.exports = {
     Mutation: {
@@ -12,6 +15,9 @@ module.exports = {
         ...familynews,
         ...gallery,
         ...person,
-        ...parent
+        ...parent,
+        ...child,
+        ...sibling,
+        ...spouse
     }
 };

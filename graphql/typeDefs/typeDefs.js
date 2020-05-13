@@ -6,6 +6,9 @@ const familynews = require("./familynews");
 const gallery = require("./gallery");
 const person = require("./person");
 const parent = require("./parent");
+const child = require("./child");
+const sibling = require("./sibling");
+const spouse = require("./spouse");
 
 const typeDefs = gql`
     type Query {
@@ -21,6 +24,9 @@ const typeDefs = gql`
     ${gallery}
     ${person}
     ${parent}
+    ${child}
+    ${sibling}
+    ${spouse}
 `;
 
 module.exports = typeDefs;
