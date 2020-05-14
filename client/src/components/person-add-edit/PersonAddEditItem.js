@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useMutation, useLazyQuery } from "@apollo/react-hooks";
+import { useMutation, useLazyQuery, useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import styled from "styled-components";
 import GenForm from "../universal/GenForm";
@@ -234,6 +234,11 @@ const FamilyEdit = ({ person_key }) => {
 };
 
 const Item = ({ data }) => {
+    const { data: relationsData } = useQuery(RELATIONS_QUERY, {
+        variables: { id: data.id }
+    });
+    console.log(relationsData);
+
     const [updatePerson] = useMutation(UPDATE_PERSON_QUERY, {
         onError: (errors) => console.log(errors),
         onCompleted: () => {
@@ -410,6 +415,43 @@ const ADD_SIBLING_MUTATION = gql`
 const ADD_SPOUSE_MUTATION = gql`
     mutation AddSpouse($person_key: Int!, $spouse_key: Int!) {
         addSpouse(spouseInput: { person_key: $person_key, spouse_key: $spouse_key })
+    }
+`;
+
+const RELATIONS_QUERY = gql`
+    query Relations($id: Int!) {
+        children(filter: $id) {
+            id
+            first_name
+            middle_name
+            last_name
+            birth_date
+            passed_date
+        }
+        parents(filter: $id) {
+            id
+            first_name
+            middle_name
+            last_name
+            birth_date
+            passed_date
+        }
+        siblings(filter: $id) {
+            id
+            first_name
+            middle_name
+            last_name
+            birth_date
+            passed_date
+        }
+        spouses(filter: $id) {
+            id
+            first_name
+            middle_name
+            last_name
+            birth_date
+            passed_date
+        }
     }
 `;
 

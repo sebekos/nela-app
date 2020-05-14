@@ -14,7 +14,7 @@ module.exports = {
                 FROM main.people
                 WHERE id IN (
                     SELECT
-                    parent_key
+                    child_key
                     FROM main.children
                     WHERE person_key = ${args.filter}
                     AND deleted = 0

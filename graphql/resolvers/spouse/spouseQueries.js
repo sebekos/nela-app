@@ -11,11 +11,11 @@ module.exports = {
                 last_name,
                 birth_date,
                 passed_date
-                FROM main.spouses
+                FROM main.people
                 WHERE id IN (
                     SELECT
-                    parent_key
-                    FROM main.children
+                    spouse_key
+                    FROM main.spouses
                     WHERE person_key = ${args.filter}
                     AND deleted = 0
                 )
