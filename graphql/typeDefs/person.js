@@ -10,6 +10,7 @@ input PersonInput {
 }
 
 input UpdatePersonInput {
+    id: Int!
     first_name: String
     middle_name: String
     last_name: String!

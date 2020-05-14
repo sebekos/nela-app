@@ -6,6 +6,7 @@ import GenForm from "../universal/GenForm";
 import GenInput from "../universal/GenInput";
 import GenTextArea from "../universal/GenTextArea";
 import SuccessButton from "../universal/SuccessButton";
+import DangerButton from "../universal/DangerButton";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import { uuid } from "uuidv4";
@@ -86,8 +87,25 @@ ShowContainer.propTypes = {
 
 const FamilyShowContainer = styled.div``;
 
-const FamilyShow = () => {
-    return <FamilyShowContainer>FAMILY SHOW CONTAINER</FamilyShowContainer>;
+const FamilyShow = ({ family_data }) => {
+    return (
+        <FamilyShowContainer>
+            {family_data ? (
+                Object.keys(family_data).map((family) => {
+                    const familygroup = family_data[family].map((person) => {
+                        return (
+                            <p key={uuid()}>
+                                {family} - {person.first_name} {person.last_name}
+                            </p>
+                        );
+                    });
+                    return familygroup;
+                })
+            ) : (
+                <p>No Family Members</p>
+            )}
+        </FamilyShowContainer>
+    );
 };
 
 const EditContainer = ({ first_name, middle_name, last_name, birth_date, passed_date, notes, onSave, onChange, onEdit, onDelete }) => {
@@ -152,27 +170,40 @@ const AddChild = styled(SuccessButton)`
 
 const AddSpouse = styled(SuccessButton)``;
 
-const FamilyEdit = ({ person_key }) => {
+const RemoveButton = styled(DangerButton)`
+    margin-left: 0.5rem;
+`;
+
+const RemoveItemContainer = styled.div`
+    width: fit-content;
+    margin: 0.2rem 0;
+`;
+
+const FamilyEdit = ({ person_key, family_data }) => {
     const [searchPeople, { loading, data }] = useLazyQuery(SEARCH_PEOPLE_QUERY);
 
     const [addParentMutation] = useMutation(ADD_PARENT_MUTATION, {
         onError: (errors) => console.log(errors),
-        onCompleted: () => toast.success("Parent added")
+        onCompleted: () => toast.success("Parent added"),
+        refetchQueries: [{ query: RELATIONS_QUERY, variables: { id: person_key } }]
     });
 
     const [addChildMutation] = useMutation(ADD_CHILD_MUTATION, {
         onError: (errors) => console.log(errors),
-        onCompleted: () => toast.success("Child added")
+        onCompleted: () => toast.success("Child added"),
+        refetchQueries: [{ query: RELATIONS_QUERY, variables: { id: person_key } }]
     });
 
     const [addSiblingMutation] = useMutation(ADD_SIBLING_MUTATION, {
         onError: (errors) => console.log(errors),
-        onCompleted: () => toast.success("Sibling added")
+        onCompleted: () => toast.success("Sibling added"),
+        refetchQueries: [{ query: RELATIONS_QUERY, variables: { id: person_key } }]
     });
 
     const [addSpouseMutation] = useMutation(ADD_SPOUSE_MUTATION, {
         onError: (errors) => console.log(errors),
-        onCompleted: () => toast.success("Spouse added")
+        onCompleted: () => toast.success("Spouse added"),
+        refetchQueries: [{ query: RELATIONS_QUERY, variables: { id: person_key } }]
     });
 
     const [search, setSearch] = useState("");
@@ -185,26 +216,26 @@ const FamilyEdit = ({ person_key }) => {
     };
     const addParent = (e) => {
         let parent_key = parseInt(e.target.parentElement.getAttribute("value"));
-        console.log({ variables: { person_key, parent_key } });
         addParentMutation({ variables: { person_key, parent_key } });
     };
 
     const addSibling = (e) => {
         let sibling_key = parseInt(e.target.parentElement.getAttribute("value"));
-        console.log({ variables: { person_key, sibling_key } });
         addSiblingMutation({ variables: { person_key, sibling_key } });
     };
 
     const addChild = (e) => {
         let child_key = parseInt(e.target.parentElement.getAttribute("value"));
-        console.log({ variables: { person_key, child_key } });
         addChildMutation({ variables: { person_key, child_key } });
     };
 
     const addSpouse = (e) => {
         let spouse_key = parseInt(e.target.parentElement.getAttribute("value"));
-        console.log({ variables: { person_key, spouse_key } });
         addSpouseMutation({ variables: { person_key, spouse_key } });
+    };
+
+    const onRemove = () => {
+        console.log("Relation removed");
     };
 
     return (
@@ -212,22 +243,35 @@ const FamilyEdit = ({ person_key }) => {
             <Form onSubmit={onSubmit}>
                 <GenInput onChange={onChange} type="text" value={search} />
             </Form>
-            {!loading && data && data.searchPeople && data.searchPeople.results.length > 0 ? (
-                data.searchPeople.results.map((person) => {
-                    return (
-                        <PeopleItemContainer key={uuid()} value={person.id}>
-                            <PersonText>
-                                {person.first_name} {person.last_name}
-                            </PersonText>
-                            <AddParent onClick={addParent}>Parent</AddParent>
-                            <AddSibling onClick={addSibling}>Sibling</AddSibling>
-                            <AddChild onClick={addChild}>Child</AddChild>
-                            <AddSpouse onClick={addSpouse}>Spouse</AddSpouse>
-                        </PeopleItemContainer>
-                    );
+            {!loading && data && data.searchPeople && data.searchPeople.results.length > 0
+                ? data.searchPeople.results.map((person) => {
+                      return (
+                          <PeopleItemContainer key={uuid()} value={person.id}>
+                              <PersonText>
+                                  {person.first_name} {person.last_name}
+                              </PersonText>
+                              <AddParent onClick={addParent}>Parent</AddParent>
+                              <AddSibling onClick={addSibling}>Sibling</AddSibling>
+                              <AddChild onClick={addChild}>Child</AddChild>
+                              <AddSpouse onClick={addSpouse}>Spouse</AddSpouse>
+                          </PeopleItemContainer>
+                      );
+                  })
+                : null}
+            {family_data ? (
+                Object.keys(family_data).map((family) => {
+                    const familygroup = family_data[family].map((person) => {
+                        return (
+                            <RemoveItemContainer key={uuid()}>
+                                {family} - {person.first_name} {person.last_name}
+                                <RemoveButton onClick={onRemove}>Remove</RemoveButton>
+                            </RemoveItemContainer>
+                        );
+                    });
+                    return familygroup;
                 })
             ) : (
-                <p>No People</p>
+                <p>No Family Members</p>
             )}
         </FamilyEditContainer>
     );
@@ -237,7 +281,6 @@ const Item = ({ data }) => {
     const { data: relationsData } = useQuery(RELATIONS_QUERY, {
         variables: { id: data.id }
     });
-    console.log(relationsData);
 
     const [updatePerson] = useMutation(UPDATE_PERSON_QUERY, {
         onError: (errors) => console.log(errors),
@@ -282,7 +325,7 @@ const Item = ({ data }) => {
     };
 
     const onSave = () => {
-        updatePerson({ variables: { first_name, middle_name, last_name, birth_date, passed_date, notes } });
+        updatePerson({ variables: { id: parseInt(data.id), first_name, middle_name, last_name, birth_date, passed_date, notes } });
     };
 
     const onDelete = () => {
@@ -305,7 +348,7 @@ const Item = ({ data }) => {
                         onEdit={onEdit}
                         onDelete={onDelete}
                     />
-                    <FamilyEdit person_key={data.id} />
+                    <FamilyEdit person_key={data.id} family_data={relationsData} />
                 </>
             ) : null}
             {!edit ? (
@@ -319,7 +362,7 @@ const Item = ({ data }) => {
                         notes={notes}
                         onEdit={onEdit}
                     />
-                    <FamilyShow />
+                    <FamilyShow family_data={relationsData} />
                 </>
             ) : null}
         </Container>
@@ -331,7 +374,8 @@ Item.propTypes = {
 };
 
 const UPDATE_PERSON_QUERY = gql`
-    mutation AddPerson(
+    mutation UpdatePerson(
+        $id: Int!
         $first_name: String
         $middle_name: String
         $last_name: String!
@@ -339,8 +383,9 @@ const UPDATE_PERSON_QUERY = gql`
         $passed_date: String
         $notes: String
     ) {
-        addPerson(
-            personInput: {
+        updatePerson(
+            updatePersonInput: {
+                id: $id
                 first_name: $first_name
                 middle_name: $middle_name
                 last_name: $last_name

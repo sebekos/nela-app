@@ -36,15 +36,16 @@ module.exports = {
         if (!context.isAuth) {
             throw new AuthenticationError("Unauthenticated!");
         }
-        const userInputs = args.personInput;
+        const userInputs = args.updatePersonInput;
         const personFields = personKeys.reduce((memo, val) => {
             if (userInputs[val]) memo[val] = userInputs[val];
             return memo;
         }, {});
         personFields.lastUser = context.userId;
         try {
-            const person = await Person.update(personFields);
-            return person;
+            const person = await Person.update(personFields, { where: { id: userInputs.id } });
+            const retPerson = await Person.findOne({ where: { id: userInputs.id } });
+            return retPerson;
         } catch (err) {
             throw new Error(err);
         }
