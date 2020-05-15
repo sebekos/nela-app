@@ -10,6 +10,9 @@ import DangerButton from "../universal/DangerButton";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import { uuid } from "uuidv4";
+import PersonAvatarEdit from "./PersonAvatarEdit";
+import "rc-slider/assets/index.css";
+import DefaultAvatar from "../../img/defaultavatar.png";
 
 const Container = styled.div`
     position: relative;
@@ -277,12 +280,37 @@ const FamilyEdit = ({ person_key, family_data }) => {
     );
 };
 
+const AvatarEdit = ({ person_key, link }) => {
+    const [showUpload, setShowUpload] = useState(false);
+    const newUpload = () => {
+        setShowUpload(!showUpload);
+    };
+    return (
+        <div>
+            <SuccessButton onClick={newUpload}>New Avatar</SuccessButton>
+            {showUpload ? (
+                <PersonAvatarEdit person_key={person_key} setShowUpload={setShowUpload} />
+            ) : (
+                <img src={link ? `/images/avatars/${link}?${new Date().getTime()}` : DefaultAvatar} alt="avatar" />
+            )}
+        </div>
+    );
+};
+
+const AvatarShow = ({ link }) => {
+    return (
+        <div>
+            <img src={link ? `/images/avatars/${link}?${new Date().getTime()}` : DefaultAvatar} alt="avatar" />
+        </div>
+    );
+};
+
 const Item = ({ data }) => {
     const { data: relationsData } = useQuery(RELATIONS_QUERY, {
         variables: { id: data.id }
     });
 
-    const [updatePerson] = useMutation(UPDATE_PERSON_QUERY, {
+    const [updatePerson] = useMutation(UPDATE_PERSON_MUTATION, {
         onError: (errors) => console.log(errors),
         onCompleted: () => {
             toast.success("Person updated");
@@ -290,7 +318,7 @@ const Item = ({ data }) => {
         }
     });
 
-    const [deletePerson] = useMutation(DELETE_PERSON_QUERY, {
+    const [deletePerson] = useMutation(DELETE_PERSON_MUTATION, {
         refetchQueries: [{ query: PEOPLE_QUERY }],
         onError: (errors) => console.log(errors),
         onCompleted: () => {
@@ -336,6 +364,7 @@ const Item = ({ data }) => {
         <Container>
             {edit ? (
                 <>
+                    <AvatarEdit person_key={data.id} link={data.link_photo} />
                     <EditContainer
                         first_name={first_name}
                         middle_name={middle_name}
@@ -353,6 +382,7 @@ const Item = ({ data }) => {
             ) : null}
             {!edit ? (
                 <>
+                    <AvatarShow link={data.link_photo} />
                     <ShowContainer
                         first_name={first_name}
                         middle_name={middle_name}
@@ -373,7 +403,7 @@ Item.propTypes = {
     data: PropTypes.object.isRequired
 };
 
-const UPDATE_PERSON_QUERY = gql`
+const UPDATE_PERSON_MUTATION = gql`
     mutation UpdatePerson(
         $id: Int!
         $first_name: String
@@ -405,7 +435,7 @@ const UPDATE_PERSON_QUERY = gql`
     }
 `;
 
-const DELETE_PERSON_QUERY = gql`
+const DELETE_PERSON_MUTATION = gql`
     mutation($id: Int!) {
         deletePerson(id: $id)
     }

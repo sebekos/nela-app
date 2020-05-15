@@ -180,6 +180,7 @@ const PEOPLE_QUERY = gql`
             first_name
             middle_name
             last_name
+            link_photo
             birth_date
             passed_date
             notes
