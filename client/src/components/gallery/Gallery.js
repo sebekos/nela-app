@@ -73,7 +73,7 @@ Map.propTypes = {
     data: PropTypes.array.isRequired
 };
 
-const News = () => {
+const Gallery = () => {
     const { loading, error, data } = useQuery(GALLERIES_QUERY);
     return (
         <Container>
@@ -99,4 +99,4 @@ const GALLERIES_QUERY = gql`
     }
 `;
 
-export default News;
+export default Gallery;

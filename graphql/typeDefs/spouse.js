@@ -9,6 +9,7 @@ type Spouse {
     first_name: String
     middle_name: String
     last_name: String!
+    link_photo: String
     birth_date: String
     passed_date: String
 }
