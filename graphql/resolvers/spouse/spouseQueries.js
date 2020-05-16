@@ -19,6 +19,7 @@ module.exports = {
                     WHERE person_key = ${args.filter}
                     AND deleted = 0
                 )
+                AND deleted = 0
             `);
             return results;
         } catch (err) {

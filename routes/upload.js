@@ -4,7 +4,7 @@ const multiparty = require("multiparty");
 const uuid = require("uuid");
 const fs = require("fs");
 const path = require("path");
-const { Photo } = require("../sequelize");
+const { Photo, Person } = require("../sequelize");
 const { AuthenticationError } = require("apollo-server-express");
 
 router.post("/", (req, res) => {
@@ -50,6 +50,45 @@ router.post("/", (req, res) => {
                 };
                 await Photo.create(photoFields);
             }
+        } catch (error) {
+            console.log(error);
+            throw new Error("Server Error");
+        }
+        res.send(true);
+    });
+});
+
+router.post("/avatar", (req, res) => {
+    const form = new multiparty.Form({
+        uploadDir: `${__dirname}/../public/temp/`
+    });
+    form.parse(req, async (error, fields, files) => {
+        // Constants
+        const photoCnt = Object.keys(files).length;
+        const person_key = fields.person_key;
+
+        // Error check
+        if (error) throw new Error(error);
+        if (photoCnt !== 1) throw new Error("Server Error");
+
+        // Check path
+        const currPath = path.join(__dirname, `../public/images/avatars`);
+        if (!fs.existsSync(currPath)) {
+            await fs.mkdirSync(currPath);
+        }
+
+        // Update names and path
+        try {
+            // Set path after upload
+            let path_avatar = files[`avatar-${person_key}`][0].path;
+            await fs.renameSync(path_avatar, `${currPath}/avatar_${person_key}.jpeg`);
+
+            // Add to Photo MySQL
+            const personFields = {
+                link_photo: `avatar_${person_key}.jpeg`,
+                lastUser: "12345"
+            };
+            await Person.update(personFields, { where: { id: person_key } });
         } catch (error) {
             console.log(error);
             throw new Error("Server Error");
