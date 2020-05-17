@@ -11,8 +11,8 @@ import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import { uuid } from "uuidv4";
 import PersonAvatarEdit from "./PersonAvatarEdit";
-import "rc-slider/assets/index.css";
 import DefaultAvatar from "../../img/defaultavatar.png";
+import "rc-slider/assets/index.css";
 
 const Container = styled.div`
     position: relative;
@@ -109,6 +109,10 @@ const FamilyShow = ({ family_data }) => {
             )}
         </FamilyShowContainer>
     );
+};
+
+FamilyShow.propTypes = {
+    family_data: PropTypes.array
 };
 
 const EditContainer = ({ first_name, middle_name, last_name, birth_date, passed_date, notes, onSave, onChange, onEdit, onDelete }) => {
@@ -280,6 +284,11 @@ const FamilyEdit = ({ person_key, family_data }) => {
     );
 };
 
+FamilyEdit.propTypes = {
+    person_key: PropTypes.number,
+    family_data: PropTypes.object
+};
+
 const AvatarEdit = ({ person_key, link }) => {
     const [showUpload, setShowUpload] = useState(false);
     const newUpload = () => {
@@ -297,12 +306,21 @@ const AvatarEdit = ({ person_key, link }) => {
     );
 };
 
+AvatarEdit.propTypes = {
+    person_key: PropTypes.number,
+    link: PropTypes.string
+};
+
 const AvatarShow = ({ link }) => {
     return (
         <div>
             <img src={link ? `/images/avatars/${link}?${new Date().getTime()}` : DefaultAvatar} alt="avatar" />
         </div>
     );
+};
+
+AvatarShow.propTypes = {
+    link: PropTypes.string
 };
 
 const Item = ({ data }) => {
