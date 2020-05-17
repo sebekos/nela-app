@@ -57,6 +57,10 @@ const DeleteText = styled(SaveText)`
     color: red;
 `;
 
+const NewAvatarText = styled(SaveText)`
+    color: #333;
+`;
+
 const SaveEditDeleteContainer = styled.div`
     display: flex;
     margin-left: auto;
@@ -112,7 +116,7 @@ const FamilyShow = ({ family_data }) => {
 };
 
 FamilyShow.propTypes = {
-    family_data: PropTypes.array
+    family_data: PropTypes.object
 };
 
 const EditContainer = ({ first_name, middle_name, last_name, birth_date, passed_date, notes, onSave, onChange, onEdit, onDelete }) => {
@@ -289,20 +293,31 @@ FamilyEdit.propTypes = {
     family_data: PropTypes.object
 };
 
+const AvatarEditContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+    margin: auto;
+`;
+
+const AvatarImage = styled.img`
+    max-width: 150px;
+`;
+
 const AvatarEdit = ({ person_key, link }) => {
     const [showUpload, setShowUpload] = useState(false);
     const newUpload = () => {
         setShowUpload(!showUpload);
     };
     return (
-        <div>
-            <SuccessButton onClick={newUpload}>New Avatar</SuccessButton>
+        <AvatarEditContainer>
             {showUpload ? (
                 <PersonAvatarEdit person_key={person_key} setShowUpload={setShowUpload} />
             ) : (
-                <img src={link ? `/images/avatars/${link}?${new Date().getTime()}` : DefaultAvatar} alt="avatar" />
+                <AvatarImage src={link ? `/images/avatars/${link}?${new Date().getTime()}` : DefaultAvatar} alt="avatar" />
             )}
-        </div>
+            <NewAvatarText onClick={newUpload}>New Avatar</NewAvatarText>
+        </AvatarEditContainer>
     );
 };
 
@@ -314,7 +329,7 @@ AvatarEdit.propTypes = {
 const AvatarShow = ({ link }) => {
     return (
         <div>
-            <img src={link ? `/images/avatars/${link}?${new Date().getTime()}` : DefaultAvatar} alt="avatar" />
+            <AvatarImage src={link ? `/images/avatars/${link}?${new Date().getTime()}` : DefaultAvatar} alt="avatar" />
         </div>
     );
 };

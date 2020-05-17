@@ -20,6 +20,7 @@
         "react": "^16.13.0",
         "react-avatar-editor": "^11.0.9",
         "react-dom": "^16.13.0",
+        "react-family-tree": "^2.0.1",
         "react-image-file-resizer": "^0.2.3",
         "react-images-upload": "^1.2.8",
         "react-images-viewer": "^1.6.2",
@@ -30,6 +31,7 @@
         "redux": "^4.0.5",
         "redux-devtools-extension": "^2.13.8",
         "redux-thunk": "^2.3.0",
+        "relatives-tree": "^2.0.1",
         "styled-components": "^5.1.0",
         "uuidv4": "^6.0.7"
     },

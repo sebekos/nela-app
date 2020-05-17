@@ -10,7 +10,6 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 const Container = styled.div`
-    max-width: 1100px;
     margin: auto;
     padding: 4rem 0 0;
     min-height: 100vh;

@@ -190,7 +190,7 @@ const PersonAvatarEdit = ({ person_key, setShowUpload }) => {
     return (
         <Container>
             <SelectFile onChange={onChange} filenames={filenames} />
-            <AvatarEdit onEditor={onEditor} photo={photo} scale={scale} editor={editor} />
+            {filenames !== "Choose File" ? <AvatarEdit onEditor={onEditor} photo={photo} scale={scale} editor={editor} /> : null}
             {filenames !== "Choose File" ? <SliderContainer scale={scale} onScale={onScale} /> : null}
             {file !== "" ? <PreviewContainer onPreview={onPreview} /> : null}
             {preview !== "" ? <ImagePreview preview={preview} /> : null}
