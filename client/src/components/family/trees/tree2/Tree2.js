@@ -1,45 +1,78 @@
 import React from "react";
 import FamilyNode from "../parts/FamilyNode";
-import styles from "../parts/FamilyTree.module.css";
 import ReactFamilyTree from "react-family-tree";
 import { useQuery } from "@apollo/react-hooks";
 import { singleTree } from "../../../../utils/tree";
+import { Link } from "react-router-dom";
 import gql from "graphql-tag";
+import styled from "styled-components";
+import MainInfo from "../parts/MainInfo";
 
-const WIDTH = 100;
-const HEIGHT = 100;
+const WIDTH = 200;
+const HEIGHT = 200;
 
-const Tree2 = ({ person_key }) => {
+const Container = styled.div`
+    margin: auto;
+    padding: 4rem 0 0;
+    min-height: 100vh;
+    width: max-content;
+`;
+
+const MainTitle = styled.div`
+    font-size: 3rem;
+    color: #3e4444;
+    text-align: center;
+    padding: 0rem 0 1rem;
+    width: 100%;
+    background-color: white;
+    font-weight: bold;
+`;
+
+const DataContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: max-content;
+    margin: auto;
+`;
+
+const Tree2 = ({ match }) => {
     const { data, loading } = useQuery(TREE1_QUERY, {
         variables: {
-            id: person_key
+            id: parseInt(match.params.id)
         }
     });
     return (
-        <div className={styles.root}>
+        <Container>
+            <MainTitle>Person Info</MainTitle>
             {loading ? <p>Loading...</p> : null}
-            {!loading && data ? (
-                <ReactFamilyTree
-                    nodes={singleTree(data)}
-                    rootId={person_key}
-                    width={WIDTH}
-                    height={HEIGHT}
-                    className={styles.tree}
-                    renderNode={(node) => (
-                        <FamilyNode
-                            key={node.id}
-                            node={node}
-                            isRoot={node.id === person_key}
-                            style={{
-                                width: 100,
-                                height: 100,
-                                transform: `translate(${node.left * (WIDTH / 2)}px, ${node.top * (HEIGHT / 2)}px)`
-                            }}
+            <DataContainer>
+                {!loading && data ? (
+                    <>
+                        <MainInfo data={data.person} />
+                        <ReactFamilyTree
+                            nodes={singleTree(data)}
+                            rootId={parseInt(match.params.id)}
+                            width={WIDTH}
+                            height={HEIGHT}
+                            renderNode={(node) => (
+                                <Link to={`/Rodzina/${node.id}`} key={node.id}>
+                                    <FamilyNode
+                                        node={node}
+                                        isRoot={node.id === parseInt(match.params.id)}
+                                        style={{
+                                            width: 125,
+                                            height: 125,
+                                            transform: `translate(${node.left * (WIDTH / 2) + 32}px, ${node.top * (HEIGHT / 2) + 32}px)`
+                                        }}
+                                    />
+                                </Link>
+                            )}
                         />
-                    )}
-                />
-            ) : null}
-        </div>
+                    </>
+                ) : null}
+            </DataContainer>
+        </Container>
     );
 };
 

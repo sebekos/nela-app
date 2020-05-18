@@ -2,6 +2,10 @@ export const singleTree = (data) => {
     let retData = [];
     retData.push({
         id: data.person.id,
+        first_name: data.person.first_name,
+        last_name: data.person.last_name,
+        link_photo: data.person.link_photo,
+        birth_date: data.person.birth_date,
         spouses: data.spouses,
         siblings: data.siblings,
         parents: data.parents,
@@ -10,6 +14,10 @@ export const singleTree = (data) => {
     data.spouses.forEach((item) => {
         retData.push({
             id: item.id,
+            first_name: item.first_name,
+            last_name: item.last_name,
+            link_photo: item.link_photo,
+            birth_date: item.birth_date,
             spouses: [{ id: data.person.id }],
             siblings: [],
             parents: [],
@@ -19,6 +27,10 @@ export const singleTree = (data) => {
     data.siblings.forEach((item) => {
         retData.push({
             id: item.id,
+            first_name: item.first_name,
+            last_name: item.last_name,
+            link_photo: item.link_photo,
+            birth_date: item.birth_date,
             spouses: [],
             siblings: [{ id: data.person.id }],
             parents: data.parents,
@@ -28,6 +40,10 @@ export const singleTree = (data) => {
     data.parents.forEach((item) => {
         retData.push({
             id: item.id,
+            first_name: item.first_name,
+            last_name: item.last_name,
+            link_photo: item.link_photo,
+            birth_date: item.birth_date,
             spouses: [],
             siblings: [],
             parents: [],
@@ -37,12 +53,15 @@ export const singleTree = (data) => {
     data.children.forEach((item) => {
         retData.push({
             id: item.id,
+            first_name: item.first_name,
+            last_name: item.last_name,
+            link_photo: item.link_photo,
+            birth_date: item.birth_date,
             spouses: [],
             siblings: [],
             parents: [{ id: data.person.id }, ...data.spouses],
             children: []
         });
     });
-    console.log(retData);
     return retData;
 };

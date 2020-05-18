@@ -15,7 +15,6 @@ import Reunion from "./components/reunion/Reunion";
 import Gallery from "./components/gallery/Gallery";
 import FamilyNews from "./components/familynews/FamilyNews";
 import Family from "./components/family/Family";
-import FamilyInfo from "./components/family/FamilyInfo";
 import NewsAddEdit from "./components/news-add-edit/NewsAddEdit";
 import ReunionAddEdit from "./components/reunion-add-edit/ReunionAddEdit";
 import FamilyNewsAddEdit from "./components/familynews-add-edit/FamilyNewsAddEdit";
@@ -24,6 +23,8 @@ import AddPhotos from "./components/addphotos/AddPhotos";
 import GalleryView from "./components/galleryview/GalleryView";
 import PersonAddEdit from "./components/person-add-edit/PersonAddEdit";
 import ScrollToTop from "./utils/scrollToTop";
+import Tree2 from "./components/family/trees/tree2/Tree2";
+
 import "./App.css";
 
 const App = () => {
@@ -35,7 +36,7 @@ const App = () => {
             <Switch>
                 <Route exact path="/" component={MainPage} />
                 <Route exact path="/rodzina" component={Family} />
-                <Route exact path="/rodzina/:id" component={FamilyInfo} />
+                <Route exact path="/rodzina/:id" component={Tree2} />
                 <Route exact path="/newsy" component={News} />
                 <Route exact path="/kontakt" component={Contact} />
                 <Route exact path="/login" component={Login} />
