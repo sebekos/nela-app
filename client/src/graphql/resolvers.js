@@ -1,4 +1,5 @@
 import jwt from "jwt-decode";
+import gql from "graphql-tag";
 
 const resolvers = {
     Query: {
@@ -37,8 +38,33 @@ const resolvers = {
             };
             cache.writeData({ data: { auth: data } });
             return true;
+        },
+        search: (_root, variables, { cache, getCacheKey }) => {
+            const data = cache.readQuery({
+                query: LOCAL_SEARCH_DATA,
+                variables: {
+                    search: "kos"
+                }
+            });
+            return data;
         }
     }
 };
+
+const LOCAL_SEARCH_DATA = gql`
+    query SearchPeople($search: String!) {
+        searchPeople(search: $search) {
+            id
+            results {
+                id
+                first_name
+                middle_name
+                last_name
+                birth_date
+                passed_date
+            }
+        }
+    }
+`;
 
 export default resolvers;

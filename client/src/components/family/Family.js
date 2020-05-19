@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import gql from "graphql-tag";
-import { useLazyQuery } from "@apollo/react-hooks";
+import { useLazyQuery, useQuery } from "@apollo/react-hooks";
 import GenForm from "../universal/GenForm";
-import GenInput from "../universal/GenInput";
-import SuccessButton from "../universal/SuccessButton";
 import { uuid } from "uuidv4";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { Button, TextField, List, ListItem, ListItemText, Box } from "@material-ui/core";
 
 const Container = styled.div`
     margin: auto;
@@ -30,46 +29,40 @@ const Form = styled(GenForm)`
     width: 500px;
     height: 100%;
     display: flex;
-`;
-
-const SearchInput = styled(GenInput)`
-    margin-bottom: 0;
-    display: inline-block;
-    padding: 10px 20px;
-`;
-
-const SearchButton = styled(SuccessButton)`
-    display: inline-block;
-    margin-bottom: 0;
+    & > div {
+        width: 100%;
+    }
 `;
 
 const MapContainer = styled.div`
     width: max-content;
     margin: 3rem auto;
+    & > a {
+        color: #333;
+        text-decoration: none;
+    }
 `;
 
-const PersonItemContainer = styled.div``;
-
-const PersonText = styled.span`
-    padding: 3px;
-`;
-
-const Map = ({ data }) => {
+const Map = ({ data, history }) => {
+    const onClick = (link) => {
+        history.push(link);
+    };
     return (
         <MapContainer>
-            {data.map((person) => {
-                return (
-                    <Link key={uuid()} to={`/Rodzina/${person.id}`}>
-                        <PersonItemContainer>
-                            <PersonText>{person.first_name}</PersonText>
-                            <PersonText>{person.middle_name}</PersonText>
-                            <PersonText>{person.last_name}</PersonText>
-                            <PersonText>{person.birth_date}</PersonText>
-                            <PersonText>{person.passed_date}</PersonText>
-                        </PersonItemContainer>
-                    </Link>
-                );
-            })}
+            <Box width="500px">
+                <List disablePadding={true}>
+                    {data.map((person) => {
+                        const { first_name, middle_name, last_name, birth_date, passed_date } = person;
+                        const name = [first_name, middle_name, last_name].map((item) => (item !== null ? item : null)).join(" ");
+                        const dates = [birth_date, passed_date].map((item) => (item !== null ? item : null)).join(" - ");
+                        return (
+                            <ListItem divider={true} key={uuid()} onClick={(e) => onClick(`/Rodzina/${person.id}`)}>
+                                <ListItemText primary={name} secondary={dates} />
+                            </ListItem>
+                        );
+                    })}
+                </List>
+            </Box>
         </MapContainer>
     );
 };
@@ -88,11 +81,20 @@ const NoResults = () => {
 };
 
 const Family = () => {
+    const history = useHistory();
+
     const [search, setSearch] = useState("");
+    const [perArray, setResults] = useState(null);
+
+    const { loading: localLoading } = useQuery(LOCAL_RESULTS_QUERY, {
+        onCompleted: (data) => setResults(data.search)
+    });
 
     const onChange = (e) => setSearch(e.target.value);
 
-    const [onSearch, { data, loading }] = useLazyQuery(SEARCH_PEOPLE_QUERY);
+    const [onSearch, { loading: lazyLoading }] = useLazyQuery(SEARCH_PEOPLE_QUERY, {
+        onCompleted: (data) => setResults(data)
+    });
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -103,10 +105,16 @@ const Family = () => {
         <Container>
             <MainTitle>Rodzina</MainTitle>
             <Form noValidate autoComplete="off" onSubmit={onSubmit}>
-                <SearchInput onChange={onChange} type="text" placeholder="Search" value={search} />
-                <SearchButton onClick={onSubmit}>Search</SearchButton>
+                <TextField onChange={onChange} label="First or Last name" variant="filled" value={search} />
+                <Button variant="contained" color="primary" onClick={onSubmit}>
+                    Search
+                </Button>
             </Form>
-            {!loading && data && data.searchPeople.results.length > 0 ? <Map data={data.searchPeople.results} /> : <NoResults />}
+            {!localLoading && !lazyLoading && perArray && perArray.searchPeople.results.length > 0 ? (
+                <Map data={perArray.searchPeople.results} history={history} />
+            ) : (
+                <NoResults />
+            )}
         </Container>
     );
 };
@@ -120,8 +128,16 @@ const SEARCH_PEOPLE_QUERY = gql`
                 first_name
                 middle_name
                 last_name
+                birth_date
+                passed_date
             }
         }
+    }
+`;
+
+const LOCAL_RESULTS_QUERY = gql`
+    {
+        search @client
     }
 `;
 
