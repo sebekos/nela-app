@@ -87,13 +87,16 @@ const Family = () => {
     const [perArray, setResults] = useState(null);
 
     const { loading: localLoading } = useQuery(LOCAL_RESULTS_QUERY, {
-        onCompleted: (data) => setResults(data.search)
+        fetchPolicy: "no-cache",
+        onCompleted: (data) => {
+            if (data) setResults(data.search);
+        }
     });
 
     const onChange = (e) => setSearch(e.target.value);
 
     const [onSearch, { loading: lazyLoading }] = useLazyQuery(SEARCH_PEOPLE_QUERY, {
-        onCompleted: (data) => setResults(data)
+        onCompleted: (data) => setResults(data.searchPeople)
     });
 
     const onSubmit = (e) => {
@@ -110,8 +113,8 @@ const Family = () => {
                     Search
                 </Button>
             </Form>
-            {!localLoading && !lazyLoading && perArray && perArray.searchPeople.results.length > 0 ? (
-                <Map data={perArray.searchPeople.results} history={history} />
+            {!localLoading && !lazyLoading && perArray && perArray.results.length > 0 ? (
+                <Map data={perArray.results} history={history} />
             ) : (
                 <NoResults />
             )}
