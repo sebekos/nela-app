@@ -137,6 +137,8 @@ const GalleryAddEdit = () => {
         addNews({ variables: { title, text } });
     };
 
+    console.log(data);
+
     return (
         <Container>
             <MainTitle>Galeria</MainTitle>

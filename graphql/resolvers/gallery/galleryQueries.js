@@ -14,7 +14,8 @@ module.exports = {
                 WHERE id IN(
                     SELECT DISTINCT MP.key FROM main.photos AS MP
                 )
-                ORDER BY createdAt DESC;
+                ORDER BY createdAt DESC
+                LIMIT 9;
             `);
             const returnStuff = {
                 id: "galleries",

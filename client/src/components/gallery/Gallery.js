@@ -5,6 +5,8 @@ import { useQuery } from "@apollo/react-hooks";
 import { uuid } from "uuidv4";
 import gql from "graphql-tag";
 import PropTypes from "prop-types";
+import { List, ListItem, ListItemText, Paper } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 
 const Container = styled.div`
     max-width: 1100px;
@@ -73,13 +75,42 @@ Map.propTypes = {
     data: PropTypes.array.isRequired
 };
 
+const GalleryList = ({ data, history }) => {
+    const onClick = (link) => {
+        history.push(`/galeria/${link}`);
+    };
+    return (
+        <Paper style={{ maxHeight: 400, overflow: "auto", width: "500px", margin: "auto", border: "1px solid lightgrey" }}>
+            <List>
+                {data.map((item) => (
+                    <ListItem divider={true} key={uuid()} style={{ cursor: "pointer" }} onClick={(e) => onClick(item.id)}>
+                        <ListItemText
+                            primary={item.title}
+                            secondary={item.text}
+                            style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}
+                        />
+                    </ListItem>
+                ))}
+            </List>
+        </Paper>
+    );
+};
+
+GalleryList.propTypes = {
+    data: PropTypes.array.isRequired
+};
+
 const Gallery = () => {
+    const history = useHistory();
     const { loading, error, data } = useQuery(GALLERIES_QUERY);
     return (
         <Container>
             <MainTitle>Galeria</MainTitle>
             {loading ? <Loading /> : null}
             {!loading && error ? <Error /> : null}
+            {!loading && data && data.galleries.galleries.length > 0 ? (
+                <GalleryList data={data.galleries.galleries} history={history} />
+            ) : null}
             {!loading && data && data.ui_galleries.galleries.length > 0 ? <Map data={data.ui_galleries.galleries} /> : <NoData />}
         </Container>
     );
@@ -87,6 +118,15 @@ const Gallery = () => {
 
 const GALLERIES_QUERY = gql`
     {
+        galleries {
+            id
+            galleries {
+                id
+                createdAt
+                text
+                title
+            }
+        }
         ui_galleries {
             galleries {
                 id

@@ -56,7 +56,12 @@ const Map = ({ data, history }) => {
                         const name = [first_name, middle_name, last_name].map((item) => (item !== null ? item : null)).join(" ");
                         const dates = [birth_date, passed_date].map((item) => (item !== null ? item : null)).join(" - ");
                         return (
-                            <ListItem divider={true} key={uuid()} onClick={(e) => onClick(`/Rodzina/${person.id}`)}>
+                            <ListItem
+                                divider={true}
+                                key={uuid()}
+                                onClick={(e) => onClick(`/Rodzina/${person.id}`)}
+                                style={{ cursor: "pointer" }}
+                            >
                                 <ListItemText primary={name} secondary={dates} />
                             </ListItem>
                         );
