@@ -10,7 +10,7 @@ module.exports = (sequelize, type) => {
             allowNull: false
         },
         text: {
-            type: type.STRING,
+            type: type.TEXT,
             allowNull: false
         },
         deleted: {

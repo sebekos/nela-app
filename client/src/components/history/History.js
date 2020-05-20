@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import PoszukiwaniaImage from "../../img/history.jpeg";
 
 const Container = styled.div`
-    max-width: 1100px;
     margin: auto;
     padding: 4rem 0 0;
     min-height: 100vh;
@@ -18,19 +18,56 @@ const MainTitle = styled.div`
     font-weight: bold;
 `;
 
+const TextContainer = styled.div`
+    margin: auto;
+    padding: 1rem;
+    max-width: 1100px;
+`;
+
+const IntroContainer = styled.div`
+    position: relative;
+`;
+
+const IntroText = styled.div`
+    font-size: 2rem;
+    font-weight: bold;
+`;
+
+const Image1 = styled.img`
+    height: 600px;
+    width: 100%;
+    object-fit: cover;
+`;
+
+const IntroTextContainer = styled.div`
+    position: absolute;
+    max-width: 1100px;
+    color: white;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
+`;
+
+const Poszukiwania = () => {
+    return (
+        <IntroContainer>
+            <IntroTextContainer>
+                <IntroText>Poszukiwania &#8226; Dawne Dzieje &#8226; Miejscowości &#8226; Nazwisko</IntroText>
+            </IntroTextContainer>
+            <Image1 src={PoszukiwaniaImage} alt="image1" />
+        </IntroContainer>
+    );
+};
+
 const BoldText = styled.div`
     font-size: 1.5rem;
     font-weight: bold;
+    margin-left: 1rem;
 `;
 
 const BodyText = styled.div`
     font-size: 1rem;
     margin-bottom: 2rem;
-`;
-
-const TextContainer = styled.div`
-    margin: auto;
-    padding: 1rem;
 `;
 
 const Text = () => {
@@ -101,6 +138,7 @@ const History = () => {
     return (
         <Container>
             <MainTitle>Historia</MainTitle>
+            <Poszukiwania />
             <Text />
         </Container>
     );

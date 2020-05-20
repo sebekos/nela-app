@@ -6,6 +6,7 @@ import Later from "./later/Later";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import PropTypes from "prop-types";
+import { CircularProgress } from "@material-ui/core";
 
 const Container = styled.div`
     max-width: fit-content;
@@ -31,7 +32,11 @@ const LoadingContainer = styled.div`
 `;
 
 const Loading = () => {
-    return <LoadingContainer>Loading...</LoadingContainer>;
+    return (
+        <LoadingContainer>
+            <CircularProgress />
+        </LoadingContainer>
+    );
 };
 
 const ErrorContainer = styled.div`

@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 import { uuid } from "uuidv4";
 import PropTypes from "prop-types";
+import { CircularProgress } from "@material-ui/core";
 
 const Container = styled.div`
     max-width: 1100px;
@@ -30,7 +31,11 @@ const LoadingContainer = styled.div`
 `;
 
 const Loading = () => {
-    return <LoadingContainer>Loading...</LoadingContainer>;
+    return (
+        <LoadingContainer>
+            <CircularProgress />
+        </LoadingContainer>
+    );
 };
 
 const ErrorContainer = styled.div`
@@ -78,7 +83,8 @@ const News = () => {
             <MainTitle>Newsy</MainTitle>
             {loading ? <Loading /> : null}
             {!loading && error ? <Error /> : null}
-            {!loading && data && data.news.news.length > 0 ? <Map news={data.news.news} /> : <NoData />}
+            {!loading && data && data.news.news.length > 0 ? <Map news={data.news.news} /> : null}
+            {data && data.news.news.length === 0 ? <NoData /> : null}
         </Container>
     );
 };

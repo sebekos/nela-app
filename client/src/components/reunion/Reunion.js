@@ -4,6 +4,7 @@ import Item from "./ReunionItem";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import PropTypes from "prop-types";
+import { CircularProgress } from "@material-ui/core";
 
 const Container = styled.div`
     max-width: 1100px;
@@ -29,7 +30,11 @@ const LoadingContainer = styled.div`
 `;
 
 const Loading = () => {
-    return <LoadingContainer>Loading...</LoadingContainer>;
+    return (
+        <LoadingContainer>
+            <CircularProgress />
+        </LoadingContainer>
+    );
 };
 
 const ErrorContainer = styled.div`
@@ -73,7 +78,8 @@ const Reunion = () => {
             <MainTitle>Zjazdy</MainTitle>
             {loading ? <Loading /> : null}
             {!loading && error ? <Error /> : null}
-            {!loading && data.reunion.reunion && data.reunion.reunion.length > 0 ? <Map reunion={data.reunion.reunion} /> : <NoData />}
+            {!loading && data.reunion.reunion && data.reunion.reunion.length > 0 ? <Map reunion={data.reunion.reunion} /> : null}
+            {data && data.reunion.reunion.length === 0 ? <NoData /> : null}
         </Container>
     );
 };

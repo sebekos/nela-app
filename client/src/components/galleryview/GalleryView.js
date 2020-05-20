@@ -1,12 +1,12 @@
 import React from "react";
 import ApError from "../universal/ApError";
-import ApLoading from "../universal/ApLoading";
 import PhotoViewer from "./PhotoViewer";
 import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import PropTypes from "prop-types";
 import timeFormat from "../../utils/timeFormat";
+import { CircularProgress } from "@material-ui/core";
 
 const Container = styled.div`
     max-width: 1000px;
@@ -49,6 +49,20 @@ Info.propTypes = {
     createdAt: PropTypes.string.isRequired
 };
 
+const LoadingContainer = styled.div`
+    width: fit-content;
+    margin: auto;
+    padding: 5rem;
+`;
+
+const Loading = () => {
+    return (
+        <LoadingContainer>
+            <CircularProgress />
+        </LoadingContainer>
+    );
+};
+
 const GalleryView = ({ match }) => {
     const { data, loading, error } = useQuery(PHOTOS_QUERY, {
         variables: {
@@ -58,7 +72,7 @@ const GalleryView = ({ match }) => {
     return (
         <Container>
             {!loading && error ? <ApError /> : null}
-            {loading ? <ApLoading /> : null}
+            {loading ? <Loading /> : null}
             {!loading && data.gallery ? (
                 <Info title={data.gallery.title} text={data.gallery.text} createdAt={data.gallery.createdAt} />
             ) : null}

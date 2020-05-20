@@ -1,22 +1,33 @@
 import React from "react";
 import styled from "styled-components";
 import DefaultAvatar from "../../../../img/defaultavatar.png";
+import PropTypes from "prop-types";
+import moment from "moment";
 
 const MainContainer = styled.div`
     display: grid;
     grid-template-columns: 1fr 350px;
     width: max-content;
     margin: 3rem auto;
+    -webkit-box-shadow: 1px 1px 3px 2px #ccc;
+    -moz-box-shadow: 1px 1px 3px 2px #ccc;
+    box-shadow: 1px 1px 3px 2px #ccc;
 `;
 
-const ImageContainer = styled.div``;
+const ImageContainer = styled.div`
+    max-height: 250px;
+`;
 
-const Image = styled.img``;
+const Image = styled.img`
+    background-color: black;
+`;
 
 const TextInfoContainer = styled.div`
-    margin-left: 0.5rem;
-    border: 1px solid grey;
-    max-height: 250px;
+    margin: 0 0.5rem 0 1rem;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    align-items: center;
+    justify-items: center;
 `;
 
 const TextInfoTitleContainer = styled.div`
@@ -50,6 +61,23 @@ const Title = (props) => {
     );
 };
 
+const TextInfoDates = ({ birth_date, passed_date }) => {
+    let date = "";
+    if (birth_date && !passed_date) {
+        date = moment(birth_date, "YYYY-MM-DD").format("LL");
+    } else if (birth_date && passed_date) {
+        date = `${moment(birth_date, "YYYY-MM-DD").format("LL")} - ${moment(passed_date, "YYYY-MM-DD").format("LL")}`;
+    } else {
+        date = "No data";
+    }
+    return <TextInfoDatesContainer>{date}</TextInfoDatesContainer>;
+};
+
+TextInfoDates.propTypes = {
+    birth_date: PropTypes.string,
+    passed_date: PropTypes.string
+};
+
 const Main = ({ data }) => {
     return (
         <MainContainer>
@@ -58,10 +86,8 @@ const Main = ({ data }) => {
             </ImageContainer>
             <TextInfoContainer>
                 <Title first_name={data.first_name} middle_name={data.middle_name} last_name={data.last_name} />
-                <TextInfoNotes>{data.notes}</TextInfoNotes>
-                <TextInfoDatesContainer>
-                    {data.birth_date} - {data.passed_date}
-                </TextInfoDatesContainer>
+                <TextInfoNotes>{data.notes ? data.notes : "No info"}</TextInfoNotes>
+                <TextInfoDates birth_date={data.birth_date} passed_date={data.passed_date} />
             </TextInfoContainer>
         </MainContainer>
     );

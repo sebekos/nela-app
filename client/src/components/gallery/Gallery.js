@@ -5,7 +5,7 @@ import { useQuery } from "@apollo/react-hooks";
 import { uuid } from "uuidv4";
 import gql from "graphql-tag";
 import PropTypes from "prop-types";
-import { List, ListItem, ListItemText, Paper } from "@material-ui/core";
+import { List, ListItem, ListItemText, Paper, CircularProgress } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 
 const Container = styled.div`
@@ -32,7 +32,11 @@ const LoadingContainer = styled.div`
 `;
 
 const Loading = () => {
-    return <LoadingContainer>Loading...</LoadingContainer>;
+    return (
+        <LoadingContainer>
+            <CircularProgress />
+        </LoadingContainer>
+    );
 };
 
 const ErrorContainer = styled.div`
@@ -111,7 +115,8 @@ const Gallery = () => {
             {!loading && data && data.galleries.galleries.length > 0 ? (
                 <GalleryList data={data.galleries.galleries} history={history} />
             ) : null}
-            {!loading && data && data.ui_galleries.galleries.length > 0 ? <Map data={data.ui_galleries.galleries} /> : <NoData />}
+            {!loading && data && data.ui_galleries.galleries.length > 0 ? <Map data={data.ui_galleries.galleries} /> : null}
+            {data && data.ui_galleries.galleries.length === 0 ? <NoData /> : null}
         </Container>
     );
 };

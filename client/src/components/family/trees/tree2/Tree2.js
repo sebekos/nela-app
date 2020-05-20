@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import gql from "graphql-tag";
 import styled from "styled-components";
 import MainInfo from "../parts/MainInfo";
+import { CircularProgress } from "@material-ui/core";
 
 const WIDTH = 200;
 const HEIGHT = 200;
@@ -36,6 +37,20 @@ const DataContainer = styled.div`
     margin: auto;
 `;
 
+const LoadingContainer = styled.div`
+    width: fit-content;
+    margin: auto;
+    padding: 5rem;
+`;
+
+const Loading = () => {
+    return (
+        <LoadingContainer>
+            <CircularProgress />
+        </LoadingContainer>
+    );
+};
+
 const Tree2 = ({ match }) => {
     const { data, loading } = useQuery(TREE1_QUERY, {
         variables: {
@@ -45,7 +60,7 @@ const Tree2 = ({ match }) => {
     return (
         <Container>
             <MainTitle>Person Info</MainTitle>
-            {loading ? <p>Loading...</p> : null}
+            {loading ? <Loading /> : null}
             <DataContainer>
                 {!loading && data ? (
                     <>

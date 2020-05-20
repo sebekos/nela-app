@@ -6,7 +6,7 @@ import GenForm from "../universal/GenForm";
 import { uuid } from "uuidv4";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
-import { Button, TextField, List, ListItem, ListItemText, Box } from "@material-ui/core";
+import { Button, TextField, List, ListItem, ListItemText, Box, CircularProgress } from "@material-ui/core";
 
 const Container = styled.div`
     margin: auto;
@@ -23,6 +23,20 @@ const MainTitle = styled.div`
     background-color: white;
     font-weight: bold;
 `;
+
+const LoadingContainer = styled.div`
+    width: fit-content;
+    margin: auto;
+    padding: 5rem;
+`;
+
+const Loading = () => {
+    return (
+        <LoadingContainer>
+            <CircularProgress />
+        </LoadingContainer>
+    );
+};
 
 const Form = styled(GenForm)`
     margin: auto;
@@ -101,6 +115,7 @@ const Family = () => {
     const onChange = (e) => setSearch(e.target.value);
 
     const [onSearch, { loading: lazyLoading }] = useLazyQuery(SEARCH_PEOPLE_QUERY, {
+        fetchPolicy: "network-only",
         onCompleted: (data) => setResults(data.searchPeople)
     });
 
@@ -120,9 +135,9 @@ const Family = () => {
             </Form>
             {!localLoading && !lazyLoading && perArray && perArray.results.length > 0 ? (
                 <Map data={perArray.results} history={history} />
-            ) : (
-                <NoResults />
-            )}
+            ) : null}
+            {localLoading || lazyLoading ? <Loading /> : null}
+            {!localLoading && !lazyLoading && perArray && perArray.results.length === 0 ? <NoResults /> : null}
         </Container>
     );
 };
