@@ -4,7 +4,6 @@ import gql from "graphql-tag";
 import styled from "styled-components";
 import GenForm from "../universal/GenForm";
 import GenInput from "../universal/GenInput";
-import GenTextArea from "../universal/GenTextArea";
 import SuccessButton from "../universal/SuccessButton";
 import DangerButton from "../universal/DangerButton";
 import PropTypes from "prop-types";
@@ -13,6 +12,7 @@ import { uuid } from "uuidv4";
 import PersonAvatarEdit from "./PersonAvatarEdit";
 import DefaultAvatar from "../../img/defaultavatar.png";
 import "rc-slider/assets/index.css";
+import { TextField, TextareaAutosize } from "@material-ui/core";
 
 const Container = styled.div`
     position: relative;
@@ -34,9 +34,10 @@ const BodyText = styled.div`
 `;
 
 const EditText = styled.div`
+    width: 100%;
+    text-align: right;
     font-size: 0.7rem;
     color: blue;
-    float: right;
     cursor: pointer;
 `;
 
@@ -68,17 +69,25 @@ const SaveEditDeleteContainer = styled.div`
     width: fit-content;
 `;
 
+const ShowContainerAll = styled.div`
+    text-align: center;
+    position: relative;
+`;
+
+const ShowNameContainer = styled.div``;
+
+const ShowDatesContainer = styled.div``;
+
+const ShowNotesContainer = styled.div``;
+
 const ShowContainer = ({ first_name, middle_name, last_name, birth_date, passed_date, notes, onEdit }) => {
     return (
-        <>
+        <ShowContainerAll>
             <EditText onClick={onEdit}>Edit Person</EditText>
-            <TitleText>{first_name}</TitleText>
-            <TitleText>{middle_name}</TitleText>
-            <TitleText>{last_name}</TitleText>
-            <TitleText>{birth_date}</TitleText>
-            <TitleText>{passed_date}</TitleText>
-            <BodyText>{notes}</BodyText>
-        </>
+            <ShowNameContainer>{[first_name, middle_name, last_name].filter((item) => item !== null).join(" ")}</ShowNameContainer>
+            <ShowDatesContainer>{[birth_date, passed_date].filter((item) => item !== null).join(" - ")}</ShowDatesContainer>
+            <ShowNotesContainer>{notes}</ShowNotesContainer>
+        </ShowContainerAll>
     );
 };
 
@@ -119,25 +128,91 @@ FamilyShow.propTypes = {
     family_data: PropTypes.object
 };
 
-const EditContainer = ({ first_name, middle_name, last_name, birth_date, passed_date, notes, onSave, onChange, onEdit, onDelete }) => {
+const EditContainer = styled.div`
+    position: relative;
+`;
+
+const EditRow1 = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 0.5rem 0 1rem;
+    & > div {
+        margin: 0 0.5rem;
+    }
+`;
+
+const EditRow2 = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    & > div {
+        margin: 0 0.5rem;
+    }
+`;
+
+const EditRow3 = styled.div`
+    padding: 1rem 0.5rem 0.5rem;
+    & > textarea {
+        width: 100%;
+        font-size: 1rem;
+        padding: 0.5rem;
+    }
+`;
+
+const Edit = ({ first_name, middle_name, last_name, birth_date, passed_date, notes, onSave, onChange, onEdit, onDelete }) => {
     return (
-        <>
+        <EditContainer>
             <SaveEditDeleteContainer>
                 <SaveText onClick={onSave}>Save</SaveText>
                 <CancelText onClick={onEdit}>Cancel</CancelText>
                 <DeleteText onClick={onDelete}>Delete</DeleteText>
             </SaveEditDeleteContainer>
-            <GenInput autoComplete="off" placeholder="First Name" name="first_name" onChange={onChange} value={first_name} type="text" />
-            <GenInput autoComplete="off" placeholder="Middle Name" name="middle_name" onChange={onChange} value={middle_name} type="text" />
-            <GenInput autoComplete="off" placeholder="Last Name" name="last_name" onChange={onChange} value={last_name} type="text" />
-            <GenInput autoComplete="off" placeholder="Birth Date" name="birth_date" onChange={onChange} value={birth_date} type="date" />
-            <GenInput autoComplete="off" placeholder="Passed Date" name="passed_date" onChange={onChange} value={passed_date} type="date" />
-            <GenTextArea autoComplete="off" placeholder="Notes" name="notes" onChange={onChange} value={notes} type="text" />
-        </>
+            <EditRow1>
+                <TextField name="first_name" onChange={onChange} label="First name" variant="filled" value={first_name} />
+                <TextField name="middle_name" onChange={onChange} label="Middle name" variant="filled" value={middle_name} />
+                <TextField name="last_name" onChange={onChange} label="Last name" variant="filled" value={last_name} />
+            </EditRow1>
+            <EditRow2>
+                <TextField
+                    name="birth_date"
+                    variant="filled"
+                    id="date"
+                    label="Birthday"
+                    type="date"
+                    onChange={onChange}
+                    value={birth_date}
+                    InputLabelProps={{
+                        shrink: true
+                    }}
+                />
+                <TextField
+                    name="passed_date"
+                    variant="filled"
+                    id="date"
+                    label="Passed"
+                    type="date"
+                    onChange={onChange}
+                    value={passed_date}
+                    InputLabelProps={{
+                        shrink: true
+                    }}
+                />
+            </EditRow2>
+            <EditRow3>
+                <TextareaAutosize
+                    autoComplete="off"
+                    placeholder="Notes"
+                    name="notes"
+                    onChange={onChange}
+                    value={notes}
+                    type="text"
+                    rowsMin={3}
+                />
+            </EditRow3>
+        </EditContainer>
     );
 };
 
-EditContainer.propTypes = {
+Edit.propTypes = {
     first_name: PropTypes.string,
     middle_name: PropTypes.string,
     last_name: PropTypes.string,
@@ -326,17 +401,31 @@ AvatarEdit.propTypes = {
     link: PropTypes.string
 };
 
-const AvatarShow = ({ link }) => {
+const ChangeAvatarContainer = styled.div`
+    font-size: 0.7rem;
+    color: blue;
+    cursor: pointer;
+    text-align: center;
+`;
+
+const AvatarShow = ({ link, onAvatarEdit }) => {
     return (
         <div>
             <AvatarImage src={link ? `/images/avatars/${link}?${new Date().getTime()}` : DefaultAvatar} alt="avatar" />
+            <ChangeAvatarContainer onClick={onAvatarEdit}>Change Avatar</ChangeAvatarContainer>
         </div>
     );
 };
 
 AvatarShow.propTypes = {
-    link: PropTypes.string
+    link: PropTypes.string,
+    onAvatarEdit: PropTypes.func.isRequired
 };
+
+const AddEditShow = styled.div`
+    display: grid;
+    grid-template-columns: auto 1fr;
+`;
 
 const Item = ({ data }) => {
     const { data: relationsData } = useQuery(RELATIONS_QUERY, {
@@ -393,12 +482,16 @@ const Item = ({ data }) => {
         deletePerson({ variables: { id: parseInt(data.id) } });
     };
 
+    const onAvatarEdit = () => {
+        console.log("avataredit");
+    };
+
     return (
         <Container>
             {edit ? (
                 <>
-                    <AvatarEdit person_key={data.id} link={data.link_photo} />
-                    <EditContainer
+                    {/* <AvatarEdit person_key={data.id} link={data.link_photo} /> */}
+                    <Edit
                         first_name={first_name}
                         middle_name={middle_name}
                         last_name={last_name}
@@ -410,12 +503,12 @@ const Item = ({ data }) => {
                         onEdit={onEdit}
                         onDelete={onDelete}
                     />
-                    <FamilyEdit person_key={data.id} family_data={relationsData} />
+                    {/* <FamilyEdit person_key={data.id} family_data={relationsData} /> */}
                 </>
             ) : null}
             {!edit ? (
-                <>
-                    <AvatarShow link={data.link_photo} />
+                <AddEditShow>
+                    <AvatarShow link={data.link_photo} onAvatarEdit={onAvatarEdit} />
                     <ShowContainer
                         first_name={first_name}
                         middle_name={middle_name}
@@ -425,8 +518,8 @@ const Item = ({ data }) => {
                         notes={notes}
                         onEdit={onEdit}
                     />
-                    <FamilyShow family_data={relationsData} />
-                </>
+                    {/* <FamilyShow family_data={relationsData} /> */}
+                </AddEditShow>
             ) : null}
         </Container>
     );

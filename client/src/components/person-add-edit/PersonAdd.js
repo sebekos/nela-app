@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import GenInput from "../universal/GenInput";
-import GenTextArea from "../universal/GenTextArea";
 import SuccessButton from "../universal/SuccessButton";
 import styled from "styled-components";
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { toast } from "react-toastify";
 import PropTypes from "prop-types";
+import { TextField, TextareaAutosize } from "@material-ui/core";
 
 const AddContainer = styled.div`
     position: relative;
@@ -19,16 +18,84 @@ const AddContainer = styled.div`
     box-shadow: 1px 1px 3px 2px #ccc;
 `;
 
+const AddRow1 = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 0.5rem 0 1rem;
+    & > div {
+        margin: 0 0.5rem;
+    }
+`;
+
+const AddRow2 = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    & > div {
+        margin: 0 0.5rem;
+    }
+`;
+
+const AddRow3 = styled.div`
+    padding: 1rem 0.5rem 0.5rem;
+    & > textarea {
+        width: 100%;
+        font-size: 1rem;
+        padding: 0.5rem;
+    }
+`;
+
+const AddRow4 = styled.div`
+    margin-left: 0.5rem;
+`;
+
 const Add = ({ first_name, middle_name, last_name, birth_date, passed_date, notes, onChange, onAdd }) => {
     return (
         <AddContainer>
-            <GenInput autoComplete="off" placeholder="First Name" name="first_name" onChange={onChange} value={first_name} type="text" />
-            <GenInput autoComplete="off" placeholder="Middle Name" name="middle_name" onChange={onChange} value={middle_name} type="text" />
-            <GenInput autoComplete="off" placeholder="Last Name" name="last_name" onChange={onChange} value={last_name} type="text" />
-            <GenInput autoComplete="off" placeholder="Birth Date" name="birth_date" onChange={onChange} value={birth_date} type="date" />
-            <GenInput autoComplete="off" placeholder="Passed Date" name="passed_date" onChange={onChange} value={passed_date} type="date" />
-            <GenTextArea autoComplete="off" placeholder="Notes" name="notes" onChange={onChange} value={notes} type="text" />
-            <SuccessButton onClick={onAdd}>Add</SuccessButton>
+            <AddRow1>
+                <TextField name="first_name" onChange={onChange} label="First name" variant="filled" value={first_name} />
+                <TextField name="middle_name" onChange={onChange} label="Middle name" variant="filled" value={middle_name} />
+                <TextField name="last_name" onChange={onChange} label="Last name" variant="filled" value={last_name} />
+            </AddRow1>
+            <AddRow2>
+                <TextField
+                    name="birth_date"
+                    variant="filled"
+                    id="date"
+                    label="Birthday"
+                    type="date"
+                    onChange={onChange}
+                    value={birth_date}
+                    InputLabelProps={{
+                        shrink: true
+                    }}
+                />
+                <TextField
+                    name="passed_date"
+                    variant="filled"
+                    id="date"
+                    label="Passed"
+                    type="date"
+                    onChange={onChange}
+                    value={passed_date}
+                    InputLabelProps={{
+                        shrink: true
+                    }}
+                />
+            </AddRow2>
+            <AddRow3>
+                <TextareaAutosize
+                    autoComplete="off"
+                    placeholder="Notes"
+                    name="notes"
+                    onChange={onChange}
+                    value={notes}
+                    type="text"
+                    rowsMin={3}
+                />
+            </AddRow3>
+            <AddRow4>
+                <SuccessButton onClick={onAdd}>Add</SuccessButton>
+            </AddRow4>
         </AddContainer>
     );
 };
