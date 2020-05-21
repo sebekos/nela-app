@@ -31,6 +31,7 @@ const IntroContainer = styled.div`
 const IntroText = styled.div`
     font-size: 2rem;
     font-weight: bold;
+    white-space: nowrap;
 `;
 
 const Image1 = styled.img`

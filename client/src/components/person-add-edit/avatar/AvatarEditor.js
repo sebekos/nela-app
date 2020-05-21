@@ -3,9 +3,9 @@ import AvatarEditor from "react-avatar-editor";
 import Slider from "rc-slider";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import LightButton from "../universal/LightButton";
-import GreenButton from "../universal/SuccessButton";
-import GenInput from "../universal/GenInput";
+import LightButton from "../../universal/LightButton";
+import GreenButton from "../../universal/SuccessButton";
+import GenInput from "../../universal/GenInput";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -13,7 +13,6 @@ const Container = styled.div`
     text-align: center;
     margin: 3rem auto;
     display: grid;
-    width: 350px;
 `;
 
 const PreviewButton = styled(LightButton)`
@@ -128,7 +127,7 @@ ImagePreview.propTypes = {
     preview: PropTypes.string
 };
 
-const PersonAvatarEdit = ({ person_key, setShowUpload }) => {
+const PersonAvatarEdit = ({ person_key, stopEdit }) => {
     const [filenames, setFilenames] = useState("Choose File");
     const [photo, setPhoto] = useState("");
     const [editor, setEditor] = useState("");
@@ -176,7 +175,7 @@ const PersonAvatarEdit = ({ person_key, setShowUpload }) => {
             })
             .then(() => {
                 toast.success("Avatar uploaded");
-                setShowUpload(false);
+                stopEdit();
             })
             .catch((err) => {
                 console.log(err);
@@ -197,6 +196,11 @@ const PersonAvatarEdit = ({ person_key, setShowUpload }) => {
             {preview !== "" ? <SaveContainer onSave={onSave} /> : null}
         </Container>
     );
+};
+
+PersonAvatarEdit.propTypes = {
+    stopEdit: PropTypes.func.isRequired,
+    person_key: PropTypes.number
 };
 
 export default PersonAvatarEdit;
