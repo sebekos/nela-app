@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Item from "./Item";
-import GenTextArea from "../universal/GenTextArea";
 import GenSelect from "../universal/GenSelect";
 import SuccessButton from "../universal/SuccessButton";
 import styled from "styled-components";
@@ -9,6 +8,7 @@ import gql from "graphql-tag";
 import { toast } from "react-toastify";
 import { uuid } from "uuidv4";
 import PropTypes from "prop-types";
+import { TextareaAutosize } from "@material-ui/core";
 
 const Container = styled.div`
     max-width: 1100px;
@@ -68,10 +68,29 @@ const AddContainer = styled.div`
     box-shadow: 1px 1px 3px 2px #ccc;
 `;
 
+const TextArea = styled.div`
+    margin-bottom: 0.5rem;
+    & > textarea {
+        width: 100%;
+        font-size: 1rem;
+        padding: 0.5rem;
+    }
+`;
+
 const Add = ({ text, type, onChange, onAdd }) => {
     return (
         <AddContainer>
-            <GenTextArea autoComplete="off" placeholder="Body" name="text" onChange={onChange} value={text} type="text" />
+            <TextArea>
+                <TextareaAutosize
+                    autoComplete="off"
+                    placeholder="Body"
+                    name="text"
+                    onChange={onChange}
+                    value={text}
+                    type="text"
+                    rowsMin={3}
+                />
+            </TextArea>
             <GenSelect name="type" onChange={onChange} value={type}>
                 <option defaultValue disabled value="0">
                     News Type

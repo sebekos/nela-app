@@ -25,6 +25,15 @@ const MainTitle = styled.div`
     font-weight: bold;
 `;
 
+const SmallTitle = styled.div`
+    color: #3e4444;
+    width: 100%;
+    background-color: white;
+    font-weight: bold;
+    padding: 2rem 0 0 5rem;
+    font-size: 1rem;
+`;
+
 const LoadingContainer = styled.div`
     width: fit-content;
     margin: auto;
@@ -60,7 +69,7 @@ const NoData = () => {
 };
 
 const MapContainer = styled.div`
-    margin: 1rem auto 3rem;
+    margin: 0rem auto 3rem;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
 `;
@@ -115,6 +124,7 @@ const Gallery = () => {
             {!loading && data && data.galleries.galleries.length > 0 ? (
                 <GalleryList data={data.galleries.galleries} history={history} />
             ) : null}
+            <SmallTitle>Most recent</SmallTitle>
             {!loading && data && data.ui_galleries.galleries.length > 0 ? <Map data={data.ui_galleries.galleries} /> : null}
             {data && data.ui_galleries.galleries.length === 0 ? <NoData /> : null}
         </Container>

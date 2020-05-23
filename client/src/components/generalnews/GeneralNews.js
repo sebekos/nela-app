@@ -19,7 +19,7 @@ const Container = styled.div`
 const MediumTitle = styled.div`
     font-size: 2rem;
     color: #3e4444;
-    padding: 2rem 0 0rem 3rem;
+    padding: 3rem 0 0rem 3rem;
     width: 100%;
     background-color: white;
     font-weight: bold;
@@ -28,6 +28,7 @@ const MediumTitle = styled.div`
 const SmallTitle = styled(MediumTitle)`
     padding: 0 0 0 5rem;
     font-size: 1rem;
+    margin: 1rem 0 -0.5rem;
 `;
 
 const GeneralNews = () => {

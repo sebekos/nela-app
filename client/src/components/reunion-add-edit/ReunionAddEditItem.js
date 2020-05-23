@@ -3,10 +3,9 @@ import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { toast } from "react-toastify";
 import styled from "styled-components";
-import GenInput from "../universal/GenInput";
-import GenTextArea from "../universal/GenTextArea";
 import PropTypes from "prop-types";
 import timeFormat from "../../utils/timeFormat";
+import { TextareaAutosize, TextField } from "@material-ui/core";
 
 const Container = styled.div`
     position: relative;
@@ -66,17 +65,44 @@ ShowContainer.propTypes = {
     onEdit: PropTypes.func.isRequired
 };
 
-const EditContainer = ({ text, title, onSave, onChange }) => {
+const EditContainer = styled.div``;
+
+const Title = styled.div`
+    margin: 0 0.5rem 0.5rem;
+`;
+
+const TextArea = styled.div`
+    margin: 0 0.5rem;
+    & > textarea {
+        width: 100%;
+        font-size: 1rem;
+        padding: 0.25rem;
+    }
+`;
+
+const Edit = ({ text, title, onSave, onChange }) => {
     return (
-        <>
+        <EditContainer>
             <SaveText onClick={onSave}>Save</SaveText>
-            <GenInput autoComplete="off" name="title" onChange={onChange} value={title} type="text" />
-            <GenTextArea autoComplete="off" name="text" onChange={onChange} value={text} type="text" />
-        </>
+            <Title>
+                <TextField style={{ width: "100%" }} onChange={onChange} label="Title" variant="filled" value={title} name="title" />
+            </Title>
+            <TextArea>
+                <TextareaAutosize
+                    autoComplete="off"
+                    placeholder="Body"
+                    name="text"
+                    onChange={onChange}
+                    value={text}
+                    type="text"
+                    rowsMin={3}
+                />
+            </TextArea>
+        </EditContainer>
     );
 };
 
-EditContainer.propTypes = {
+Edit.propTypes = {
     title: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
     onSave: PropTypes.func.isRequired
@@ -126,7 +152,7 @@ const AddEditItem = ({ data }) => {
 
     return (
         <Container>
-            {edit ? <EditContainer title={title} text={text} onSave={onSave} onChange={onChange} /> : null}
+            {edit ? <Edit title={title} text={text} onSave={onSave} onChange={onChange} /> : null}
             {!edit ? <ShowContainer title={title} text={text} onEdit={onEdit} onChange={onChange} /> : null}
             <DateText>{timeFormat(data.createdAt / 1000)}</DateText>
         </Container>
@@ -138,8 +164,8 @@ AddEditItem.propTypes = {
 };
 
 const UPDATE_REUNION_QUERY = gql`
-    mutation UpdateNews($id: Int!, $title: String!, $text: String!) {
-        updateNews(updateNewsInput: { id: $id, title: $title, text: $text }) {
+    mutation UpdateReunion($id: Int!, $title: String!, $text: String!) {
+        updateReunion(updateReunionInput: { id: $id, title: $title, text: $text }) {
             id
             title
             text

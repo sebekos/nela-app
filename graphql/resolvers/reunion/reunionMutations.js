@@ -25,7 +25,7 @@ module.exports = {
         if (!context.isAuth) {
             throw new AuthenticationError("Unauthenticated!");
         }
-        const { id, title, text } = args.reunionNewsInput;
+        const { id, title, text } = args.updateReunionInput;
         const reunionFields = {
             title,
             text,

@@ -4,9 +4,9 @@ import gql from "graphql-tag";
 import { toast } from "react-toastify";
 import styled from "styled-components";
 import GenSelect from "../universal/GenSelect";
-import GenTextArea from "../universal/GenTextArea";
 import PropTypes from "prop-types";
 import timeFormat from "../../utils/timeFormat";
+import { TextareaAutosize } from "@material-ui/core";
 
 const Container = styled.div`
     position: relative;
@@ -66,6 +66,15 @@ ShowContainer.propTypes = {
     onEdit: PropTypes.func.isRequired
 };
 
+const TextArea = styled.div`
+    margin-bottom: 0.5rem;
+    & > textarea {
+        width: 100%;
+        font-size: 1rem;
+        padding: 0.5rem;
+    }
+`;
+
 const EditContainer = ({ text, type, onSave, onChange }) => {
     return (
         <>
@@ -78,7 +87,17 @@ const EditContainer = ({ text, type, onSave, onChange }) => {
                 <option value="2">Witamy w rodzinie</option>
                 <option value="3">Zabraklo miedzy nami</option>
             </GenSelect>
-            <GenTextArea autoComplete="off" name="text" onChange={onChange} value={text} type="text" />
+            <TextArea>
+                <TextareaAutosize
+                    autoComplete="off"
+                    placeholder="Body"
+                    name="text"
+                    onChange={onChange}
+                    value={text}
+                    type="text"
+                    rowsMin={3}
+                />
+            </TextArea>
         </>
     );
 };
