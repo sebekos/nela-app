@@ -25,16 +25,7 @@ const Menu = (list) =>
 
 const ScrollCards = ({ data }) => {
     const menuItems = Menu(data);
-    return (
-        <ScrollMenu
-            hideSingleArrow={true}
-            alignCenter={false}
-            wheel={false}
-            data={menuItems}
-            arrowLeft={ArrowLeft}
-            arrowRight={ArrowRight}
-        />
-    );
+    return <ScrollMenu alignCenter={false} wheel={false} data={menuItems} arrowLeft={ArrowLeft} arrowRight={ArrowRight} />;
 };
 
 ScrollCards.propTypes = {
