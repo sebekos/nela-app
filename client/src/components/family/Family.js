@@ -6,7 +6,8 @@ import GenForm from "../universal/GenForm";
 import { uuid } from "uuidv4";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
-import { Button, TextField, List, ListItem, ListItemText, Box, CircularProgress } from "@material-ui/core";
+import { Button, TextField, List, ListItem, ListItemText, CircularProgress } from "@material-ui/core";
+import TreePng from "../../img/tree.png";
 
 const Container = styled.div`
     margin: auto;
@@ -27,13 +28,22 @@ const MainTitle = styled.div`
 const LoadingContainer = styled.div`
     width: fit-content;
     margin: auto;
-    padding: 5rem;
+    padding: 1rem 0 0;
+    position: relative;
+    height: 70px;
 `;
 
-const Loading = () => {
+const CircularContainer = styled.div`
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+`;
+
+const Loading = ({ localLoading, lazyLoading }) => {
     return (
         <LoadingContainer>
-            <CircularProgress />
+            <CircularContainer>{localLoading || lazyLoading ? <CircularProgress /> : null}</CircularContainer>
         </LoadingContainer>
     );
 };
@@ -49,8 +59,8 @@ const Form = styled(GenForm)`
 `;
 
 const MapContainer = styled.div`
-    width: max-content;
-    margin: 3rem auto;
+    max-width: 500px;
+    margin: 0rem auto;
     & > a {
         color: #333;
         text-decoration: none;
@@ -63,25 +73,23 @@ const Map = ({ data, history }) => {
     };
     return (
         <MapContainer>
-            <Box width="500px">
-                <List disablePadding={true}>
-                    {data.map((person) => {
-                        const { first_name, middle_name, last_name, birth_date, passed_date } = person;
-                        const name = [first_name, middle_name, last_name].map((item) => (item !== null ? item : null)).join(" ");
-                        const dates = [birth_date, passed_date].map((item) => (item !== null ? item : null)).join(" - ");
-                        return (
-                            <ListItem
-                                divider={true}
-                                key={uuid()}
-                                onClick={(e) => onClick(`/Rodzina/${person.id}`)}
-                                style={{ cursor: "pointer" }}
-                            >
-                                <ListItemText primary={name} secondary={dates} />
-                            </ListItem>
-                        );
-                    })}
-                </List>
-            </Box>
+            <List disablePadding={true}>
+                {data.map((person) => {
+                    const { first_name, middle_name, last_name, birth_date, passed_date } = person;
+                    const name = [first_name, middle_name, last_name].map((item) => (item !== null ? item : null)).join(" ");
+                    const dates = [birth_date, passed_date].map((item) => (item !== null ? item : null)).join(" - ");
+                    return (
+                        <ListItem
+                            divider={true}
+                            key={uuid()}
+                            onClick={(e) => onClick(`/Rodzina/${person.id}`)}
+                            style={{ cursor: "pointer" }}
+                        >
+                            <ListItemText primary={name} secondary={dates} />
+                        </ListItem>
+                    );
+                })}
+            </List>
         </MapContainer>
     );
 };
@@ -99,28 +107,54 @@ const NoResults = () => {
     return <NoResultsContainer>No Results Found</NoResultsContainer>;
 };
 
+const TreeImgContainer = styled.div`
+    width: max-content;
+    margin: auto;
+`;
+
+const Image = styled.img`
+    width: 500px;
+    height: auto;
+    margin: 5rem 0;
+`;
+
+const Tree = ({ isVisible }) => {
+    return (
+        <TreeImgContainer>
+            <Image className={isVisible ? "fadeIn" : "fadeOut"} src={TreePng} alt="tree" />
+        </TreeImgContainer>
+    );
+};
+
 const Family = () => {
     const history = useHistory();
 
     const [search, setSearch] = useState("");
     const [perArray, setResults] = useState(null);
+    const [isVisible, setIsVisible] = useState(true);
 
     const { loading: localLoading } = useQuery(LOCAL_RESULTS_QUERY, {
         fetchPolicy: "no-cache",
         onCompleted: (data) => {
-            if (data) setResults(data.search);
+            if (data) {
+                setIsVisible(false);
+                setResults(data.search);
+            }
+        }
+    });
+
+    const [onSearch, { loading: lazyLoading }] = useLazyQuery(SEARCH_PEOPLE_QUERY, {
+        fetchPolicy: "network-only",
+        onCompleted: (data) => {
+            setResults(data.searchPeople);
         }
     });
 
     const onChange = (e) => setSearch(e.target.value);
 
-    const [onSearch, { loading: lazyLoading }] = useLazyQuery(SEARCH_PEOPLE_QUERY, {
-        fetchPolicy: "network-only",
-        onCompleted: (data) => setResults(data.searchPeople)
-    });
-
     const onSubmit = (e) => {
         e.preventDefault();
+        setIsVisible(false);
         onSearch({ variables: { search } });
     };
 
@@ -133,10 +167,11 @@ const Family = () => {
                     Search
                 </Button>
             </Form>
+            <Loading localLoading={localLoading} lazyLoading={lazyLoading} />
+            {!perArray ? <Tree isVisible={isVisible} /> : null}
             {!localLoading && !lazyLoading && perArray && perArray.results.length > 0 ? (
                 <Map data={perArray.results} history={history} />
             ) : null}
-            {localLoading || lazyLoading ? <Loading /> : null}
             {!localLoading && !lazyLoading && perArray && perArray.results.length === 0 ? <NoResults /> : null}
         </Container>
     );
