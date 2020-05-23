@@ -38,7 +38,7 @@ const LinksContainer = styled.div`
 `;
 
 const GuestLinks = ({ onNav, currMenu }) => {
-    const links = ["Home", "Historia", "Rodzina", "Galeria", "Newsy", "Zjazdy", "Wiesci", "Kontakt"];
+    const links = ["Home", "Historia", "Rodzina", "Galeria", "Newsy", "Kontakt"];
     return (
         <>
             {links.map((link, index) => {

@@ -17,13 +17,8 @@ type News {
     createdAt: String!
 }
 
-type NewsData {
-    id: String!
-    news: [News!]!
-}
-
 extend type Query {
-    news: NewsData!
+    news: [News!]
 }
 
 extend type Mutation {

@@ -4,11 +4,7 @@ module.exports = {
     reunion: async () => {
         try {
             const returnData = await Reunion.findAll({ order: [["createdAt", "DESC"]] });
-            const returnStuff = {
-                id: "reunion",
-                reunion: returnData
-            };
-            return returnStuff;
+            return returnData;
         } catch (error) {
             throw new Error(err);
         }

@@ -9,11 +9,8 @@ import Navbar from "./components/layout/Navbar";
 import MainPage from "./components/mainpage/MainPage";
 import Footer from "./components/layout/Footer";
 import Contact from "./components/contact/Contact";
-import News from "./components/news/News";
 import History from "./components/history/History";
-import Reunion from "./components/reunion/Reunion";
 import Gallery from "./components/gallery/Gallery";
-import FamilyNews from "./components/familynews/FamilyNews";
 import Family from "./components/family/Family";
 import NewsAddEdit from "./components/news-add-edit/NewsAddEdit";
 import ReunionAddEdit from "./components/reunion-add-edit/ReunionAddEdit";
@@ -24,6 +21,7 @@ import GalleryView from "./components/galleryview/GalleryView";
 import PersonAddEdit from "./components/person-add-edit/PersonAddEdit";
 import ScrollToTop from "./utils/scrollToTop";
 import Tree2 from "./components/family/trees/tree2/Tree2";
+import GeneralNews from "./components/generalnews/GeneralNews";
 
 import "./App.css";
 
@@ -37,15 +35,12 @@ const App = () => {
                 <Route exact path="/" component={MainPage} />
                 <Route exact path="/rodzina" component={Family} />
                 <Route exact path="/rodzina/:id" component={Tree2} />
-                <Route exact path="/newsy" component={News} />
+                <Route exact path="/newsy" component={GeneralNews} />
                 <Route exact path="/kontakt" component={Contact} />
                 <Route exact path="/login" component={Login} />
-                <Route exact path="/newsy" component={News} />
                 <Route exact path="/historia" component={History} />
-                <Route exact path="/zjazdy" component={Reunion} />
                 <Route exact path="/galeria" component={Gallery} />
                 <Route exact path="/galeria/:id" component={GalleryView} />
-                <Route exact path="/wiesci" component={FamilyNews} />
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
                 <PrivateRoute exact path="/personaddedit" component={PersonAddEdit} />
                 <PrivateRoute exact path="/newsaddedit" component={NewsAddEdit} />

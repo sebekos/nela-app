@@ -17,13 +17,8 @@ type FamilyNews {
     createdAt: String!
 }
 
-type FamilyNewsData {
-    id: String!
-    familynews: [FamilyNews!]!
-}
-
 extend type Query {
-    familynews(filter: Int): FamilyNewsData!
+    familynews: [FamilyNews!]
 }
 
 extend type Mutation {

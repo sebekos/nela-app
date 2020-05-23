@@ -8,11 +8,7 @@ module.exports = {
                 where: { type: args.filter ? args.filter : { [Op.ne]: 0 } },
                 order: [["createdAt", "DESC"]]
             });
-            const returnStuff = {
-                id: "familynews",
-                familynews: returnData
-            };
-            return returnStuff;
+            return returnData;
         } catch (error) {
             throw new Error(err);
         }

@@ -150,7 +150,7 @@ const AddEdit = () => {
             <Add text={text} type={type} onChange={onChange} onAdd={onAdd} />
             {loading ? <Loading /> : null}
             {!loading && error ? <Error /> : null}
-            {!loading && data && data.familynews.familynews.length > 0 ? <Map data={data.familynews.familynews} /> : <NoData />}
+            {!loading && data && data.familynews.length > 0 ? <Map data={data.familynews} /> : <NoData />}
         </Container>
     );
 };
@@ -159,12 +159,9 @@ const FAMILY_NEWS_QUERY = gql`
     {
         familynews {
             id
-            familynews {
-                id
-                text
-                type
-                createdAt
-            }
+            text
+            type
+            createdAt
         }
     }
 `;

@@ -143,7 +143,7 @@ const AddEdit = () => {
             <Add title={title} text={text} onChange={onChange} onAdd={onAdd} />
             {loading ? <Loading /> : null}
             {!loading && error ? <Error /> : null}
-            {!loading && data && data.news.news.length > 0 ? <Map news={data.news.news} /> : <NoData />}
+            {!loading && data && data.news.length > 0 ? <Map news={data.news} /> : <NoData />}
         </Container>
     );
 };
@@ -152,12 +152,9 @@ const NEWS_QUERY = gql`
     {
         news {
             id
-            news {
-                id
-                title
-                text
-                createdAt
-            }
+            title
+            text
+            createdAt
         }
     }
 `;

@@ -17,13 +17,8 @@ type Reunion {
     createdAt: String!
 }
 
-type ReunionData {
-    id: String!
-    reunion: [Reunion!]!
-}
-
 extend type Query {
-    reunion: ReunionData!
+    reunion: [Reunion!]
 }
 
 extend type Mutation {

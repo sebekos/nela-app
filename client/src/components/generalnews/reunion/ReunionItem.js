@@ -4,13 +4,17 @@ import PropTypes from "prop-types";
 import timeFormat from "../../../utils/timeFormat";
 
 const Container = styled.div`
-    width: 500px;
+    max-width: 800px;
     padding: 0.5rem;
     color: #333;
     margin: 1rem auto;
     -webkit-box-shadow: 1px 1px 3px 2px #ccc;
     -moz-box-shadow: 1px 1px 3px 2px #ccc;
     box-shadow: 1px 1px 3px 2px #ccc;
+`;
+
+const TitleText = styled.div`
+    font-weight: bold;
 `;
 
 const BodyText = styled.div`
@@ -22,9 +26,10 @@ const DateText = styled.div`
     text-align: right;
 `;
 
-const Item = ({ data: { text, createdAt } }) => {
+const Item = ({ data: { title, text, createdAt } }) => {
     return (
         <Container>
+            <TitleText>{title}</TitleText>
             <BodyText>{text}</BodyText>
             <DateText>{timeFormat(createdAt / 1000)}</DateText>
         </Container>

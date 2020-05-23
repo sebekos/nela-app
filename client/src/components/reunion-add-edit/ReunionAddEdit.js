@@ -143,7 +143,7 @@ const AddEdit = () => {
             <Add title={title} text={text} onChange={onChange} onAdd={onAdd} />
             {loading ? <Loading /> : null}
             {!loading && error ? <Error /> : null}
-            {!loading && data.reunion && data.reunion.reunion.length > 0 ? <Map reunion={data.reunion.reunion} /> : <NoData />}
+            {!loading && data.reunion && data.reunion.length > 0 ? <Map reunion={data.reunion} /> : <NoData />}
         </Container>
     );
 };
@@ -152,12 +152,9 @@ const REUNIONS_QUERY = gql`
     {
         reunion {
             id
-            reunion {
-                id
-                title
-                text
-                createdAt
-            }
+            title
+            text
+            createdAt
         }
     }
 `;
