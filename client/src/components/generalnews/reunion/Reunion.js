@@ -4,8 +4,8 @@ import Item from "./ReunionItem";
 import PropTypes from "prop-types";
 
 const Container = styled.div`
-    max-width: 1100px;
     margin: auto;
+    padding-bottom: 3rem;
 `;
 
 const NoDataContainer = styled.div`

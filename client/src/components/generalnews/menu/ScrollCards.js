@@ -21,6 +21,9 @@ const NewsCard = styled.div`
     -webkit-box-shadow: 1px 1px 3px 2px #ccc;
     -moz-box-shadow: 1px 1px 3px 2px #ccc;
     box-shadow: 1px 1px 3px 2px #ccc;
+    word-break: break-all;
+    background-color: white;
+    opacity: 0.9;
 `;
 
 const Title = styled.div`

@@ -56,3 +56,11 @@ body {
     height: 100px;
     transition: width 0.5s, height 0.5s, opacity 0.5s 0.5s;
 }
+
+/* Arrows */
+.arrow-prev,
+.arrow-next {
+    font-weight: bold;
+    color: white;
+    padding: 0.25rem;
+}

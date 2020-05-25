@@ -14,6 +14,7 @@ const InfoContainer = styled.div`
 
 const Image = styled.img`
     max-width: 100px;
+    background-color: #333;
 `;
 
 const RootImage = styled.img`

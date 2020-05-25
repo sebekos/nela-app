@@ -4,13 +4,15 @@ import PropTypes from "prop-types";
 import timeFormat from "../../../utils/timeFormat";
 
 const Container = styled.div`
-    max-width: 800px;
+    max-width: 1000px;
     padding: 0.5rem;
     color: #333;
-    margin: 1rem auto;
+    margin: 1rem auto 0;
     -webkit-box-shadow: 1px 1px 3px 2px #ccc;
     -moz-box-shadow: 1px 1px 3px 2px #ccc;
     box-shadow: 1px 1px 3px 2px #ccc;
+    background-color: white;
+    opacity: 0.9;
 `;
 
 const TitleText = styled.div`
