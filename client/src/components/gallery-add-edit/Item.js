@@ -3,14 +3,13 @@ import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import GenInput from "../universal/GenInput";
-import GenTextArea from "../universal/GenTextArea";
 import LightButton from "../universal/LightButton";
 import DangerButton from "../universal/DangerButton";
 import SuccessButton from "../universal/SuccessButton";
 import PropTypes from "prop-types";
 import timeFormat from "../../utils/timeFormat";
 import { toast } from "react-toastify";
+import { TextareaAutosize, TextField } from "@material-ui/core";
 
 const Container = styled.div`
     position: relative;
@@ -70,12 +69,47 @@ ShowContainer.propTypes = {
     onEdit: PropTypes.func.isRequired
 };
 
-const EditContainer = ({ text, title, onSave, onChange }) => {
+const Title = styled.div`
+    margin: 0 0.5rem 0.5rem;
+`;
+
+const TextArea = styled.div`
+    margin: 0 0.5rem;
+    & > textarea {
+        width: 100%;
+        font-size: 1rem;
+        padding: 0.25rem;
+    }
+`;
+
+const SaveEditDeleteContainer = styled.div`
+    display: flex;
+    margin-left: auto;
+    margin-right: 0;
+    width: fit-content;
+`;
+
+const EditContainer = ({ text, title, onSave, onChange, onCancel }) => {
     return (
         <>
-            <SaveText onClick={onSave}>Save</SaveText>
-            <GenInput autoComplete="off" name="title" onChange={onChange} value={title} type="text" />
-            <GenTextArea autoComplete="off" name="text" onChange={onChange} value={text} type="text" />
+            <SaveEditDeleteContainer>
+                <SaveText onClick={onSave}>Save</SaveText>
+                <SaveText onClick={onCancel}>Cancel</SaveText>
+            </SaveEditDeleteContainer>
+            <Title>
+                <TextField style={{ width: "100%" }} onChange={onChange} label="Title" variant="filled" value={title} name="title" />
+            </Title>
+            <TextArea>
+                <TextareaAutosize
+                    autoComplete="off"
+                    placeholder="Body"
+                    name="text"
+                    onChange={onChange}
+                    value={text}
+                    type="text"
+                    rowsMin={3}
+                />
+            </TextArea>
         </>
     );
 };
@@ -153,6 +187,10 @@ const AddEditItem = ({ data }) => {
         setEdit(true);
     };
 
+    const onCancel = () => {
+        setEdit(false);
+    };
+
     const onSave = () => {
         updateGallery({
             variables: {
@@ -165,7 +203,7 @@ const AddEditItem = ({ data }) => {
 
     return (
         <Container>
-            {edit ? <EditContainer title={title} text={text} onSave={onSave} onChange={onChange} /> : null}
+            {edit ? <EditContainer title={title} text={text} onSave={onSave} onChange={onChange} onCancel={onCancel} /> : null}
             {!edit ? <ShowContainer title={title} text={text} onEdit={onEdit} onChange={onChange} /> : null}
             <Buttons currid={id} />
             <DateText>{timeFormat(data.createdAt / 1000)}</DateText>

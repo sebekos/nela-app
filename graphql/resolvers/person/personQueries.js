@@ -16,10 +16,6 @@ module.exports = {
     people: async (_, args) => {
         try {
             const returnData = await Person.findAll({ order: [["updatedAt", "DESC"]], where: { deleted: 0 } });
-            const returnStuff = {
-                id: "people",
-                people: returnData
-            };
             return returnData;
         } catch (error) {
             throw new Error(err);

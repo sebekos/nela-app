@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import Item from "./Item";
-import GenInput from "../universal/GenInput";
-import GenTextArea from "../universal/GenTextArea";
 import SuccessButton from "../universal/SuccessButton";
 import styled from "styled-components";
 import { useQuery, useMutation } from "@apollo/react-hooks";
@@ -9,6 +7,7 @@ import gql from "graphql-tag";
 import { toast } from "react-toastify";
 import { uuid } from "uuidv4";
 import PropTypes from "prop-types";
+import { TextareaAutosize, TextField } from "@material-ui/core";
 
 const Container = styled.div`
     max-width: 1100px;
@@ -68,11 +67,35 @@ const AddContainer = styled.div`
     box-shadow: 1px 1px 3px 2px #ccc;
 `;
 
+const Title = styled.div`
+    margin: 0 0 0.5rem 0rem;
+`;
+
+const TextArea = styled.div`
+    & > textarea {
+        width: 100%;
+        font-size: 1rem;
+        padding: 0.5rem;
+    }
+`;
+
 const Add = ({ title, text, onChange, onAdd }) => {
     return (
         <AddContainer>
-            <GenInput autoComplete="off" placeholder="Title" name="title" onChange={onChange} value={title} type="text" />
-            <GenTextArea autoComplete="off" placeholder="Body" name="text" onChange={onChange} value={text} type="text" />
+            <Title>
+                <TextField style={{ width: "100%" }} onChange={onChange} label="Title" variant="filled" value={title} name="title" />
+            </Title>
+            <TextArea>
+                <TextareaAutosize
+                    autoComplete="off"
+                    placeholder="Body"
+                    name="text"
+                    onChange={onChange}
+                    value={text}
+                    type="text"
+                    rowsMin={3}
+                />
+            </TextArea>
             <SuccessButton onClick={onAdd}>Add</SuccessButton>
         </AddContainer>
     );

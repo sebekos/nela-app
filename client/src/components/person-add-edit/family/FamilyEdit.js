@@ -73,7 +73,6 @@ const Remove = ({ data, removeParent, removeChild, removeSibling, removeSpouse }
         spouses: removeSpouse,
         children: removeChild
     };
-    console.log(data);
     return (
         <>
             {Object.keys(data).map((family) => {

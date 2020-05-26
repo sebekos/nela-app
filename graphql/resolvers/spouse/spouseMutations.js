@@ -1,4 +1,4 @@
-const { Spouse, Person, sequelize } = require("../../../sequelize");
+const { Person, sequelize } = require("../../../sequelize");
 const { AuthenticationError } = require("apollo-server-express");
 
 module.exports = {
@@ -13,7 +13,6 @@ module.exports = {
                 throw new Error("Spouse not found");
             }
             await sequelize.query(`
-                SET @today=CAST(CURRENT_DATE() AS CHAR(50));
                 INSERT INTO main.spouses (
                     person_key,
                     spouse_key,
@@ -24,8 +23,7 @@ module.exports = {
                     updatedAt
                 )
                 VALUES
-                (${person_key}, ${spouse_key}, 0, \"${context.userId}\", \"${context.userId}\", @today, @today),
-                (${spouse_key}, ${person_key}, 0, \"${context.userId}\", \"${context.userId}\", @today, @today)
+                (${person_key}, ${spouse_key}, 0, \"${context.userId}\", \"${context.userId}\", CURRENT_DATE(), CURRENT_DATE())
             `);
             return true;
         } catch (err) {
@@ -37,12 +35,25 @@ module.exports = {
             throw new AuthenticationError("Unauthenticated!");
         }
         const id = args.id;
-        const spouseFields = {
-            deleted: 1,
-            lastUser: context.userId
-        };
         try {
-            await Spouse.update(spouseFields, { where: { id } });
+            await sequelize.query(`
+                WITH RELATE (id) AS (
+                    SELECT id FROM main.spouses WHERE id = ${id}
+                    UNION ALL
+                    SELECT id FROM main.spouses WHERE person_key IN(
+                        SELECT spouse_key FROM main.spouses WHERE id = ${id}
+                    )
+                    AND spouse_key IN (
+                        SELECT person_key FROM main.spouses WHERE id = ${id}
+                    )
+                    AND deleted = 0
+                )
+                UPDATE main.spouses SET
+                deleted = 1,
+                lastUser = \"${context.userId}\",
+                updatedAt = CURRENT_DATE()
+                WHERE id IN(SELECT id FROM RELATE);
+            `);
             return true;
         } catch (err) {
             throw new Error(err);

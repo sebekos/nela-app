@@ -1,4 +1,4 @@
-const { Child, Person } = require("../../../sequelize");
+const { Person, sequelize } = require("../../../sequelize");
 const { AuthenticationError } = require("apollo-server-express");
 
 module.exports = {
@@ -7,19 +7,24 @@ module.exports = {
             throw new AuthenticationError("Unauthenticated!");
         }
         const { person_key, child_key } = args.childInput;
-        const childFields = {
-            person_key,
-            child_key,
-            deleted: 0
-        };
-        childFields.lastUser = context.userId;
-        childFields.createdUser = context.userId;
         try {
             const checkChild = await Person.findOne({ where: { id: child_key } });
             if (!checkChild) {
                 throw new Error("Child not found");
             }
-            const child = await Child.create(childFields);
+            await sequelize.query(`
+                INSERT INTO main.children (
+                    person_key,
+                    child_key,
+                    deleted,
+                    createdUser,
+                    lastUser,
+                    createdAt,
+                    updatedAt
+                )
+                VALUES
+                (${person_key}, ${child_key}, 0, \"${context.userId}\", \"${context.userId}\", CURRENT_DATE(), CURRENT_DATE());
+            `);
             return true;
         } catch (err) {
             throw new Error(err);
@@ -30,12 +35,25 @@ module.exports = {
             throw new AuthenticationError("Unauthenticated!");
         }
         const id = args.id;
-        const childFields = {
-            deleted: 1,
-            lastUser: context.userId
-        };
         try {
-            await Child.update(childFields, { where: { id } });
+            await sequelize.query(`
+                WITH RELATE (id) AS (
+                    SELECT id FROM main.children WHERE id = ${id}
+                    UNION ALL
+                    SELECT id FROM main.children WHERE person_key IN(
+                        SELECT child_key FROM main.children WHERE id = ${id}
+                    )
+                    AND child_key IN (
+                        SELECT person_key FROM main.children WHERE id = ${id}
+                    )
+                    AND deleted = 0
+                )
+                UPDATE main.children SET
+                deleted = 1,
+                lastUser = \"${context.userId}\",
+                updatedAt = CURRENT_DATE()
+                WHERE id IN(SELECT id FROM RELATE);
+            `);
             return true;
         } catch (err) {
             throw new Error(err);

@@ -22,6 +22,7 @@ import PersonAddEdit from "./components/person-add-edit/PersonAddEdit";
 import ScrollToTop from "./utils/scrollToTop";
 import Tree2 from "./components/family/trees/tree2/Tree2";
 import GeneralNews from "./components/generalnews/GeneralNews";
+import DeletePhotos from "./components/deletephotos/DeletePhotos";
 
 import "./App.css";
 
@@ -48,6 +49,7 @@ const App = () => {
                 <PrivateRoute exact path="/familynewsaddedit" component={FamilyNewsAddEdit} />
                 <PrivateRoute exact path="/galleryaddedit" component={GalleryAddEdit} />
                 <PrivateRoute exact path="/addphotos/:id" component={AddPhotos} />
+                <PrivateRoute exact path="/deletephotos/:id" component={DeletePhotos} />
             </Switch>
             <Footer />
         </Router>
