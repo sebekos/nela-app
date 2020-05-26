@@ -56,6 +56,11 @@ const DeletePhotos = ({ match }) => {
         setPhotos(newPhotos);
     };
 
+    const onSave = () => {
+        let photoIds = photos.map((photo) => photo.id);
+        console.log(photoIds);
+    };
+
     return (
         <Container>
             <MainTitle>Delete Photos</MainTitle>
