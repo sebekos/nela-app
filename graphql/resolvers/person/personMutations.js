@@ -38,7 +38,7 @@ module.exports = {
         }
         const userInputs = args.updatePersonInput;
         const personFields = personKeys.reduce((memo, val) => {
-            if (userInputs[val]) memo[val] = userInputs[val];
+            if (userInputs[val] !== null) memo[val] = userInputs[val];
             return memo;
         }, {});
         personFields.lastUser = context.userId;

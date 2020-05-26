@@ -5,6 +5,7 @@ input SiblingInput {
 }
 
 type Sibling {
+    tid: Int!
     id: Int!
     first_name: String
     middle_name: String

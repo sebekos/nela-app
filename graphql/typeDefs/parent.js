@@ -10,6 +10,7 @@ type ParentRelation {
 }
 
 type Parent {
+    tid: Int!
     id: Int!
     first_name: String
     middle_name: String

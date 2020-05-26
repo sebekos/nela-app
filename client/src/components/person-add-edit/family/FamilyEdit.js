@@ -66,6 +66,33 @@ const RemoveItemContainer = styled.div`
     margin: 0.2rem auto;
 `;
 
+const Remove = ({ data, removeParent, removeChild, removeSibling, removeSpouse }) => {
+    const removeFuncs = {
+        parents: removeParent,
+        siblings: removeSibling,
+        spouses: removeSpouse,
+        children: removeChild
+    };
+    console.log(data);
+    return (
+        <>
+            {Object.keys(data).map((family) => {
+                const familygroup = data[family].map((person) => {
+                    return (
+                        <RemoveItemContainer key={uuid()}>
+                            {family} - {person.first_name} {person.last_name}
+                            <RemoveButton onClick={removeFuncs[family]} id={person.tid}>
+                                Remove
+                            </RemoveButton>
+                        </RemoveItemContainer>
+                    );
+                });
+                return familygroup;
+            })}
+        </>
+    );
+};
+
 const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
     const [searchPeople, { loading, data }] = useLazyQuery(SEARCH_PEOPLE_QUERY);
 
@@ -75,9 +102,21 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
         refetchQueries: [{ query: RELATIONS_QUERY, variables: { id: person_key } }]
     });
 
+    const [removeParentMutation] = useMutation(REMOVE_PARENT_MUTATION, {
+        onError: (errors) => console.log(errors),
+        onCompleted: () => toast.success("Parent removed"),
+        refetchQueries: [{ query: RELATIONS_QUERY, variables: { id: person_key } }]
+    });
+
     const [addChildMutation] = useMutation(ADD_CHILD_MUTATION, {
         onError: (errors) => console.log(errors),
         onCompleted: () => toast.success("Child added"),
+        refetchQueries: [{ query: RELATIONS_QUERY, variables: { id: person_key } }]
+    });
+
+    const [removeChildMutation] = useMutation(REMOVE_CHILD_MUTATION, {
+        onError: (errors) => console.log(errors),
+        onCompleted: () => toast.success("Child removed"),
         refetchQueries: [{ query: RELATIONS_QUERY, variables: { id: person_key } }]
     });
 
@@ -87,9 +126,21 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
         refetchQueries: [{ query: RELATIONS_QUERY, variables: { id: person_key } }]
     });
 
+    const [removeSiblingMutation] = useMutation(REMOVE_SIBLING_MUTATION, {
+        onError: (errors) => console.log(errors),
+        onCompleted: () => toast.success("Sibling removed"),
+        refetchQueries: [{ query: RELATIONS_QUERY, variables: { id: person_key } }]
+    });
+
     const [addSpouseMutation] = useMutation(ADD_SPOUSE_MUTATION, {
         onError: (errors) => console.log(errors),
         onCompleted: () => toast.success("Spouse added"),
+        refetchQueries: [{ query: RELATIONS_QUERY, variables: { id: person_key } }]
+    });
+
+    const [removeSpouseMutation] = useMutation(REMOVE_SPOUSE_MUTATION, {
+        onError: (errors) => console.log(errors),
+        onCompleted: () => toast.success("Spouse removed"),
         refetchQueries: [{ query: RELATIONS_QUERY, variables: { id: person_key } }]
     });
 
@@ -121,9 +172,10 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
         addSpouseMutation({ variables: { person_key, spouse_key } });
     };
 
-    const onRemove = () => {
-        console.log("Relation removed");
-    };
+    const removeParent = (e) => removeParentMutation({ variables: { id: parseInt(e.target.id) } });
+    const removeChild = (e) => removeChildMutation({ variables: { id: parseInt(e.target.id) } });
+    const removeSibling = (e) => removeSiblingMutation({ variables: { id: parseInt(e.target.id) } });
+    const removeSpouse = (e) => removeSpouseMutation({ variables: { id: parseInt(e.target.id) } });
 
     return (
         <FamilyEditContainer>
@@ -149,17 +201,13 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
                   })
                 : null}
             {family_data ? (
-                Object.keys(family_data).map((family) => {
-                    const familygroup = family_data[family].map((person) => {
-                        return (
-                            <RemoveItemContainer key={uuid()}>
-                                {family} - {person.first_name} {person.last_name}
-                                <RemoveButton onClick={onRemove}>Remove</RemoveButton>
-                            </RemoveItemContainer>
-                        );
-                    });
-                    return familygroup;
-                })
+                <Remove
+                    data={family_data}
+                    removeParent={removeParent}
+                    removeChild={removeChild}
+                    removeSibling={removeSibling}
+                    removeSpouse={removeSpouse}
+                />
             ) : (
                 <p>No Family Members</p>
             )}
@@ -193,9 +241,21 @@ const ADD_PARENT_MUTATION = gql`
     }
 `;
 
+const REMOVE_PARENT_MUTATION = gql`
+    mutation DeleteParent($id: Int!) {
+        deleteParent(id: $id)
+    }
+`;
+
 const ADD_CHILD_MUTATION = gql`
     mutation AddChild($person_key: Int!, $child_key: Int!) {
         addChild(childInput: { person_key: $person_key, child_key: $child_key })
+    }
+`;
+
+const REMOVE_CHILD_MUTATION = gql`
+    mutation DeleteChild($id: Int!) {
+        deleteChild(id: $id)
     }
 `;
 
@@ -205,15 +265,28 @@ const ADD_SIBLING_MUTATION = gql`
     }
 `;
 
+const REMOVE_SIBLING_MUTATION = gql`
+    mutation DeleteSibling($id: Int!) {
+        deleteSibling(id: $id)
+    }
+`;
+
 const ADD_SPOUSE_MUTATION = gql`
     mutation AddSpouse($person_key: Int!, $spouse_key: Int!) {
         addSpouse(spouseInput: { person_key: $person_key, spouse_key: $spouse_key })
     }
 `;
 
+const REMOVE_SPOUSE_MUTATION = gql`
+    mutation DeleteSpouse($id: Int!) {
+        deleteSpouse(id: $id)
+    }
+`;
+
 const RELATIONS_QUERY = gql`
     query Relations($id: Int!) {
         children(filter: $id) {
+            tid
             id
             first_name
             middle_name
@@ -222,6 +295,7 @@ const RELATIONS_QUERY = gql`
             passed_date
         }
         parents(filter: $id) {
+            tid
             id
             first_name
             middle_name
@@ -230,6 +304,7 @@ const RELATIONS_QUERY = gql`
             passed_date
         }
         siblings(filter: $id) {
+            tid
             id
             first_name
             middle_name
@@ -238,6 +313,7 @@ const RELATIONS_QUERY = gql`
             passed_date
         }
         spouses(filter: $id) {
+            tid
             id
             first_name
             middle_name

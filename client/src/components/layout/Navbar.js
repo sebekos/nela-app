@@ -87,10 +87,12 @@ const Navbar = () => {
     const [logout] = useLazyQuery(LOGOUT_QUERY, { fetchPolicy: "no-cache" });
 
     const [currMenu, setCurrMenu] = useState("");
+    const [bottom, setBottom] = useState(false);
 
     useEffect(() => {
         const path = window.location.pathname.split("/")[1];
         path ? setCurrMenu(path) : setCurrMenu("Home");
+        window.addEventListener("scroll", listenToScroll);
     }, []);
 
     const onLogout = (e) => {
@@ -102,8 +104,16 @@ const Navbar = () => {
         setCurrMenu(e.target.getAttribute("route"));
     };
 
+    const listenToScroll = () => {
+        if (window.pageYOffset === 0) {
+            setBottom(false);
+        } else {
+            setBottom(true);
+        }
+    };
+
     return (
-        <Container>
+        <Container className={bottom ? "nav-bottom" : ""}>
             <Title>Pytlewskich</Title>
             <LinksContainer>{isAuth ? <AuthLinks onLogout={onLogout} /> : <GuestLinks currMenu={currMenu} onNav={onNav} />}</LinksContainer>
         </Container>

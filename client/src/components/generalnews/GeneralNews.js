@@ -9,22 +9,33 @@ import NewsImage from "../../img/news.jpeg";
 
 const Background = styled.div`
     background-image: url(${NewsImage});
+    background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    box-sizing: border-box;
+    background-size: cover;
+    margin-top: 4rem;
 `;
 
 const Container = styled.div`
-    margin: auto;
-    padding: 4rem 0 0;
+    margin: -3rem auto 0;
+    padding: 0rem 0 0;
     max-width: 1300px;
     min-height: 100vh;
 `;
 
+const MainTitle = styled.div`
+    font-size: 3rem;
+    color: #3e4444;
+    text-align: center;
+    padding: 4rem 0 0rem;
+    width: 100%;
+    background-color: white;
+    font-weight: bold;
+`;
+
 const MediumTitle = styled.div`
     font-size: 2rem;
-    color: white;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    color: #333;
     padding: 3rem 0 0rem 3rem;
     width: 100%;
     background-color: white;
@@ -35,32 +46,35 @@ const MediumTitle = styled.div`
 const SmallTitle = styled(MediumTitle)`
     padding: 0 0 0 5rem;
     font-size: 1rem;
-    margin: 1rem 0 -0.5rem;
+    margin: 1rem 0 -0.3rem;
 `;
 
 const GeneralNews = () => {
     const { data, loading, error } = useQuery(GENERAL_NEWS_QUERY);
     return (
-        <Background>
-            <Container>
-                {loading ? <Loading /> : null}
-                {!loading && !error ? (
-                    <>
-                        <MediumTitle>Newsy</MediumTitle>
-                        <ScrollCards data={data.news} />
-                        <MediumTitle>Wiesci</MediumTitle>
-                        <SmallTitle>Wydarzyło się</SmallTitle>
-                        <ScrollCards data={data.fam1} />
-                        <SmallTitle>Zabraklo miedzy nami</SmallTitle>
-                        <ScrollCards data={data.fam2} />
-                        <SmallTitle>Witamy w rodzinie</SmallTitle>
-                        <ScrollCards data={data.fam3} />
-                        <MediumTitle>Zjazdy</MediumTitle>
-                        <Reunion data={data.reunion} />
-                    </>
-                ) : null}
-            </Container>
-        </Background>
+        <>
+            <MainTitle>Newsy</MainTitle>
+            <Background>
+                <Container>
+                    {loading ? <Loading /> : null}
+                    {!loading && !error ? (
+                        <>
+                            <MediumTitle>Newsy</MediumTitle>
+                            <ScrollCards data={data.news} />
+                            <MediumTitle>Wiesci</MediumTitle>
+                            <SmallTitle>Wydarzyło się</SmallTitle>
+                            <ScrollCards data={data.fam1} />
+                            <SmallTitle>Zabraklo miedzy nami</SmallTitle>
+                            <ScrollCards data={data.fam2} />
+                            <SmallTitle>Witamy w rodzinie</SmallTitle>
+                            <ScrollCards data={data.fam3} />
+                            <MediumTitle>Zjazdy</MediumTitle>
+                            <Reunion data={data.reunion} />
+                        </>
+                    ) : null}
+                </Container>
+            </Background>
+        </>
     );
 };
 

@@ -9,8 +9,10 @@ const ArrowLeft = <div className="arrow-prev">{"<"}</div>;
 const ArrowRight = <div className="arrow-next">{">"}</div>;
 
 const NewsCard = styled.div`
+    position: relative;
+    box-sizing: border-box;
     display: grid;
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: auto 1fr;
     width: 350px;
     height: 275px;
     margin: 0.25rem;
@@ -34,12 +36,16 @@ const Title = styled.div`
 
 const Date = styled.div`
     font-size: 0.7rem;
+    position: absolute;
+    bottom: 3px;
+    right: 8px;
+    width: 100%;
     text-align: right;
 `;
 const MenuItem = ({ text, title, createdAt }) => {
     return (
         <NewsCard>
-            <Title>{title}</Title>
+            {title ? <Title>{title}</Title> : null}
             <div>{text}</div>
             <Date>{timeFormat(createdAt)}</Date>
         </NewsCard>
@@ -54,7 +60,17 @@ const Menu = (list) =>
 
 const ScrollCards = ({ data }) => {
     const menuItems = Menu(data);
-    return <ScrollMenu alignCenter={false} wheel={false} data={menuItems} arrowLeft={ArrowLeft} arrowRight={ArrowRight} />;
+    return (
+        <ScrollMenu
+            alignCenter={false}
+            wheel={false}
+            data={menuItems}
+            arrowLeft={ArrowLeft}
+            arrowRight={ArrowRight}
+            hideSingleArrow={true}
+            hideArrows={true}
+        />
+    );
 };
 
 ScrollCards.propTypes = {

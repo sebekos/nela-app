@@ -63,4 +63,21 @@ body {
     font-weight: bold;
     color: white;
     padding: 0.25rem;
+    height: 280px;
+    background-color: #333;
+    opacity: 0.5;
+    line-height: 270px;
+}
+
+.arrow-next:active,
+.arrow-prev:active {
+    transform: translateY(1px);
+}
+
+.scroll-menu-arrow--disabled {
+    opacity: 0.5;
+}
+
+.nav-bottom {
+    border-bottom: 1px solid lightgrey;
 }

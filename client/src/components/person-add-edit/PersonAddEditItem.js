@@ -85,6 +85,7 @@ Item.propTypes = {
 const RELATIONS_QUERY = gql`
     query Relations($id: Int!) {
         children(filter: $id) {
+            tid
             id
             first_name
             middle_name
@@ -93,6 +94,7 @@ const RELATIONS_QUERY = gql`
             passed_date
         }
         parents(filter: $id) {
+            tid
             id
             first_name
             middle_name
@@ -101,6 +103,7 @@ const RELATIONS_QUERY = gql`
             passed_date
         }
         siblings(filter: $id) {
+            tid
             id
             first_name
             middle_name
@@ -109,6 +112,7 @@ const RELATIONS_QUERY = gql`
             passed_date
         }
         spouses(filter: $id) {
+            tid
             id
             first_name
             middle_name

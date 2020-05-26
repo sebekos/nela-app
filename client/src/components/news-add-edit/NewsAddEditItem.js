@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import styled from "styled-components";
-import GenInput from "../universal/GenInput";
-import GenTextArea from "../universal/GenTextArea";
 import PropTypes from "prop-types";
 import timeFormat from "../../utils/timeFormat";
 import { toast } from "react-toastify";
+import { TextareaAutosize, TextField } from "@material-ui/core";
 
 const Container = styled.div`
     position: relative;
@@ -66,12 +65,37 @@ ShowContainer.propTypes = {
     onEdit: PropTypes.func.isRequired
 };
 
+const Title = styled.div`
+    margin: 0 0.5rem 0.5rem;
+`;
+
+const TextArea = styled.div`
+    margin: 0 0.5rem;
+    & > textarea {
+        width: 100%;
+        font-size: 1rem;
+        padding: 0.25rem;
+    }
+`;
+
 const EditContainer = ({ text, title, onSave, onChange }) => {
     return (
         <>
             <SaveText onClick={onSave}>Save</SaveText>
-            <GenInput autoComplete="off" name="title" onChange={onChange} value={title} type="text" />
-            <GenTextArea autoComplete="off" name="text" onChange={onChange} value={text} type="text" />
+            <Title>
+                <TextField style={{ width: "100%" }} onChange={onChange} label="Title" variant="filled" value={title} name="title" />
+            </Title>
+            <TextArea>
+                <TextareaAutosize
+                    autoComplete="off"
+                    placeholder="Body"
+                    name="text"
+                    onChange={onChange}
+                    value={text}
+                    type="text"
+                    rowsMin={3}
+                />
+            </TextArea>
         </>
     );
 };
