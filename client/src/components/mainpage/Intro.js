@@ -6,20 +6,10 @@ const Container = styled.div`
     margin: auto;
 `;
 
-const MainTitle = styled.div`
-    font-size: 3rem;
-    color: #3e4444;
-    text-align: center;
-    padding: 5rem 0 1rem;
-    width: 100%;
-    background-color: white;
-    font-weight: bold;
-`;
-
 const MainBackground = styled.div`
     background-image: url(${LandingImage});
     min-height: 600px;
-    background-position: center top 1rem;
+    background-position: center top 0rem;
     background-repeat: no-repeat;
     background-size: auto;
 `;
@@ -74,7 +64,6 @@ const Site = () => {
 const Intro = () => {
     return (
         <Container>
-            <MainTitle>Strona Rodin Pytlewskich</MainTitle>
             <MainBackground />
             <Site />
         </Container>
