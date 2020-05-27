@@ -35,7 +35,7 @@ const Form = styled(GenForm)`
 `;
 
 const PeopleItemContainer = styled.div`
-    width: 635px;
+    width: 634px;
     margin: 0.2rem auto;
     display: flex;
     justify-content: space-between;
@@ -67,9 +67,9 @@ const RemoveButton = styled(DangerButton)`
 const RelationItemContainer = styled.div`
     border: 1px solid lightgrey;
     margin: 0.1rem auto;
-    display: flex;
-    justify-content: space-between;
-    max-width: 630px;
+    display: grid;
+    grid-template-columns: 100px 1fr 1fr;
+    width: 634px;
 `;
 
 const FamilySpan = styled.div`
@@ -92,7 +92,7 @@ const RelationConversion = {
 const RelationItem = ({ tid, family, first_name, last_name, onRemove }) => {
     return (
         <RelationItemContainer>
-            <FamilySpan>{RelationConversion[family]}</FamilySpan>{" "}
+            <FamilySpan>{RelationConversion[family]}</FamilySpan>
             <FamilyName>
                 {first_name} {last_name}
             </FamilyName>

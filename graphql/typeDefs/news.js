@@ -24,5 +24,6 @@ extend type Query {
 extend type Mutation {
     addNews(newsInput: NewsInput): News
     updateNews(updateNewsInput: UpdateNewsInput): News
+    deleteNews(id: Int!): Boolean
 }
 `;

@@ -39,17 +39,6 @@ const EditText = styled.div`
     cursor: pointer;
 `;
 
-const SaveText = styled.div`
-    padding: 0 0.3rem 0.3rem;
-    font-size: 0.7rem;
-    color: blue;
-    text-align: right;
-    cursor: pointer;
-    width: fit-content;
-    margin-left: auto;
-    margin-right: 0;
-`;
-
 const ShowContainer = ({ text, type, onEdit }) => {
     return (
         <>
@@ -75,10 +64,38 @@ const TextArea = styled.div`
     }
 `;
 
-const EditContainer = ({ text, type, onSave, onChange }) => {
+const SaveText = styled.div`
+    padding: 0 0.3rem 0.3rem;
+    font-size: 0.7rem;
+    color: green;
+    text-align: right;
+    cursor: pointer;
+    width: fit-content;
+`;
+
+const CancelText = styled(SaveText)`
+    color: #333;
+`;
+
+const DeleteText = styled(SaveText)`
+    color: red;
+`;
+
+const SaveEditDeleteContainer = styled.div`
+    display: flex;
+    margin-left: auto;
+    margin-right: 0;
+    width: fit-content;
+`;
+
+const EditContainer = ({ text, type, onSave, onChange, stopEdit, onDelete }) => {
     return (
         <>
-            <SaveText onClick={onSave}>Save</SaveText>
+            <SaveEditDeleteContainer>
+                <SaveText onClick={onSave}>Save</SaveText>
+                <CancelText onClick={stopEdit}>Cancel</CancelText>
+                <DeleteText onClick={onDelete}>Delete</DeleteText>
+            </SaveEditDeleteContainer>
             <GenSelect name="type" onChange={onChange} value={type}>
                 <option defaultValue disabled value="0">
                     News Type
@@ -119,6 +136,13 @@ const Item = ({ data }) => {
         }
     });
 
+    const [deleteFamilyNews] = useMutation(DELETE_FAMILY_NEWS_MUTATION, {
+        refetchQueries: [{ query: FAMILY_NEWS_QUERY }],
+        onCompleted: () => {
+            toast.success("Family news deleted");
+        }
+    });
+
     const [edit, setEdit] = useState(false);
 
     const [formData, setFormData] = useState({
@@ -140,6 +164,10 @@ const Item = ({ data }) => {
         setEdit(true);
     };
 
+    const stopEdit = () => {
+        setEdit(false);
+    };
+
     const onSave = () => {
         updateFamilyNews({
             variables: {
@@ -150,9 +178,15 @@ const Item = ({ data }) => {
         });
     };
 
+    const onDelete = () => {
+        deleteFamilyNews({ variables: { id: parseInt(data.id) } });
+    };
+
     return (
         <Container>
-            {edit ? <EditContainer type={type} text={text} onSave={onSave} onChange={onChange} /> : null}
+            {edit ? (
+                <EditContainer type={type} text={text} onSave={onSave} onChange={onChange} stopEdit={stopEdit} onDelete={onDelete} />
+            ) : null}
             {!edit ? <ShowContainer type={type} text={text} onEdit={onEdit} onChange={onChange} /> : null}
             <DateText>{timeFormat(data.createdAt / 1000)}</DateText>
         </Container>
@@ -171,6 +205,23 @@ const UPDATE_FAMILY_NEWS_QUERY = gql`
             text
             createdAt
         }
+    }
+`;
+
+const FAMILY_NEWS_QUERY = gql`
+    {
+        familynews {
+            id
+            text
+            type
+            createdAt
+        }
+    }
+`;
+
+const DELETE_FAMILY_NEWS_MUTATION = gql`
+    mutation DeleteFamilyNews($id: Int!) {
+        deleteFamilyNews(id: $id)
     }
 `;
 

@@ -38,5 +38,21 @@ module.exports = {
         } catch (err) {
             throw new Error(err);
         }
+    },
+    deleteReunion: async (obj, args, context, info) => {
+        if (!context.isAuth) {
+            throw new AuthenticationError("Unauthenticated!");
+        }
+        const { id } = args;
+        const reunionFields = {
+            deleted: 1,
+            lastUser: context.userId
+        };
+        try {
+            await Reunion.update(reunionFields, { where: { id } });
+            return true;
+        } catch (err) {
+            throw new Error(err);
+        }
     }
 };

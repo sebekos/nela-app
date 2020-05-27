@@ -24,5 +24,6 @@ extend type Query {
 extend type Mutation {
     addReunion(reunionInput: ReunionInput): Reunion
     updateReunion(updateReunionInput: UpdateReunionInput): Reunion
+    deleteReunion(id: Int!): Boolean
 }
 `;

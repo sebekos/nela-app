@@ -38,5 +38,21 @@ module.exports = {
         } catch (err) {
             throw new Error(err);
         }
+    },
+    deleteNews: async (obj, args, context, info) => {
+        if (!context.isAuth) {
+            throw new AuthenticationError("Unauthenticated!");
+        }
+        const { id } = args;
+        const newsFields = {
+            deleted: 1,
+            lastUser: context.userId
+        };
+        try {
+            await News.update(newsFields, { where: { id } });
+            return true;
+        } catch (err) {
+            throw new Error(err);
+        }
     }
 };

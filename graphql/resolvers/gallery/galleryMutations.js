@@ -39,6 +39,22 @@ module.exports = {
             throw new Error(err);
         }
     },
+    deleteGallery: async (obj, args, context, info) => {
+        if (!context.isAuth) {
+            throw new AuthenticationError("Unauthenticated!");
+        }
+        const { id } = args;
+        const galleryFields = {
+            deleted: 1,
+            lastUser: context.userId
+        };
+        try {
+            await Gallery.update(galleryFields, { where: { id } });
+            return true;
+        } catch (err) {
+            throw new Error(err);
+        }
+    },
     deletePhotos: async (obj, args, context, info) => {
         if (!context.isAuth) {
             throw new AuthenticationError("Unauthenticated!");

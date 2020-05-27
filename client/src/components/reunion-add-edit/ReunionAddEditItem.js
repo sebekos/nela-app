@@ -38,17 +38,6 @@ const EditText = styled.div`
     cursor: pointer;
 `;
 
-const SaveText = styled.div`
-    padding: 0 0.3rem 0.3rem;
-    font-size: 0.7rem;
-    color: blue;
-    text-align: right;
-    cursor: pointer;
-    width: fit-content;
-    margin-left: auto;
-    margin-right: 0;
-`;
-
 const ShowContainer = ({ text, title, onEdit }) => {
     return (
         <>
@@ -80,10 +69,38 @@ const TextArea = styled.div`
     }
 `;
 
-const Edit = ({ text, title, onSave, onChange }) => {
+const SaveText = styled.div`
+    padding: 0 0.3rem 0.3rem;
+    font-size: 0.7rem;
+    color: green;
+    text-align: right;
+    cursor: pointer;
+    width: fit-content;
+`;
+
+const CancelText = styled(SaveText)`
+    color: #333;
+`;
+
+const DeleteText = styled(SaveText)`
+    color: red;
+`;
+
+const SaveEditDeleteContainer = styled.div`
+    display: flex;
+    margin-left: auto;
+    margin-right: 0;
+    width: fit-content;
+`;
+
+const Edit = ({ text, title, onSave, onChange, stopEdit, onDelete }) => {
     return (
         <EditContainer>
-            <SaveText onClick={onSave}>Save</SaveText>
+            <SaveEditDeleteContainer>
+                <SaveText onClick={onSave}>Save</SaveText>
+                <CancelText onClick={stopEdit}>Cancel</CancelText>
+                <DeleteText onClick={onDelete}>Delete</DeleteText>
+            </SaveEditDeleteContainer>
             <Title>
                 <TextField style={{ width: "100%" }} onChange={onChange} label="Title" variant="filled" value={title} name="title" />
             </Title>
@@ -119,6 +136,13 @@ const AddEditItem = ({ data }) => {
         }
     });
 
+    const [deleteReunion] = useMutation(DELETE_REUNION_MUTATION, {
+        refetchQueries: [{ query: REUNIONS_QUERY }],
+        onCompleted: () => {
+            toast.success("News deleted");
+        }
+    });
+
     const [edit, setEdit] = useState(false);
 
     const [formData, setFormData] = useState({
@@ -140,6 +164,10 @@ const AddEditItem = ({ data }) => {
         setEdit(true);
     };
 
+    const stopEdit = () => {
+        setEdit(false);
+    };
+
     const onSave = () => {
         updateNews({
             variables: {
@@ -150,9 +178,13 @@ const AddEditItem = ({ data }) => {
         });
     };
 
+    const onDelete = () => {
+        deleteReunion({ variables: { id: parseInt(data.id) } });
+    };
+
     return (
         <Container>
-            {edit ? <Edit title={title} text={text} onSave={onSave} onChange={onChange} /> : null}
+            {edit ? <Edit title={title} text={text} onSave={onSave} onChange={onChange} stopEdit={stopEdit} onDelete={onDelete} /> : null}
             {!edit ? <ShowContainer title={title} text={text} onEdit={onEdit} onChange={onChange} /> : null}
             <DateText>{timeFormat(data.createdAt / 1000)}</DateText>
         </Container>
@@ -171,6 +203,23 @@ const UPDATE_REUNION_QUERY = gql`
             text
             createdAt
         }
+    }
+`;
+
+const REUNIONS_QUERY = gql`
+    {
+        reunion {
+            id
+            title
+            text
+            createdAt
+        }
+    }
+`;
+
+const DELETE_REUNION_MUTATION = gql`
+    mutation DeleteReunion($id: Int!) {
+        deleteReunion(id: $id)
     }
 `;
 

@@ -88,12 +88,13 @@ const SaveEditDeleteContainer = styled.div`
     width: fit-content;
 `;
 
-const EditContainer = ({ text, title, onSave, onChange, onCancel }) => {
+const EditContainer = ({ text, title, onSave, onChange, onCancel, onDelete }) => {
     return (
         <>
             <SaveEditDeleteContainer>
                 <SaveText onClick={onSave}>Save</SaveText>
                 <SaveText onClick={onCancel}>Cancel</SaveText>
+                <SaveText onClick={onDelete}>Delete</SaveText>
             </SaveEditDeleteContainer>
             <Title>
                 <TextField style={{ width: "100%" }} onChange={onChange} label="Title" variant="filled" value={title} name="title" />
@@ -158,6 +159,13 @@ const AddEditItem = ({ data }) => {
         }
     });
 
+    const [deleteGallery] = useMutation(DELETE_GALLERY_MUTATION, {
+        refetchQueries: [{ query: GALLERIES_QUERY }],
+        onCompleted: () => {
+            toast.success("Gallery deleted");
+        }
+    });
+
     const [edit, setEdit] = useState(false);
 
     const [formData, setFormData] = useState({
@@ -193,9 +201,15 @@ const AddEditItem = ({ data }) => {
         });
     };
 
+    const onDelete = () => {
+        deleteGallery({ variables: { id: parseInt(data.id) } });
+    };
+
     return (
         <Container>
-            {edit ? <EditContainer title={title} text={text} onSave={onSave} onChange={onChange} onCancel={onCancel} /> : null}
+            {edit ? (
+                <EditContainer title={title} text={text} onSave={onSave} onChange={onChange} onCancel={onCancel} onDelete={onDelete} />
+            ) : null}
             {!edit ? <ShowContainer title={title} text={text} onEdit={onEdit} onChange={onChange} /> : null}
             <Buttons currid={id} />
             <DateText>{timeFormat(data.createdAt / 1000)}</DateText>
@@ -215,6 +229,25 @@ const UPDATE_GALLERY_QUERY = gql`
             text
             createdAt
         }
+    }
+`;
+
+const GALLERIES_QUERY = gql`
+    {
+        galleries {
+            galleries {
+                id
+                title
+                text
+                createdAt
+            }
+        }
+    }
+`;
+
+const DELETE_GALLERY_MUTATION = gql`
+    mutation DeleteGallery($id: Int!) {
+        deleteGallery(id: $id)
     }
 `;
 

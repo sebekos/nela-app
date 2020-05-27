@@ -24,5 +24,6 @@ extend type Query {
 extend type Mutation {
     addFamilyNews(familyNewsInput: FamilyNewsInput): FamilyNews
     updateFamilyNews(updateFamilyNewsInput: UpdateFamilyNewsInput): FamilyNews
+    deleteFamilyNews(id: Int!): Boolean
 }
 `;

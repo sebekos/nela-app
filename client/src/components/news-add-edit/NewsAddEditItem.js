@@ -38,17 +38,6 @@ const EditText = styled.div`
     cursor: pointer;
 `;
 
-const SaveText = styled.div`
-    padding: 0 0.3rem 0.3rem;
-    font-size: 0.7rem;
-    color: blue;
-    text-align: right;
-    cursor: pointer;
-    width: fit-content;
-    margin-left: auto;
-    margin-right: 0;
-`;
-
 const ShowContainer = ({ text, title, onEdit }) => {
     return (
         <>
@@ -78,10 +67,38 @@ const TextArea = styled.div`
     }
 `;
 
-const EditContainer = ({ text, title, onSave, onChange }) => {
+const SaveText = styled.div`
+    padding: 0 0.3rem 0.3rem;
+    font-size: 0.7rem;
+    color: green;
+    text-align: right;
+    cursor: pointer;
+    width: fit-content;
+`;
+
+const CancelText = styled(SaveText)`
+    color: #333;
+`;
+
+const DeleteText = styled(SaveText)`
+    color: red;
+`;
+
+const SaveEditDeleteContainer = styled.div`
+    display: flex;
+    margin-left: auto;
+    margin-right: 0;
+    width: fit-content;
+`;
+
+const EditContainer = ({ text, title, onSave, onChange, stopEdit, onDelete }) => {
     return (
         <>
-            <SaveText onClick={onSave}>Save</SaveText>
+            <SaveEditDeleteContainer>
+                <SaveText onClick={onSave}>Save</SaveText>
+                <CancelText onClick={stopEdit}>Cancel</CancelText>
+                <DeleteText onClick={onDelete}>Delete</DeleteText>
+            </SaveEditDeleteContainer>
             <Title>
                 <TextField style={{ width: "100%" }} onChange={onChange} label="Title" variant="filled" value={title} name="title" />
             </Title>
@@ -117,6 +134,13 @@ const AddEditItem = ({ data }) => {
         }
     });
 
+    const [deleteNews] = useMutation(DELETE_NEWS_MUTATION, {
+        refetchQueries: [{ query: NEWS_QUERY }],
+        onCompleted: () => {
+            toast.success("News deleted");
+        }
+    });
+
     const [edit, setEdit] = useState(false);
 
     const [formData, setFormData] = useState({
@@ -138,6 +162,10 @@ const AddEditItem = ({ data }) => {
         setEdit(true);
     };
 
+    const stopEdit = () => {
+        setEdit(false);
+    };
+
     const onSave = () => {
         updateNews({
             variables: {
@@ -148,9 +176,15 @@ const AddEditItem = ({ data }) => {
         });
     };
 
+    const onDelete = () => {
+        deleteNews({ variables: { id: parseInt(data.id) } });
+    };
+
     return (
         <Container>
-            {edit ? <EditContainer title={title} text={text} onSave={onSave} onChange={onChange} /> : null}
+            {edit ? (
+                <EditContainer title={title} text={text} onSave={onSave} onChange={onChange} stopEdit={stopEdit} onDelete={onDelete} />
+            ) : null}
             {!edit ? <ShowContainer title={title} text={text} onEdit={onEdit} onChange={onChange} /> : null}
             <DateText>{timeFormat(data.createdAt / 1000)}</DateText>
         </Container>
@@ -164,6 +198,23 @@ AddEditItem.propTypes = {
 const UPDATE_NEWS_QUERY = gql`
     mutation UpdateNews($id: Int!, $title: String!, $text: String!) {
         updateNews(updateNewsInput: { id: $id, title: $title, text: $text }) {
+            id
+            title
+            text
+            createdAt
+        }
+    }
+`;
+
+const DELETE_NEWS_MUTATION = gql`
+    mutation DeleteNews($id: Int!) {
+        deleteNews(id: $id)
+    }
+`;
+
+const NEWS_QUERY = gql`
+    {
+        news {
             id
             title
             text

@@ -50,5 +50,6 @@ extend type Mutation {
     addGallery(galleryInput: GalleryInput): Gallery
     updateGallery(updateGalleryInput: UpdateGalleryInput): Gallery
     deletePhotos(photos: [Int!]!, galleryid: Int!): Boolean
+    deleteGallery(id: Int!): Boolean
 }
 `;
