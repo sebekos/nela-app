@@ -30,11 +30,11 @@ const MainTitle = styled.div`
 `;
 
 const DataContainer = styled.div`
-    display: flex;
-    flex-direction: column;
+    display: grid;
     height: 100%;
     width: max-content;
     margin: auto;
+    justify-items: center;
 `;
 
 const LoadingContainer = styled.div`

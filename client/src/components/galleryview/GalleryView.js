@@ -69,12 +69,11 @@ const GalleryView = ({ match }) => {
             filter: parseInt(match.params.id)
         }
     });
-    console.log(data);
     return (
         <Container>
             {!loading && error ? <ApError /> : null}
             {loading ? <Loading /> : null}
-            {!loading && data.gallery ? (
+            {!loading && data && data.gallery ? (
                 <Info title={data.gallery.title} text={data.gallery.text} createdAt={data.gallery.createdAt} />
             ) : null}
             {!loading && data.photos && data.photos && data.photos.length > 0 ? <PhotoViewer photos={data.photos} /> : null}

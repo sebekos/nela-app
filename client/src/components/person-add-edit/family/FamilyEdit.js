@@ -35,12 +35,15 @@ const Form = styled(GenForm)`
 `;
 
 const PeopleItemContainer = styled.div`
-    width: max-content;
+    width: 635px;
     margin: 0.2rem auto;
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid lightgrey;
 `;
 
 const PersonText = styled.span`
-    margin-right: 1rem;
+    margin: 0 1rem;
 `;
 
 const AddParent = styled(SuccessButton)`
@@ -58,13 +61,47 @@ const AddChild = styled(SuccessButton)`
 const AddSpouse = styled(SuccessButton)``;
 
 const RemoveButton = styled(DangerButton)`
-    margin-left: 0.5rem;
+    justify-self: flex-end;
 `;
 
-const RemoveItemContainer = styled.div`
-    width: max-content;
-    margin: 0.2rem auto;
+const RelationItemContainer = styled.div`
+    border: 1px solid lightgrey;
+    margin: 0.1rem auto;
+    display: flex;
+    justify-content: space-between;
+    max-width: 630px;
 `;
+
+const FamilySpan = styled.div`
+    padding: 0 1rem;
+    background-color: lightgrey;
+    width: 100px;
+`;
+
+const FamilyName = styled.div`
+    margin: 0 0.5rem;
+`;
+
+const RelationConversion = {
+    parents: "Parent",
+    siblings: "Sibling",
+    spouses: "Spouse",
+    children: "Child"
+};
+
+const RelationItem = ({ tid, family, first_name, last_name, onRemove }) => {
+    return (
+        <RelationItemContainer>
+            <FamilySpan>{RelationConversion[family]}</FamilySpan>{" "}
+            <FamilyName>
+                {first_name} {last_name}
+            </FamilyName>
+            <RemoveButton onClick={onRemove} id={tid}>
+                Remove
+            </RemoveButton>
+        </RelationItemContainer>
+    );
+};
 
 const Remove = ({ data, removeParent, removeChild, removeSibling, removeSpouse }) => {
     const removeFuncs = {
@@ -77,19 +114,46 @@ const Remove = ({ data, removeParent, removeChild, removeSibling, removeSpouse }
         <>
             {Object.keys(data).map((family) => {
                 const familygroup = data[family].map((person) => {
+                    const { tid, first_name, last_name } = person;
                     return (
-                        <RemoveItemContainer key={uuid()}>
-                            {family} - {person.first_name} {person.last_name}
-                            <RemoveButton onClick={removeFuncs[family]} id={person.tid}>
-                                Remove
-                            </RemoveButton>
-                        </RemoveItemContainer>
+                        <RelationItem
+                            tid={tid}
+                            key={uuid()}
+                            family={family}
+                            first_name={first_name}
+                            last_name={last_name}
+                            onRemove={removeFuncs[family]}
+                        />
                     );
                 });
                 return familygroup;
             })}
         </>
     );
+};
+
+const ButtonsContainer = styled.div`
+    align-self: flex-end;
+    width: max-content;
+`;
+
+const PeopleItems = ({ data, addParent, addSibling, addChild, addSpouse }) => {
+    const people = data.map((person) => {
+        return (
+            <PeopleItemContainer key={uuid()}>
+                <PersonText>
+                    {person.first_name} {person.last_name}
+                </PersonText>
+                <ButtonsContainer value={person.id}>
+                    <AddParent onClick={addParent}>Parent</AddParent>
+                    <AddSibling onClick={addSibling}>Sibling</AddSibling>
+                    <AddChild onClick={addChild}>Child</AddChild>
+                    <AddSpouse onClick={addSpouse}>Spouse</AddSpouse>
+                </ButtonsContainer>
+            </PeopleItemContainer>
+        );
+    });
+    return people;
 };
 
 const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
@@ -158,6 +222,7 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
 
     const addSibling = (e) => {
         let sibling_key = parseInt(e.target.parentElement.getAttribute("value"));
+        console.log({ variables: { person_key, sibling_key } });
         addSiblingMutation({ variables: { person_key, sibling_key } });
     };
 
@@ -184,21 +249,15 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
             <Form onSubmit={onSubmit}>
                 <GenInput onChange={onChange} type="text" value={search} />
             </Form>
-            {!loading && data && data.searchPeople && data.searchPeople.results.length > 0
-                ? data.searchPeople.results.map((person) => {
-                      return (
-                          <PeopleItemContainer key={uuid()} value={person.id}>
-                              <PersonText>
-                                  {person.first_name} {person.last_name}
-                              </PersonText>
-                              <AddParent onClick={addParent}>Parent</AddParent>
-                              <AddSibling onClick={addSibling}>Sibling</AddSibling>
-                              <AddChild onClick={addChild}>Child</AddChild>
-                              <AddSpouse onClick={addSpouse}>Spouse</AddSpouse>
-                          </PeopleItemContainer>
-                      );
-                  })
-                : null}
+            {!loading && data && data.searchPeople && data.searchPeople.results.length > 0 ? (
+                <PeopleItems
+                    data={data.searchPeople.results}
+                    addParent={addParent}
+                    addSibling={addSibling}
+                    addChild={addChild}
+                    addSpouse={addSpouse}
+                />
+            ) : null}
             {family_data ? (
                 <Remove
                     data={family_data}

@@ -3,7 +3,6 @@ import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import LightButton from "../universal/LightButton";
 import DangerButton from "../universal/DangerButton";
 import SuccessButton from "../universal/SuccessButton";
 import PropTypes from "prop-types";
@@ -129,23 +128,16 @@ const AddButton = styled(SuccessButton)`
     margin-right: 0.25rem;
 `;
 
-const SortButton = styled(LightButton)`
-    margin-right: 0.25rem;
-`;
-
 const DeleteButton = styled(DangerButton)``;
 
 const Buttons = ({ currid }) => {
     return (
         <ButtonContainer>
             <Link to={`addphotos/${currid}`}>
-                <AddButton>Add</AddButton>
-            </Link>
-            <Link to={`sortphotos/${currid}`}>
-                <SortButton>Sort</SortButton>
+                <AddButton>Add Photos</AddButton>
             </Link>
             <Link to={`deletephotos/${currid}`}>
-                <DeleteButton>Delete</DeleteButton>
+                <DeleteButton>Delete Photos</DeleteButton>
             </Link>
         </ButtonContainer>
     );
