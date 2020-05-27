@@ -1,4 +1,4 @@
-const { Gallery } = require("../../../sequelize");
+const { Gallery, sequelize } = require("../../../sequelize");
 const { AuthenticationError } = require("apollo-server-express");
 
 module.exports = {
@@ -38,5 +38,20 @@ module.exports = {
         } catch (err) {
             throw new Error(err);
         }
+    },
+    deletePhotos: async (obj, args, context, info) => {
+        if (!context.isAuth) {
+            throw new AuthenticationError("Unauthenticated!");
+        }
+        const { photos, galleryid } = args;
+        try {
+            await sequelize.query(`
+                UPDATE main.photos SET
+                deleted = 1
+                WHERE \`key\` = ${galleryid}
+                AND id NOT IN (${photos.join(", ")})
+            `);
+        } catch (error) {}
+        return true;
     }
 };

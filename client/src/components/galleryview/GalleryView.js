@@ -69,6 +69,7 @@ const GalleryView = ({ match }) => {
             filter: parseInt(match.params.id)
         }
     });
+    console.log(data);
     return (
         <Container>
             {!loading && error ? <ApError /> : null}

@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import DeleteItem from "./DeleteItem";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { uuid } from "uuidv4";
+import SuccessButton from "../universal/SuccessButton";
+import { toast } from "react-toastify";
 
 const Container = styled.div`
-    max-width: 1100px;
     margin: auto;
     padding: 4rem 0 0;
     min-height: 100vh;
+    width: max-content;
 `;
 
 const MainTitle = styled.div`
@@ -23,8 +25,10 @@ const MainTitle = styled.div`
 `;
 
 const PhotoContainer = styled.div`
+    margin: 0.25rem;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
+    border: 1px solid lightgrey;
 `;
 
 const Photos = ({ data, onDelete }) => {
@@ -37,8 +41,19 @@ const Photos = ({ data, onDelete }) => {
     );
 };
 
+const ButtonContainer = styled.div``;
+
+const Buttons = ({ onSave }) => {
+    return (
+        <ButtonContainer>
+            <SuccessButton onClick={onSave}>Save</SuccessButton>
+        </ButtonContainer>
+    );
+};
+
 const DeletePhotos = ({ match }) => {
     const [photos, setPhotos] = useState([]);
+
     const { loading } = useQuery(GALLERY_PHOTOS, {
         variables: {
             id: parseInt(match.params.id)
@@ -47,6 +62,13 @@ const DeletePhotos = ({ match }) => {
             setPhotos(data.photos);
         }
     });
+
+    const [deletePhotos] = useMutation(DELETE_PHOTOS_MUTATION, {
+        onCompleted: () => {
+            toast.success("Deleted photos");
+        }
+    });
+
     const onDelete = (e) => {
         let newPhotos = [];
         let image = e.target.value;
@@ -57,13 +79,19 @@ const DeletePhotos = ({ match }) => {
     };
 
     const onSave = () => {
-        let photoIds = photos.map((photo) => photo.id);
-        console.log(photoIds);
+        let photoIds = photos.map((photo) => parseInt(photo.id));
+        deletePhotos({
+            variables: {
+                photos: photoIds,
+                galleryid: parseInt(match.params.id)
+            }
+        });
     };
 
     return (
         <Container>
             <MainTitle>Delete Photos</MainTitle>
+            <Buttons onSave={onSave} />
             {!loading && photos.length > 0 ? <Photos data={photos} onDelete={onDelete} /> : null}
         </Container>
     );
@@ -76,6 +104,12 @@ const GALLERY_PHOTOS = gql`
             id
             link_thumb
         }
+    }
+`;
+
+const DELETE_PHOTOS_MUTATION = gql`
+    mutation DeletePhotos($photos: [Int!]!, $galleryid: Int!) {
+        deletePhotos(photos: $photos, galleryid: $galleryid)
     }
 `;
 

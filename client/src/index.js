@@ -54,7 +54,7 @@ cache.writeData({
 
 ReactDOM.render(
     <ApolloProvider client={client}>
-        <ToastContainer hideProgressBar pauseOnHover={false} />
+        <ToastContainer hideProgressBar pauseOnHover={false} draggable={false} />
         <App />
     </ApolloProvider>,
     document.getElementById("root")

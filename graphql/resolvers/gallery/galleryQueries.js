@@ -14,6 +14,7 @@ module.exports = {
                 WHERE id IN(
                     SELECT DISTINCT MP.key FROM main.photos AS MP
                 )
+                AND deleted = 0
                 ORDER BY createdAt DESC
                 LIMIT 9;
             `);
@@ -51,8 +52,8 @@ module.exports = {
     gallery: async (_, args) => {
         const id = args.filter;
         try {
-            const returnData = await Gallery.findOne({ where: { id } });
-            const photosData = await Photo.findAll({ where: { key: id } });
+            const returnData = await Gallery.findOne({ where: { id, deleted: 0 } });
+            const photosData = await Photo.findAll({ where: { key: id, deleted: 0 } });
             returnData["photos"] = photosData;
             return returnData;
         } catch (error) {
@@ -62,7 +63,7 @@ module.exports = {
     photos: async (_, args) => {
         const id = args.filter;
         try {
-            const returnData = await Photo.findAll({ where: { key: id } });
+            const returnData = await Photo.findAll({ where: { key: id, deleted: 0 } });
             return returnData;
         } catch (error) {
             throw new Error(err);

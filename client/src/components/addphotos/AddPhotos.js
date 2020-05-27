@@ -8,6 +8,8 @@ import { toast } from "react-toastify";
 import gql from "graphql-tag";
 import PropTypes from "prop-types";
 import axios from "axios";
+import { LinearProgress } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
     max-width: 1100px;
@@ -48,6 +50,7 @@ const Error = () => {
 
 const DescriptionContainer = styled.div`
     margin: auto;
+    max-width: 500px;
     text-align: center;
 `;
 const TitleText = styled.div`
@@ -56,6 +59,7 @@ const TitleText = styled.div`
 
 const BodyText = styled.div`
     font-size: 1rem;
+    text-align: left;
 `;
 
 const UploadContainer = styled.div`
@@ -92,7 +96,39 @@ Description.propTypes = {
     text: PropTypes.string.isRequired
 };
 
+const ProgressContainer = styled.div`
+    margin-bottom: 3rem;
+`;
+
+const Progress = ({ progress }) => {
+    return (
+        <ProgressContainer>
+            <LinearProgress variant="determinate" value={progress} />
+        </ProgressContainer>
+    );
+};
+
+Progress.propTypes = {
+    progress: PropTypes.number.isRequired
+};
+
+const GoToGalleryContainer = styled.div`
+    margin: 0 auto 3rem;
+    width: max-content;
+`;
+
+const GoToGallery = ({ galleryid }) => {
+    return (
+        <GoToGalleryContainer>
+            <Link to={`/galeria/${galleryid}`}>
+                <SuccessButton>Go To Gallery</SuccessButton>
+            </Link>
+        </GoToGalleryContainer>
+    );
+};
+
 const AddPhotos = ({ match }) => {
+    const [progress, setProgress] = useState(0);
     const [pictures, setPictures] = useState([]);
     const [uploadBtn, setUploadBtn] = useState(false);
 
@@ -106,6 +142,7 @@ const AddPhotos = ({ match }) => {
         setPictures(picture);
         if (picture.length > 0) {
             setUploadBtn(true);
+            setProgress(0);
         } else {
             setUploadBtn(false);
         }
@@ -126,7 +163,7 @@ const AddPhotos = ({ match }) => {
                 },
                 onUploadProgress: (progressEvent) => {
                     const { loaded, total } = progressEvent;
-                    console.log(`${loaded}/${total}`);
+                    setProgress((loaded / total) * 100);
                 }
             })
             .then(() => {
@@ -144,7 +181,9 @@ const AddPhotos = ({ match }) => {
             {!loading && error ? <Error /> : null}
             {!loading && !error && data ? <Description title={data.gallery.title} text={data.gallery.text} /> : null}
             {!loading && !error && data ? <Uploader onDrop={onDrop} pictures={pictures} /> : null}
-            {uploadBtn ? <Upload onUpload={onUpload} /> : null}
+            {progress > 0 && progress < 100 ? <Progress progress={progress} /> : null}
+            {uploadBtn && progress === 0 ? <Upload onUpload={onUpload} /> : null}
+            {progress === 100 ? <GoToGallery galleryid={match.params.id} /> : null}
         </Container>
     );
 };
