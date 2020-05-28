@@ -42,6 +42,7 @@ const Date = styled.div`
     width: 100%;
     text-align: right;
 `;
+
 const MenuItem = ({ text, title, createdAt }) => {
     return (
         <NewsCard>

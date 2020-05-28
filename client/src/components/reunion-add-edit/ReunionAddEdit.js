@@ -83,7 +83,19 @@ const Add = ({ title, text, onChange, onAdd }) => {
     return (
         <AddContainer>
             <Title>
-                <TextField style={{ width: "100%" }} onChange={onChange} label="Title" variant="filled" value={title} name="title" />
+                <TextField
+                    autoComplete="off"
+                    style={{ width: "100%" }}
+                    onChange={onChange}
+                    label="Title"
+                    variant="filled"
+                    value={title}
+                    name="title"
+                    inputProps={{
+                        maxLength: 42
+                    }}
+                    helperText={`${title.length}/${42}`}
+                />
             </Title>
             <TextArea>
                 <TextareaAutosize

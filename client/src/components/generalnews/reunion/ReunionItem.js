@@ -21,6 +21,7 @@ const TitleText = styled.div`
 
 const BodyText = styled.div`
     font-size: 1rem;
+    white-space: pre-wrap;
 `;
 
 const DateText = styled.div`

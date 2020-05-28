@@ -60,6 +60,13 @@ const SaveEditDeleteContainer = styled.div`
     width: fit-content;
 `;
 
+const Counter = styled.div`
+    font-size: 0.8rem;
+    margin-top: -0.4rem;
+    margin-left: 0.7rem;
+    color: grey;
+`;
+
 const InfoEdit = ({ data, stopEdit }) => {
     const [updatePerson] = useMutation(UPDATE_PERSON_MUTATION, {
         onError: (errors) => console.log(errors),
@@ -113,9 +120,39 @@ const InfoEdit = ({ data, stopEdit }) => {
                 <DeleteText onClick={onDelete}>Delete</DeleteText>
             </SaveEditDeleteContainer>
             <EditRow1>
-                <TextField name="first_name" onChange={onChange} label="First name" variant="filled" value={first_name} />
-                <TextField name="middle_name" onChange={onChange} label="Middle name" variant="filled" value={middle_name} />
-                <TextField name="last_name" onChange={onChange} label="Last name" variant="filled" value={last_name} />
+                <TextField
+                    name="first_name"
+                    onChange={onChange}
+                    label="First name"
+                    variant="filled"
+                    value={first_name}
+                    inputProps={{
+                        maxLength: 24
+                    }}
+                    helperText={`${first_name.length}/${24}`}
+                />
+                <TextField
+                    name="middle_name"
+                    onChange={onChange}
+                    label="Middle name"
+                    variant="filled"
+                    value={middle_name}
+                    inputProps={{
+                        maxLength: 24
+                    }}
+                    helperText={`${middle_name.length}/${24}`}
+                />
+                <TextField
+                    name="last_name"
+                    onChange={onChange}
+                    label="Last name"
+                    variant="filled"
+                    value={last_name}
+                    inputProps={{
+                        maxLength: 40
+                    }}
+                    helperText={`${last_name.length}/${40}`}
+                />
             </EditRow1>
             <EditRow2>
                 <TextField
@@ -152,7 +189,9 @@ const InfoEdit = ({ data, stopEdit }) => {
                     value={notes}
                     type="text"
                     rowsMin={3}
+                    maxLength={300}
                 />
+                <Counter>{notes.length}/300</Counter>
             </EditRow3>
         </EditContainer>
     );

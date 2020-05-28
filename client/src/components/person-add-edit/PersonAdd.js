@@ -48,13 +48,50 @@ const AddRow4 = styled.div`
     margin-left: 0.5rem;
 `;
 
+const Counter = styled.div`
+    font-size: 0.8rem;
+    margin-top: -0.4rem;
+    margin-left: 0.7rem;
+    color: grey;
+`;
+
 const Add = ({ first_name, middle_name, last_name, birth_date, passed_date, notes, onChange, onAdd }) => {
     return (
         <AddContainer>
             <AddRow1>
-                <TextField name="first_name" onChange={onChange} label="First name" variant="filled" value={first_name} />
-                <TextField name="middle_name" onChange={onChange} label="Middle name" variant="filled" value={middle_name} />
-                <TextField name="last_name" onChange={onChange} label="Last name" variant="filled" value={last_name} />
+                <TextField
+                    name="first_name"
+                    onChange={onChange}
+                    label="First name"
+                    variant="filled"
+                    value={first_name}
+                    inputProps={{
+                        maxLength: 24
+                    }}
+                    helperText={`${first_name.length}/${24}`}
+                />
+                <TextField
+                    name="middle_name"
+                    onChange={onChange}
+                    label="Middle name"
+                    variant="filled"
+                    value={middle_name}
+                    inputProps={{
+                        maxLength: 24
+                    }}
+                    helperText={`${middle_name.length}/${24}`}
+                />
+                <TextField
+                    name="last_name"
+                    onChange={onChange}
+                    label="Last name"
+                    variant="filled"
+                    value={last_name}
+                    inputProps={{
+                        maxLength: 40
+                    }}
+                    helperText={`${last_name.length}/${40}`}
+                />
             </AddRow1>
             <AddRow2>
                 <TextField
@@ -91,7 +128,9 @@ const Add = ({ first_name, middle_name, last_name, birth_date, passed_date, note
                     value={notes}
                     type="text"
                     rowsMin={3}
+                    maxLength={300}
                 />
+                <Counter>{notes.length}/300</Counter>
             </AddRow3>
             <AddRow4>
                 <SuccessButton onClick={onAdd}>Add</SuccessButton>

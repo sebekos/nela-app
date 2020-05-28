@@ -57,13 +57,13 @@ body {
     transition: width 0.5s, height 0.5s, opacity 0.5s 0.5s;
 }
 
-/* Arrows */
+/* Arrows and scroll menu styling */
 .arrow-prev,
 .arrow-next {
     font-weight: bold;
     color: white;
     padding: 0.25rem;
-    height: 280px;
+    height: 284px;
     background-color: #333;
     opacity: 0.5;
     line-height: 270px;
@@ -80,4 +80,8 @@ body {
 
 .nav-bottom {
     border-bottom: 1px solid lightgrey;
+}
+
+.horizontal-menu {
+    background-color: rgba(177, 177, 177, 0.15);
 }

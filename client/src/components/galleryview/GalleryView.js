@@ -27,6 +27,7 @@ const TitleText = styled.div`
 const BodyText = styled.div`
     font-size: 1rem;
     padding: 1rem 0;
+    white-space: pre-wrap;
 `;
 
 const DateText = styled.div`
@@ -76,7 +77,7 @@ const GalleryView = ({ match }) => {
             {!loading && data && data.gallery ? (
                 <Info title={data.gallery.title} text={data.gallery.text} createdAt={data.gallery.createdAt} />
             ) : null}
-            {!loading && data.photos && data.photos && data.photos.length > 0 ? <PhotoViewer photos={data.photos} /> : null}
+            {!loading && data && data.photos && data.photos && data.photos.length > 0 ? <PhotoViewer photos={data.photos} /> : null}
         </Container>
     );
 };

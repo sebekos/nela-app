@@ -6,14 +6,23 @@ module.exports = (sequelize, type) => {
             autoIncrement: true
         },
         first_name: {
-            type: type.STRING
+            type: type.STRING,
+            validate: {
+                len: [0, 24]
+            }
         },
         middle_name: {
-            type: type.STRING
+            type: type.STRING,
+            validate: {
+                len: [0, 24]
+            }
         },
         last_name: {
             type: type.STRING,
-            allowNull: false
+            allowNull: false,
+            validate: {
+                len: [1, 40]
+            }
         },
         birth_date: {
             type: type.DATEONLY
@@ -25,7 +34,10 @@ module.exports = (sequelize, type) => {
             type: type.STRING
         },
         notes: {
-            type: type.TEXT
+            type: type.TEXT,
+            validate: {
+                len: [0, 300]
+            }
         },
         deleted: {
             type: type.INTEGER,

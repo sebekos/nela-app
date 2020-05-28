@@ -24,6 +24,7 @@ const TitleText = styled.div`
 
 const BodyText = styled.div`
     font-size: 1rem;
+    white-space: pre-wrap;
 `;
 
 const DateText = styled.div`
@@ -102,7 +103,18 @@ const Edit = ({ text, title, onSave, onChange, stopEdit, onDelete }) => {
                 <DeleteText onClick={onDelete}>Delete</DeleteText>
             </SaveEditDeleteContainer>
             <Title>
-                <TextField style={{ width: "100%" }} onChange={onChange} label="Title" variant="filled" value={title} name="title" />
+                <TextField
+                    style={{ width: "100%" }}
+                    onChange={onChange}
+                    label="Title"
+                    variant="filled"
+                    value={title}
+                    name="title"
+                    inputProps={{
+                        maxLength: 42
+                    }}
+                    helperText={`${title.length}/${42}`}
+                />
             </Title>
             <TextArea>
                 <TextareaAutosize

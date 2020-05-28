@@ -77,6 +77,13 @@ const TextArea = styled.div`
     }
 `;
 
+const Counter = styled.div`
+    font-size: 0.8rem;
+    margin-top: -0.4rem;
+    margin-left: 0.7rem;
+    color: grey;
+`;
+
 const Add = ({ text, type, onChange, onAdd }) => {
     return (
         <AddContainer>
@@ -89,7 +96,9 @@ const Add = ({ text, type, onChange, onAdd }) => {
                     value={text}
                     type="text"
                     rowsMin={3}
+                    maxLength={500}
                 />
+                <Counter>{text.length}/500</Counter>
             </TextArea>
             <GenSelect name="type" onChange={onChange} value={type}>
                 <option defaultValue disabled value="0">

@@ -79,11 +79,29 @@ const TextArea = styled.div`
     }
 `;
 
+const Counter = styled.div`
+    font-size: 0.8rem;
+    margin-top: -0.4rem;
+    margin-left: 0.7rem;
+    color: grey;
+`;
+
 const Add = ({ title, text, onChange, onAdd }) => {
     return (
         <AddContainer>
             <Title>
-                <TextField style={{ width: "100%" }} onChange={onChange} label="Title" variant="filled" value={title} name="title" />
+                <TextField
+                    style={{ width: "100%" }}
+                    onChange={onChange}
+                    label="Title"
+                    variant="filled"
+                    value={title}
+                    name="title"
+                    inputProps={{
+                        maxLength: 42
+                    }}
+                    helperText={`${title.length}/${42}`}
+                />
             </Title>
             <TextArea>
                 <TextareaAutosize
@@ -94,8 +112,10 @@ const Add = ({ title, text, onChange, onAdd }) => {
                     value={text}
                     type="text"
                     rowsMin={3}
+                    maxLength={500}
                 />
             </TextArea>
+            <Counter>{text.length}/500</Counter>
             <SuccessButton onClick={onAdd}>Add</SuccessButton>
         </AddContainer>
     );

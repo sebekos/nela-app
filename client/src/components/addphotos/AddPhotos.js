@@ -60,6 +60,7 @@ const TitleText = styled.div`
 const BodyText = styled.div`
     font-size: 1rem;
     text-align: left;
+    white-space: pre-wrap;
 `;
 
 const UploadContainer = styled.div`

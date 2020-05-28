@@ -24,6 +24,7 @@ const TitleText = styled.div`
 
 const BodyText = styled.div`
     font-size: 1rem;
+    white-space: pre-wrap;
 `;
 
 const DateText = styled.div`
@@ -91,6 +92,13 @@ const SaveEditDeleteContainer = styled.div`
     width: fit-content;
 `;
 
+const Counter = styled.div`
+    font-size: 0.8rem;
+    margin-top: -0.4rem;
+    margin-left: 0.7rem;
+    color: grey;
+`;
+
 const EditContainer = ({ text, title, onSave, onChange, stopEdit, onDelete }) => {
     return (
         <>
@@ -100,7 +108,18 @@ const EditContainer = ({ text, title, onSave, onChange, stopEdit, onDelete }) =>
                 <DeleteText onClick={onDelete}>Delete</DeleteText>
             </SaveEditDeleteContainer>
             <Title>
-                <TextField style={{ width: "100%" }} onChange={onChange} label="Title" variant="filled" value={title} name="title" />
+                <TextField
+                    style={{ width: "100%" }}
+                    onChange={onChange}
+                    label="Title"
+                    variant="filled"
+                    value={title}
+                    name="title"
+                    inputProps={{
+                        maxLength: 42
+                    }}
+                    helperText={`${title.length}/${42}`}
+                />
             </Title>
             <TextArea>
                 <TextareaAutosize
@@ -112,6 +131,7 @@ const EditContainer = ({ text, title, onSave, onChange, stopEdit, onDelete }) =>
                     type="text"
                     rowsMin={3}
                 />
+                <Counter>{text.length}/500</Counter>
             </TextArea>
         </>
     );
@@ -125,9 +145,7 @@ EditContainer.propTypes = {
 
 const AddEditItem = ({ data }) => {
     const [updateNews] = useMutation(UPDATE_NEWS_QUERY, {
-        onError: (errors) => {
-            errors.graphQLErrors.forEach((error) => toast.error(error.message));
-        },
+        onError: (errors) => console.log(errors),
         onCompleted: () => {
             toast.success("News updated");
             setEdit(false);

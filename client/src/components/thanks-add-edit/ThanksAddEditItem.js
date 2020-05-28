@@ -81,6 +81,13 @@ const SaveEditDeleteContainer = styled.div`
     width: fit-content;
 `;
 
+const Counter = styled.div`
+    font-size: 0.8rem;
+    margin-top: -0.4rem;
+    margin-left: 0.7rem;
+    color: grey;
+`;
+
 const EditContainer = ({ text, onSave, onChange, stopEdit, onDelete }) => {
     return (
         <>
@@ -98,7 +105,9 @@ const EditContainer = ({ text, onSave, onChange, stopEdit, onDelete }) => {
                     value={text}
                     type="text"
                     rowsMin={3}
+                    maxLength={500}
                 />
+                <Counter>{text.length}/500</Counter>
             </TextArea>
         </>
     );

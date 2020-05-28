@@ -10,8 +10,11 @@ module.exports = (sequelize, type) => {
             allowNull: false
         },
         text: {
-            type: type.STRING,
-            allowNull: false
+            type: type.TEXT,
+            allowNull: false,
+            validate: {
+                len: [1, 500]
+            }
         },
         deleted: {
             type: type.INTEGER,

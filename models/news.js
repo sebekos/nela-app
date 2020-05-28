@@ -7,11 +7,17 @@ module.exports = (sequelize, type) => {
         },
         title: {
             type: type.STRING,
-            allowNull: false
+            allowNull: false,
+            validate: {
+                len: [1, 42]
+            }
         },
         text: {
             type: type.TEXT,
-            allowNull: false
+            allowNull: false,
+            validate: {
+                len: [1, 500]
+            }
         },
         deleted: {
             type: type.INTEGER,

@@ -69,6 +69,7 @@ const BoldText = styled.div`
 const BodyText = styled.div`
     font-size: 1rem;
     margin-bottom: 2rem;
+    white-space: pre-wrap;
 `;
 
 const Text = () => {

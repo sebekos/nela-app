@@ -51,7 +51,6 @@ const SmallTitle = styled(MediumTitle)`
 
 const GeneralNews = () => {
     const { data, loading, error } = useQuery(GENERAL_NEWS_QUERY);
-    console.log(data);
     return (
         <>
             <MainTitle>Newsy</MainTitle>

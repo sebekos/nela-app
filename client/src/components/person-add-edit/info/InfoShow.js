@@ -11,7 +11,11 @@ const ShowNameContainer = styled.div``;
 
 const ShowDatesContainer = styled.div``;
 
-const ShowNotesContainer = styled.div``;
+const ShowNotesContainer = styled.div`
+    overflow-wrap: break-word;
+    padding: 0.25rem;
+    max-width: 634px;
+`;
 
 const EditText = styled.div`
     width: 100%;

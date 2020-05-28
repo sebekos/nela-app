@@ -38,12 +38,12 @@ module.exports = {
         }
         const userInputs = args.updatePersonInput;
         const personFields = personKeys.reduce((memo, val) => {
-            if (userInputs[val] !== null) memo[val] = userInputs[val];
+            if (userInputs[val] !== null && userInputs[val] !== "") memo[val] = userInputs[val];
             return memo;
         }, {});
         personFields.lastUser = context.userId;
         try {
-            const person = await Person.update(personFields, { where: { id: userInputs.id } });
+            await Person.update(personFields, { where: { id: userInputs.id } });
             const retPerson = await Person.findOne({ where: { id: userInputs.id } });
             return retPerson;
         } catch (err) {
