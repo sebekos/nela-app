@@ -51,6 +51,7 @@ const SmallTitle = styled(MediumTitle)`
 
 const GeneralNews = () => {
     const { data, loading, error } = useQuery(GENERAL_NEWS_QUERY);
+    console.log(data);
     return (
         <>
             <MainTitle>Newsy</MainTitle>
@@ -68,6 +69,8 @@ const GeneralNews = () => {
                             <ScrollCards data={data.fam2} />
                             <SmallTitle>Witamy w rodzinie</SmallTitle>
                             <ScrollCards data={data.fam3} />
+                            <MediumTitle>Podziękowania</MediumTitle>
+                            <ScrollCards data={data.thanks} />
                             <MediumTitle>Zjazdy</MediumTitle>
                             <Reunion data={data.reunion} />
                         </>
@@ -107,6 +110,11 @@ const GENERAL_NEWS_QUERY = gql`
         reunion {
             id
             title
+            text
+            createdAt
+        }
+        thanks {
+            id
             text
             createdAt
         }

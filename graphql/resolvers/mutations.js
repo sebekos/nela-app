@@ -7,6 +7,7 @@ const parent = require("./parent/parentMutations");
 const child = require("./child/childMutations");
 const sibling = require("./sibling/siblingMutations");
 const spouse = require("./spouse/spouseMutations");
+const thank = require("./thank/thankMutations");
 
 module.exports = {
     Mutation: {
@@ -18,6 +19,7 @@ module.exports = {
         ...parent,
         ...child,
         ...sibling,
-        ...spouse
+        ...spouse,
+        ...thank
     }
 };

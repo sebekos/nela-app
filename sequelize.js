@@ -10,6 +10,7 @@ const ParentModel = require("./models/parent");
 const ChildModel = require("./models/child");
 const SiblingModel = require("./models/sibling");
 const SpouseModel = require("./models/spouse");
+const ThankModel = require("./models/thank");
 const dotenv = require("dotenv");
 require("dotenv").config();
 
@@ -31,6 +32,7 @@ const Parent = ParentModel(sequelize, Sequelize);
 const Child = ChildModel(sequelize, Sequelize);
 const Sibling = SiblingModel(sequelize, Sequelize);
 const Spouse = SpouseModel(sequelize, Sequelize);
+const Thank = ThankModel(sequelize, Sequelize);
 
 try {
     sequelize.sync();
@@ -52,5 +54,6 @@ module.exports = {
     Child,
     Sibling,
     Spouse,
+    Thank,
     sequelize
 };

@@ -8,6 +8,7 @@ const parent = require("./parent/parentQueries");
 const child = require("./child/childQueries");
 const sibling = require("./sibling/siblingQueries");
 const spouse = require("./spouse/spouseQueries");
+const thank = require("./thank/thankQueries");
 
 module.exports = {
     Query: {
@@ -20,6 +21,7 @@ module.exports = {
         ...parent,
         ...child,
         ...sibling,
-        ...spouse
+        ...spouse,
+        ...thank
     }
 };

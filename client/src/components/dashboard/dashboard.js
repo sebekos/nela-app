@@ -55,6 +55,9 @@ const Buttons = () => {
             <Link to="galleryaddedit">
                 <WiesciButton>Galeria</WiesciButton>
             </Link>
+            <Link to="thanksaddedit">
+                <WiesciButton>Podziękowania</WiesciButton>
+            </Link>
         </ButtonsContainer>
     );
 };
