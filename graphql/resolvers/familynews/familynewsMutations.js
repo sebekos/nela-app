@@ -7,12 +7,13 @@ module.exports = {
             throw new AuthenticationError("Unauthenticated!");
         }
         const { text, type } = args.familyNewsInput;
+        const { userId } = context;
         const familyNewsFields = {
             type,
             text,
             deleted: 0,
-            createdUser: context.userId,
-            lastUser: context.userId
+            createdUser: userId,
+            lastUser: userId
         };
         try {
             const familynews = await FamilyNews.create(familyNewsFields);
@@ -26,10 +27,11 @@ module.exports = {
             throw new AuthenticationError("Unauthenticated!");
         }
         const { id, text, type } = args.updateFamilyNewsInput;
+        const { userId } = context;
         const familyNewsFields = {
             text,
             type,
-            lastUser: context.userId
+            lastUser: userId
         };
         try {
             let familynews = await FamilyNews.update(familyNewsFields, { where: { id } });
@@ -43,11 +45,11 @@ module.exports = {
         if (!context.isAuth) {
             throw new AuthenticationError("Unauthenticated!");
         }
-        console.log(args);
         const { id } = args;
+        const { userId } = context;
         const familyNewsFields = {
             deleted: 1,
-            lastUser: context.userId
+            lastUser: userId
         };
         try {
             await FamilyNews.update(familyNewsFields, { where: { id } });

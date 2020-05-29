@@ -7,11 +7,12 @@ module.exports = {
             throw new AuthenticationError("Unauthenticated!");
         }
         const { text } = args.thankInput;
+        const { userId } = context;
         const thankFields = {
             text,
             deleted: 0,
-            createdUser: context.userId,
-            lastUser: context.userId
+            createdUser: userId,
+            lastUser: userId
         };
         try {
             const thank = await Thank.create(thankFields);
@@ -25,9 +26,10 @@ module.exports = {
             throw new AuthenticationError("Unauthenticated!");
         }
         const { id, text } = args.updateThankInput;
+        const { userId } = context;
         const thankFields = {
             text,
-            lastUser: context.userId
+            lastUser: userId
         };
         try {
             let thank = await Thank.update(thankFields, { where: { id } });
@@ -42,9 +44,10 @@ module.exports = {
             throw new AuthenticationError("Unauthenticated!");
         }
         const { id } = args;
+        const { userId } = context;
         const thankFields = {
             deleted: 1,
-            lastUser: context.userId
+            lastUser: userId
         };
         try {
             await Thank.update(thankFields, { where: { id } });

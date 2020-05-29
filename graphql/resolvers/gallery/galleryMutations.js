@@ -7,12 +7,13 @@ module.exports = {
             throw new AuthenticationError("Unauthenticated!");
         }
         const { title, text } = args.galleryInput;
+        const { userId } = context;
         const galleryFields = {
             title,
             text,
             deleted: 0,
-            createdUser: context.userId,
-            lastUser: context.userId
+            createdUser: userId,
+            lastUser: userId
         };
         try {
             const gallery = await Gallery.create(galleryFields);
@@ -26,10 +27,11 @@ module.exports = {
             throw new AuthenticationError("Unauthenticated!");
         }
         const { id, title, text } = args.updateGalleryInput;
+        const { userId } = context;
         const galleryFields = {
             title,
             text,
-            lastUser: context.userId
+            lastUser: userId
         };
         try {
             let gallery = await Gallery.update(galleryFields, { where: { id } });
@@ -44,9 +46,10 @@ module.exports = {
             throw new AuthenticationError("Unauthenticated!");
         }
         const { id } = args;
+        const { userId } = context;
         const galleryFields = {
             deleted: 1,
-            lastUser: context.userId
+            lastUser: userId
         };
         try {
             await Gallery.update(galleryFields, { where: { id } });

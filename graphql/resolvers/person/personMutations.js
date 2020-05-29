@@ -19,12 +19,13 @@ module.exports = {
             throw new AuthenticationError("Unauthenticated!");
         }
         const userInputs = args.personInput;
+        const { userId } = context;
         const personFields = personKeys.reduce((memo, val) => {
             if (userInputs[val]) memo[val] = userInputs[val];
             return memo;
         }, {});
-        personFields.lastUser = context.userId;
-        personFields.createdUser = context.userId;
+        personFields.lastUser = userId;
+        personFields.createdUser = userId;
         try {
             const person = await Person.create(personFields);
             return person;
@@ -37,11 +38,12 @@ module.exports = {
             throw new AuthenticationError("Unauthenticated!");
         }
         const userInputs = args.updatePersonInput;
+        const { userId } = context;
         const personFields = personKeys.reduce((memo, val) => {
             if (userInputs[val] !== null && userInputs[val] !== "") memo[val] = userInputs[val];
             return memo;
         }, {});
-        personFields.lastUser = context.userId;
+        personFields.lastUser = userId;
         try {
             await Person.update(personFields, { where: { id: userInputs.id } });
             const retPerson = await Person.findOne({ where: { id: userInputs.id } });
@@ -55,9 +57,10 @@ module.exports = {
             throw new AuthenticationError("Unauthenticated!");
         }
         const id = args.id;
+        const { userId } = context;
         const personFields = {
             deleted: 1,
-            lastUser: context.userId
+            lastUser: userId
         };
         try {
             await Person.update(personFields, { where: { id } });

@@ -7,12 +7,13 @@ module.exports = {
             throw new AuthenticationError("Unauthenticated!");
         }
         const { title, text } = args.reunionInput;
+        const { userId } = context;
         const reunionFields = {
             title,
             text,
             deleted: 0,
-            createdUser: context.userId,
-            lastUser: context.userId
+            createdUser: userId,
+            lastUser: userId
         };
         try {
             const reunion = await Reunion.create(reunionFields);
@@ -26,10 +27,11 @@ module.exports = {
             throw new AuthenticationError("Unauthenticated!");
         }
         const { id, title, text } = args.updateReunionInput;
+        const { userId } = context;
         const reunionFields = {
             title,
             text,
-            lastUser: context.userId
+            lastUser: userId
         };
         try {
             let reunion = await Reunion.update(reunionFields, { where: { id } });
@@ -44,9 +46,10 @@ module.exports = {
             throw new AuthenticationError("Unauthenticated!");
         }
         const { id } = args;
+        const { userId } = context;
         const reunionFields = {
             deleted: 1,
-            lastUser: context.userId
+            lastUser: userId
         };
         try {
             await Reunion.update(reunionFields, { where: { id } });

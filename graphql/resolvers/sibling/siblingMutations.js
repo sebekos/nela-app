@@ -7,6 +7,7 @@ module.exports = {
             throw new AuthenticationError("Unauthenticated!");
         }
         const { person_key, sibling_key } = args.siblingInput;
+        const { userId } = context;
         try {
             const checkSibling = await Person.findOne({ where: { id: sibling_key } });
             if (!checkSibling) {
@@ -23,7 +24,7 @@ module.exports = {
                     updatedAt
                 )
                 VALUES
-                (${person_key}, ${sibling_key}, 0, \"${context.userId}\", \"${context.userId}\", CURRENT_DATE(), CURRENT_DATE())
+                (${person_key}, ${sibling_key}, 0, \"${userId}\", \"${userId}\", CURRENT_DATE(), CURRENT_DATE())
             `);
             return true;
         } catch (err) {
@@ -35,6 +36,7 @@ module.exports = {
             throw new AuthenticationError("Unauthenticated!");
         }
         const id = args.id;
+        const { userId } = context;
         try {
             await sequelize.query(`
                 WITH RELATE (id) AS (
@@ -50,7 +52,7 @@ module.exports = {
                 )
                 UPDATE main.siblings SET
                 deleted = 1,
-                lastUser = \"${context.userId}\",
+                lastUser = \"${userId}\",
                 updatedAt = CURRENT_DATE()
                 WHERE id IN(SELECT id FROM RELATE);
             `);
