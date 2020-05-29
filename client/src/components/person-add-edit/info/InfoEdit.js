@@ -105,11 +105,11 @@ const InfoEdit = ({ data, stopEdit }) => {
     };
 
     const onSave = () => {
-        updatePerson({ variables: { id: parseInt(data.id), first_name, middle_name, last_name, birth_date, passed_date, notes } });
+        updatePerson({ variables: { id: parseInt(data.id, 10), first_name, middle_name, last_name, birth_date, passed_date, notes } });
     };
 
     const onDelete = () => {
-        deletePerson({ variables: { id: parseInt(data.id) } });
+        deletePerson({ variables: { id: parseInt(data.id, 10) } });
     };
 
     return (

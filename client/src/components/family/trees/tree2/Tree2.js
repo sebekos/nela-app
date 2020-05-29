@@ -54,7 +54,7 @@ const Loading = () => {
 const Tree2 = ({ match }) => {
     const { data, loading } = useQuery(TREE1_QUERY, {
         variables: {
-            id: parseInt(match.params.id)
+            id: parseInt(match.params.id, 10)
         }
     });
     return (
@@ -67,14 +67,14 @@ const Tree2 = ({ match }) => {
                         <MainInfo data={data.person} />
                         <ReactFamilyTree
                             nodes={singleTree(data)}
-                            rootId={parseInt(match.params.id)}
+                            rootId={parseInt(match.params.id, 10)}
                             width={WIDTH}
                             height={HEIGHT}
                             renderNode={(node) => (
                                 <Link to={`/Rodzina/${node.id}`} key={node.id}>
                                     <FamilyNode
                                         node={node}
-                                        isRoot={node.id === parseInt(match.params.id)}
+                                        isRoot={node.id === parseInt(match.params.id, 10)}
                                         style={{
                                             width: 125,
                                             height: 125,

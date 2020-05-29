@@ -56,7 +56,7 @@ const DeletePhotos = ({ match }) => {
 
     const { loading } = useQuery(GALLERY_PHOTOS, {
         variables: {
-            id: parseInt(match.params.id)
+            id: parseInt(match.params.id, 10)
         },
         onCompleted: (data) => {
             setPhotos(data.photos);
@@ -79,11 +79,11 @@ const DeletePhotos = ({ match }) => {
     };
 
     const onSave = () => {
-        let photoIds = photos.map((photo) => parseInt(photo.id));
+        let photoIds = photos.map((photo) => parseInt(photo.id, 10));
         deletePhotos({
             variables: {
                 photos: photoIds,
-                galleryid: parseInt(match.params.id)
+                galleryid: parseInt(match.params.id, 10)
             }
         });
     };

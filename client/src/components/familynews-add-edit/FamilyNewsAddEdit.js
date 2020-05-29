@@ -63,8 +63,7 @@ const AddContainer = styled.div`
     padding: 1rem;
     color: #333;
     margin: 1rem auto 0;
-    -webkit-box-shadow: 1px 1px 3px 2px #ccc;
-    -moz-box-shadow: 1px 1px 3px 2px #ccc;
+
     box-shadow: 1px 1px 3px 2px #ccc;
 `;
 
@@ -169,7 +168,7 @@ const AddEdit = () => {
 
     const onAdd = (e) => {
         e.preventDefault();
-        addFamilyNews({ variables: { text, type: parseInt(type) } });
+        addFamilyNews({ variables: { text, type: parseInt(type, 10) } });
     };
 
     return (

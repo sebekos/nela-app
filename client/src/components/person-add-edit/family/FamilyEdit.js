@@ -216,30 +216,30 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
         searchPeople({ variables: { search } });
     };
     const addParent = (e) => {
-        let parent_key = parseInt(e.target.parentElement.getAttribute("value"));
+        let parent_key = parseInt(e.target.parentElement.getAttribute("value"), 10);
         addParentMutation({ variables: { person_key, parent_key } });
     };
 
     const addSibling = (e) => {
-        let sibling_key = parseInt(e.target.parentElement.getAttribute("value"));
+        let sibling_key = parseInt(e.target.parentElement.getAttribute("value"), 10);
         console.log({ variables: { person_key, sibling_key } });
         addSiblingMutation({ variables: { person_key, sibling_key } });
     };
 
     const addChild = (e) => {
-        let child_key = parseInt(e.target.parentElement.getAttribute("value"));
+        let child_key = parseInt(e.target.parentElement.getAttribute("value"), 10);
         addChildMutation({ variables: { person_key, child_key } });
     };
 
     const addSpouse = (e) => {
-        let spouse_key = parseInt(e.target.parentElement.getAttribute("value"));
+        let spouse_key = parseInt(e.target.parentElement.getAttribute("value"), 10);
         addSpouseMutation({ variables: { person_key, spouse_key } });
     };
 
-    const removeParent = (e) => removeParentMutation({ variables: { id: parseInt(e.target.id) } });
-    const removeChild = (e) => removeChildMutation({ variables: { id: parseInt(e.target.id) } });
-    const removeSibling = (e) => removeSiblingMutation({ variables: { id: parseInt(e.target.id) } });
-    const removeSpouse = (e) => removeSpouseMutation({ variables: { id: parseInt(e.target.id) } });
+    const removeParent = (e) => removeParentMutation({ variables: { id: parseInt(e.target.id, 10) } });
+    const removeChild = (e) => removeChildMutation({ variables: { id: parseInt(e.target.id, 10) } });
+    const removeSibling = (e) => removeSiblingMutation({ variables: { id: parseInt(e.target.id, 10) } });
+    const removeSpouse = (e) => removeSpouseMutation({ variables: { id: parseInt(e.target.id, 10) } });
 
     return (
         <FamilyEditContainer>

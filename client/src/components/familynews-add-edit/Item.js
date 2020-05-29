@@ -14,8 +14,7 @@ const Container = styled.div`
     padding: 0.5rem;
     color: #333;
     margin: 1rem auto;
-    -webkit-box-shadow: 1px 1px 3px 2px #ccc;
-    -moz-box-shadow: 1px 1px 3px 2px #ccc;
+
     box-shadow: 1px 1px 3px 2px #ccc;
 `;
 
@@ -182,14 +181,14 @@ const Item = ({ data }) => {
         updateFamilyNews({
             variables: {
                 id,
-                type: parseInt(type),
+                type: parseInt(type, 10),
                 text
             }
         });
     };
 
     const onDelete = () => {
-        deleteFamilyNews({ variables: { id: parseInt(data.id) } });
+        deleteFamilyNews({ variables: { id: parseInt(data.id, 10) } });
     };
 
     return (

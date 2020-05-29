@@ -16,8 +16,7 @@ const Container = styled.div`
     padding: 0.5rem;
     color: #333;
     margin: 1rem auto;
-    -webkit-box-shadow: 1px 1px 3px 2px #ccc;
-    -moz-box-shadow: 1px 1px 3px 2px #ccc;
+
     box-shadow: 1px 1px 3px 2px #ccc;
 `;
 
@@ -223,7 +222,7 @@ const AddEditItem = ({ data }) => {
     };
 
     const onDelete = () => {
-        deleteGallery({ variables: { id: parseInt(data.id) } });
+        deleteGallery({ variables: { id: parseInt(data.id, 10) } });
     };
 
     return (

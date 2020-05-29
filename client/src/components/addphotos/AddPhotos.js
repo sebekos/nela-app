@@ -135,7 +135,7 @@ const AddPhotos = ({ match }) => {
 
     const { loading, error, data } = useQuery(GALLERY_QUERY, {
         variables: {
-            filter: parseInt(match.params.id)
+            filter: parseInt(match.params.id, 10)
         }
     });
 

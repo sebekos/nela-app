@@ -9,8 +9,7 @@ const Container = styled.div`
     padding: 0;
     color: #333;
     margin: 1rem auto 0;
-    -webkit-box-shadow: 1px 1px 3px 2px #ccc;
-    -moz-box-shadow: 1px 1px 3px 2px #ccc;
+
     box-shadow: 1px 1px 3px 2px #ccc;
 `;
 
@@ -20,6 +19,7 @@ const TextContainer = styled.div`
 
 const TitleText = styled.div`
     font-weight: bold;
+    text-align: center;
 `;
 
 const BodyText = styled.div`
