@@ -3,6 +3,11 @@ import styled from "styled-components";
 import DefaultAvatar from "../../../img/defaultavatar.png";
 import PropTypes from "prop-types";
 
+const Container = styled.div`
+    grid-area: avatar;
+    width: max-content;
+`;
+
 const AvatarImage = styled.img`
     max-width: 150px;
 `;
@@ -16,10 +21,10 @@ const ChangeAvatarContainer = styled.div`
 
 const AvatarShow = ({ link, onAvatarEdit }) => {
     return (
-        <div>
-            <AvatarImage src={link ? `/images/avatars/${link}?${new Date().getTime()}` : DefaultAvatar} alt="avatar" />
+        <Container>
+            <AvatarImage src={link ? `/images/avatars/${link}?t=${new Date().getTime()}` : DefaultAvatar} alt="avatar" />
             <ChangeAvatarContainer onClick={onAvatarEdit}>Change Avatar</ChangeAvatarContainer>
-        </div>
+        </Container>
     );
 };
 

@@ -69,6 +69,7 @@ const Counter = styled.div`
 
 const InfoEdit = ({ data, stopEdit }) => {
     const [updatePerson] = useMutation(UPDATE_PERSON_MUTATION, {
+        refetchQueries: [{ query: PEOPLE_QUERY }],
         onError: (errors) => console.log(errors),
         onCompleted: () => {
             toast.success("Person updated");
@@ -247,6 +248,7 @@ const PEOPLE_QUERY = gql`
             first_name
             middle_name
             last_name
+            link_photo
             birth_date
             passed_date
             notes

@@ -6,6 +6,7 @@ import { Redirect } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useLazyQuery, useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
+import axios from "axios";
 
 const Container = styled.div`
     max-width: fit-content;
@@ -66,6 +67,7 @@ const Login = () => {
         onError: (err) => console.log(err),
         onCompleted: (data) => {
             toast.dismiss();
+            axios.defaults.headers.common["x-auth-token"] = data.login.token;
             localStorage.setItem("token", data.login.token);
             localStorage.setItem("tokenExpiration", data.login.tokenExpiration);
         }

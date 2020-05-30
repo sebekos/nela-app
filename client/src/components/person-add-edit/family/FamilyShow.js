@@ -3,12 +3,15 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { uuid } from "uuidv4";
 
-const FamilyShowContainer = styled.div``;
+const FamilyShowContainer = styled.div`
+    grid-area: family;
+    border-top: 1px solid lightgrey;
+    margin-top: 1rem;
+`;
 
 const EditContainer = styled.div`
     display: flex;
-    margin-left: auto;
-    margin-right: 0;
+    margin: 0.5rem 0 0 auto;
     width: fit-content;
 `;
 
@@ -25,6 +28,7 @@ const RelationItemContainer = styled.div`
     border: 1px solid lightgrey;
     margin: 0.1rem auto;
     display: flex;
+    width: 634px;
 `;
 
 const FamilySpan = styled.div`

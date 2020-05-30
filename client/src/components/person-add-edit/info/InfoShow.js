@@ -5,9 +5,9 @@ import PropTypes from "prop-types";
 const Container = styled.div`
     text-align: center;
     position: relative;
+    grid-area: info;
+    width: 634px;
 `;
-
-const ShowNameContainer = styled.div``;
 
 const ShowDatesContainer = styled.div``;
 
@@ -17,21 +17,29 @@ const ShowNotesContainer = styled.div`
     max-width: 634px;
 `;
 
-const EditText = styled.div`
-    width: 100%;
-    text-align: right;
-    font-size: 0.7rem;
-    color: blue;
-    cursor: pointer;
+const EditContainer = styled.div`
+    display: flex;
+    margin: 0 0 0 auto;
+    width: fit-content;
 `;
 
-const InfoShow = ({ data: { first_name, middle_name, last_name, birth_date, passed_date, notes }, onInfoEdit }) => {
+const EditText = styled.div`
+    padding: 0 0.3rem 0.3rem;
+    font-size: 0.7rem;
+    text-align: right;
+    cursor: pointer;
+    width: fit-content;
+    color: blue;
+`;
+
+const InfoShow = ({ data: { birth_date, passed_date, notes }, onInfoEdit }) => {
     return (
         <Container>
-            <EditText onClick={onInfoEdit}>Edit Person</EditText>
-            <ShowNameContainer>{[first_name, middle_name, last_name].filter((item) => item !== null).join(" ")}</ShowNameContainer>
+            <EditContainer>
+                <EditText onClick={onInfoEdit}>Edit Info</EditText>
+            </EditContainer>
             <ShowDatesContainer>{[birth_date, passed_date].filter((item) => item !== null).join(" - ")}</ShowDatesContainer>
-            <ShowNotesContainer>{notes}</ShowNotesContainer>
+            <ShowNotesContainer>{notes ? notes : "No Info"}</ShowNotesContainer>
         </Container>
     );
 };

@@ -1,4 +1,5 @@
 import jwt from "jwt-decode";
+import axios from "axios";
 
 const resolvers = {
     Query: {
@@ -12,6 +13,7 @@ const resolvers = {
             if (currTime >= decoded.exp) {
                 return null;
             } else {
+                axios.defaults.headers.common["x-auth-token"] = token;
                 const data = {
                     id: "auth",
                     isAuth: true,
@@ -27,6 +29,7 @@ const resolvers = {
         logout: (_root, variables, { cache, getCacheKey }) => {
             localStorage.removeItem("token");
             localStorage.removeItem("tokenExpiration");
+            axios.defaults.headers.common["x-auth-token"] = null;
             const data = {
                 id: "auth",
                 isAuth: false,

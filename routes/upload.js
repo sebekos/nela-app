@@ -6,8 +6,9 @@ const fs = require("fs");
 const path = require("path");
 const { Photo, Person } = require("../sequelize");
 const { AuthenticationError } = require("apollo-server-express");
+const auth = require("../middleware/exp-auth");
 
-router.post("/", (req, res) => {
+router.post("/", auth, (req, res) => {
     const form = new multiparty.Form({
         uploadDir: `${__dirname}/../public/temp/`
     });
@@ -58,7 +59,7 @@ router.post("/", (req, res) => {
     });
 });
 
-router.post("/avatar", (req, res) => {
+router.post("/avatar", auth, (req, res) => {
     const form = new multiparty.Form({
         uploadDir: `${__dirname}/../public/temp/`
     });

@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import PersonAddEditItem from "./PersonAddEditItem";
 import styled from "styled-components";
-import { useQuery } from "@apollo/react-hooks";
+import { useLazyQuery, useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { uuid } from "uuidv4";
 import PropTypes from "prop-types";
+import PeopleSearch from "./PersonSearch";
 
 const LoadingContainer = styled.div`
     width: fit-content;
@@ -55,12 +56,24 @@ Map.propTypes = {
 };
 
 const AddEdit = () => {
-    const { loading, error, data } = useQuery(PEOPLE_QUERY);
+    const { loading, error } = useQuery(PEOPLE_QUERY, {
+        onCompleted: (data) => setResults(data.people)
+    });
+
+    const [perArray, setResults] = useState(null);
+
+    const [onSearch, { loading: lazyLoading }] = useLazyQuery(SEARCH_PEOPLE_QUERY, {
+        fetchPolicy: "network-only",
+        onCompleted: (data) => setResults(data.searchPeople.results)
+    });
+
     return (
         <>
-            {loading ? <Loading /> : null}
-            {!loading && error ? <Error /> : null}
-            {!loading && data && data.people && data.people.length > 0 ? <Map people={data.people} /> : <NoData />}
+            <PeopleSearch onSearch={onSearch} />
+            {loading || lazyLoading ? <Loading /> : null}
+            {!loading && error && <Error />}
+            {!loading && !lazyLoading && perArray && perArray.length > 0 && <Map people={perArray} />}
+            {!loading && !lazyLoading && perArray && perArray.length === 0 && <NoData />}
         </>
     );
 };
@@ -76,6 +89,23 @@ const PEOPLE_QUERY = gql`
             birth_date
             passed_date
             notes
+        }
+    }
+`;
+
+const SEARCH_PEOPLE_QUERY = gql`
+    query SearchPeople($search: String!) {
+        searchPeople(search: $search) {
+            id
+            results {
+                id
+                first_name
+                middle_name
+                last_name
+                birth_date
+                passed_date
+                link_photo
+            }
         }
     }
 `;

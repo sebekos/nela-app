@@ -19,13 +19,21 @@ const Container = styled.div`
     padding: 0.5rem;
     color: #333;
     margin: 1rem auto;
-
     box-shadow: 1px 1px 3px 2px #ccc;
 `;
 
 const AddEditShow = styled.div`
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-areas:
+        "avatar info"
+        "family family";
+`;
+
+const ShowNameContainer = styled.div`
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid lightgrey;
+    margin-bottom: 0.5rem;
 `;
 
 const Item = ({ data }) => {
@@ -62,6 +70,9 @@ const Item = ({ data }) => {
 
     return (
         <Container>
+            <ShowNameContainer>
+                {[data.first_name, data.middle_name, data.last_name].filter((item) => item !== null).join(" ")}
+            </ShowNameContainer>
             {edit && avatarEdit ? <AvatarEdit person_key={data.id} link={data.link_photo} stopEdit={stopEdit} /> : null}
             {edit && infoEdit ? <InfoEdit data={data} stopEdit={stopEdit} /> : null}
             {edit && familyEdit ? <FamilyEdit person_key={data.id} family_data={relationsData} stopEdit={stopEdit} /> : null}

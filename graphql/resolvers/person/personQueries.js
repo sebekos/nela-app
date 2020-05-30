@@ -15,7 +15,7 @@ module.exports = {
     },
     people: async (_, args) => {
         try {
-            const returnData = await Person.findAll({ order: [["updatedAt", "DESC"]], where: { deleted: 0 } });
+            const returnData = await Person.findAll({ order: [["updatedAt", "DESC"]], where: { deleted: 0 }, limit: 5 });
             return returnData;
         } catch (error) {
             throw new Error(err);
@@ -32,7 +32,8 @@ module.exports = {
                 middle_name,
                 last_name,
                 birth_date,
-                passed_date
+                passed_date,
+                link_photo
                 FROM main.people AS MP
                 WHERE MP.first_name LIKE :search AND deleted = 0
                 OR MP.middle_name LIKE :search AND deleted = 0

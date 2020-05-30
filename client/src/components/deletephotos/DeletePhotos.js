@@ -103,7 +103,7 @@ const DeletePhotos = ({ match }) => {
         <Container>
             <MainTitle>Delete Photos</MainTitle>
             <Buttons onSave={onSave} galleryid={match.params.id} />
-            {!loading && photos.length > 0 ? <Photos data={photos} onDelete={onDelete} /> : null}
+            {!loading && photos.length > 0 && <Photos data={photos} onDelete={onDelete} />}
         </Container>
     );
 };

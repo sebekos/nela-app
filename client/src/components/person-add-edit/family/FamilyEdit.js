@@ -244,7 +244,7 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
     return (
         <FamilyEditContainer>
             <SaveEditDeleteContainer>
-                <CancelText onClick={stopEdit}>Save</CancelText>
+                <CancelText onClick={stopEdit}>Done</CancelText>
             </SaveEditDeleteContainer>
             <Form onSubmit={onSubmit}>
                 <GenInput onChange={onChange} type="text" value={search} />

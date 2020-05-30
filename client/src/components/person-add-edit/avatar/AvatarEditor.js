@@ -8,6 +8,9 @@ import GreenButton from "../../universal/SuccessButton";
 import GenInput from "../../universal/GenInput";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { LinearProgress } from "@material-ui/core";
+import { useLazyQuery } from "@apollo/react-hooks";
+import gql from "graphql-tag";
 
 const Container = styled.div`
     text-align: center;
@@ -59,7 +62,6 @@ SliderContainer.propTypes = {
 };
 
 const SelectFileContainer = styled.div`
-    border: 1px solid #ccc;
     display: inline-block;
     padding: 2px 12px;
     cursor: pointer;
@@ -71,9 +73,6 @@ const SelectFile = ({ onChange, filenames }) => {
     return (
         <SelectFileContainer>
             <GenInput type="file" id="customFile" onChange={onChange} multiple accept="image/*" />
-            <label className="custom-file-label" htmlFor="customFile">
-                {filenames}
-            </label>
         </SelectFileContainer>
     );
 };
@@ -127,6 +126,22 @@ ImagePreview.propTypes = {
     preview: PropTypes.string
 };
 
+const ProgressContainer = styled.div`
+    margin-bottom: 3rem;
+`;
+
+const Progress = ({ progress }) => {
+    return (
+        <ProgressContainer>
+            <LinearProgress variant="determinate" value={progress} />
+        </ProgressContainer>
+    );
+};
+
+Progress.propTypes = {
+    progress: PropTypes.number.isRequired
+};
+
 const PersonAvatarEdit = ({ person_key, stopEdit }) => {
     const [filenames, setFilenames] = useState("Choose File");
     const [photo, setPhoto] = useState("");
@@ -135,6 +150,11 @@ const PersonAvatarEdit = ({ person_key, stopEdit }) => {
     const [scale, setScale] = useState(1.2);
     const [file, setFile] = useState("");
     const [scaledImage, setScaledImage] = useState("");
+    const [progress, setProgress] = useState(0);
+
+    const [refetchPerson] = useLazyQuery(REFETCH_PERSON, {
+        variables: { filter: parseInt(person_key, 10) }
+    });
 
     const onChange = (e) => {
         setFile(e.target.files[0]);
@@ -170,15 +190,18 @@ const PersonAvatarEdit = ({ person_key, stopEdit }) => {
                 },
                 onUploadProgress: (progressEvent) => {
                     const { loaded, total } = progressEvent;
-                    console.log(`${loaded}/${total}`);
+                    setProgress((loaded / total) * 100);
                 }
             })
             .then(() => {
+                refetchPerson();
                 toast.success("Avatar uploaded");
                 stopEdit();
             })
             .catch((err) => {
+                toast.error("Upload error");
                 console.log(err);
+                setProgress(0);
             });
     };
 
@@ -193,7 +216,8 @@ const PersonAvatarEdit = ({ person_key, stopEdit }) => {
             {filenames !== "Choose File" ? <SliderContainer scale={scale} onScale={onScale} /> : null}
             {file !== "" ? <PreviewContainer onPreview={onPreview} /> : null}
             {preview !== "" ? <ImagePreview preview={preview} /> : null}
-            {preview !== "" ? <SaveContainer onSave={onSave} /> : null}
+            {preview !== "" && progress === 0 ? <SaveContainer onSave={onSave} /> : null}
+            {progress > 0 && progress < 100 ? <Progress progress={progress} /> : null}
         </Container>
     );
 };
@@ -202,5 +226,20 @@ PersonAvatarEdit.propTypes = {
     stopEdit: PropTypes.func.isRequired,
     person_key: PropTypes.number
 };
+
+const REFETCH_PERSON = gql`
+    query($filter: Int!) {
+        person(filter: $filter) {
+            id
+            first_name
+            middle_name
+            last_name
+            birth_date
+            passed_date
+            link_photo
+            createdAt
+        }
+    }
+`;
 
 export default PersonAvatarEdit;
