@@ -5,7 +5,9 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { uuid } from "uuidv4";
 import SuccessButton from "../universal/SuccessButton";
+import LightButton from "../universal/LightButton";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
     margin: auto;
@@ -41,12 +43,21 @@ const Photos = ({ data, onDelete }) => {
     );
 };
 
-const ButtonContainer = styled.div``;
+const ButtonContainer = styled.div`
+    margin-left: 0.25rem;
+`;
 
-const Buttons = ({ onSave }) => {
+const GoToGalleryButton = styled(LightButton)`
+    margin-left: 0.25rem;
+`;
+
+const Buttons = ({ onSave, galleryid }) => {
     return (
         <ButtonContainer>
             <SuccessButton onClick={onSave}>Save</SuccessButton>
+            <Link to={`/galeria/${galleryid}`}>
+                <GoToGalleryButton>Go To Gallery</GoToGalleryButton>
+            </Link>
         </ButtonContainer>
     );
 };
@@ -91,7 +102,7 @@ const DeletePhotos = ({ match }) => {
     return (
         <Container>
             <MainTitle>Delete Photos</MainTitle>
-            <Buttons onSave={onSave} />
+            <Buttons onSave={onSave} galleryid={match.params.id} />
             {!loading && photos.length > 0 ? <Photos data={photos} onDelete={onDelete} /> : null}
         </Container>
     );

@@ -52,11 +52,13 @@ const SaveText = styled.div`
     margin-right: 0;
 `;
 
-const ShowContainer = ({ text, title, onEdit }) => {
+const ShowContainer = ({ text, title, onEdit, galleryid }) => {
     return (
         <>
             <EditText onClick={onEdit}>Edit Information</EditText>
-            <TitleText>{title}</TitleText>
+            <Link to={`/galeria/${galleryid}`}>
+                <TitleText>{title}</TitleText>
+            </Link>
             <BodyText>{text}</BodyText>
         </>
     );
@@ -230,7 +232,7 @@ const AddEditItem = ({ data }) => {
             {edit ? (
                 <EditContainer title={title} text={text} onSave={onSave} onChange={onChange} onCancel={onCancel} onDelete={onDelete} />
             ) : null}
-            {!edit ? <ShowContainer title={title} text={text} onEdit={onEdit} onChange={onChange} /> : null}
+            {!edit ? <ShowContainer title={title} text={text} onEdit={onEdit} onChange={onChange} galleryid={data.id} /> : null}
             <Buttons currid={id} />
             <DateText>{timeFormat(data.createdAt / 1000)}</DateText>
         </Container>

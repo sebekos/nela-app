@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Uploader from "./Uploader";
 import SuccessButton from "../universal/SuccessButton";
 import { bulkResize } from "../../utils/photo";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useLazyQuery } from "@apollo/react-hooks";
 import { toast } from "react-toastify";
 import gql from "graphql-tag";
 import PropTypes from "prop-types";
@@ -139,6 +139,12 @@ const AddPhotos = ({ match }) => {
         }
     });
 
+    const [refetchGallery] = useLazyQuery(PHOTOS_QUERY, {
+        variables: {
+            filter: parseInt(match.params.id, 10)
+        }
+    });
+
     const onDrop = (picture) => {
         setPictures(picture);
         if (picture.length > 0) {
@@ -150,6 +156,7 @@ const AddPhotos = ({ match }) => {
     };
 
     const onUpload = async () => {
+        setProgress(0.1);
         let res = await bulkResize(pictures);
         let formData = new FormData();
         formData.append("galleryId", match.params.id);
@@ -169,6 +176,7 @@ const AddPhotos = ({ match }) => {
             })
             .then(() => {
                 toast.success("Photos uploaded");
+                refetchGallery();
             })
             .catch((err) => {
                 console.log(err);
@@ -196,6 +204,17 @@ const GALLERY_QUERY = gql`
             title
             text
             createdAt
+        }
+    }
+`;
+
+const PHOTOS_QUERY = gql`
+    query($filter: Int!) {
+        photos(filter: $filter) {
+            order
+            key
+            link_thumb
+            link_main
         }
     }
 `;
