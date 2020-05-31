@@ -45,7 +45,7 @@ const Map = ({ people }) => {
     return (
         <MapContainer>
             {people.map((data) => {
-                return <PersonAddEditItem key={uuid()} data={data} />;
+                return <PersonAddEditItem key={uuid()} id={data.id} />;
             })}
         </MapContainer>
     );
@@ -82,13 +82,6 @@ const PEOPLE_QUERY = gql`
     {
         people {
             id
-            first_name
-            middle_name
-            last_name
-            link_photo
-            birth_date
-            passed_date
-            notes
         }
     }
 `;
@@ -99,12 +92,6 @@ const SEARCH_PEOPLE_QUERY = gql`
             id
             results {
                 id
-                first_name
-                middle_name
-                last_name
-                birth_date
-                passed_date
-                link_photo
             }
         }
     }

@@ -11,7 +11,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
         },
         loading
     } = useQuery(CHECK_AUTH_QUERY);
-    return <Route {...rest} render={(props) => (!loading && !isAuth ? <Redirect to="/login" /> : <Component {...props} />)} />;
+    return <Route {...rest} render={(props) => (!loading && !isAuth ? null : <Component {...props} />)} />;
 };
 
 const CHECK_AUTH_QUERY = gql`

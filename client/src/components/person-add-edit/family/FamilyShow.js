@@ -48,10 +48,10 @@ const RelationConversion = {
     children: "Child"
 };
 
-const RelationItem = ({ family, first_name, last_name }) => {
+const RelationItem = ({ relation, first_name, last_name }) => {
     return (
         <RelationItemContainer>
-            <FamilySpan>{RelationConversion[family]}</FamilySpan>{" "}
+            <FamilySpan>{RelationConversion[relation]}</FamilySpan>{" "}
             <FamilyName>
                 {first_name} {last_name}
             </FamilyName>
@@ -60,7 +60,7 @@ const RelationItem = ({ family, first_name, last_name }) => {
 };
 
 RelationItem.propTypes = {
-    family: PropTypes.string,
+    relation: PropTypes.string,
     first_name: PropTypes.string,
     last_name: PropTypes.string
 };
@@ -72,12 +72,9 @@ const FamilyShow = ({ family_data, onFamilyEdit }) => {
                 <EditText onClick={onFamilyEdit}>Edit Family</EditText>
             </EditContainer>
             {family_data ? (
-                Object.keys(family_data).map((family) => {
-                    const familygroup = family_data[family].map((person) => {
-                        const { first_name, last_name } = person;
-                        return <RelationItem key={uuid()} family={family} first_name={first_name} last_name={last_name} />;
-                    });
-                    return familygroup;
+                family_data.map((item) => {
+                    const { relation, first_name, last_name } = item;
+                    return <RelationItem key={uuid()} relation={relation} first_name={first_name} last_name={last_name} />;
                 })
             ) : (
                 <p>No Family Members</p>
@@ -87,7 +84,7 @@ const FamilyShow = ({ family_data, onFamilyEdit }) => {
 };
 
 FamilyShow.propTypes = {
-    family_data: PropTypes.object,
+    family_data: PropTypes.array,
     onFamilyEdit: PropTypes.func.isRequired
 };
 

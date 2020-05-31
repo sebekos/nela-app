@@ -89,10 +89,10 @@ const RelationConversion = {
     children: "Child"
 };
 
-const RelationItem = ({ tid, family, first_name, last_name, onRemove }) => {
+const RelationItem = ({ tid, relation, first_name, last_name, onRemove }) => {
     return (
         <RelationItemContainer>
-            <FamilySpan>{RelationConversion[family]}</FamilySpan>
+            <FamilySpan>{RelationConversion[relation]}</FamilySpan>
             <FamilyName>
                 {first_name} {last_name}
             </FamilyName>
@@ -112,21 +112,18 @@ const Remove = ({ data, removeParent, removeChild, removeSibling, removeSpouse }
     };
     return (
         <>
-            {Object.keys(data).map((family) => {
-                const familygroup = data[family].map((person) => {
-                    const { tid, first_name, last_name } = person;
-                    return (
-                        <RelationItem
-                            tid={tid}
-                            key={uuid()}
-                            family={family}
-                            first_name={first_name}
-                            last_name={last_name}
-                            onRemove={removeFuncs[family]}
-                        />
-                    );
-                });
-                return familygroup;
+            {data.map((item) => {
+                const { tid, first_name, last_name, relation } = item;
+                return (
+                    <RelationItem
+                        tid={tid}
+                        key={uuid()}
+                        relation={relation}
+                        first_name={first_name}
+                        last_name={last_name}
+                        onRemove={removeFuncs[relation]}
+                    />
+                );
             })}
         </>
     );
@@ -222,7 +219,6 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
 
     const addSibling = (e) => {
         let sibling_key = parseInt(e.target.parentElement.getAttribute("value"), 10);
-        console.log({ variables: { person_key, sibling_key } });
         addSiblingMutation({ variables: { person_key, sibling_key } });
     };
 
@@ -240,6 +236,8 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
     const removeChild = (e) => removeChildMutation({ variables: { id: parseInt(e.target.id, 10) } });
     const removeSibling = (e) => removeSiblingMutation({ variables: { id: parseInt(e.target.id, 10) } });
     const removeSpouse = (e) => removeSpouseMutation({ variables: { id: parseInt(e.target.id, 10) } });
+
+    console.log(family_data);
 
     return (
         <FamilyEditContainer>
@@ -275,7 +273,7 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
 
 FamilyEdit.propTypes = {
     person_key: PropTypes.number,
-    family_data: PropTypes.object,
+    family_data: PropTypes.array,
     stopEdit: PropTypes.func.isRequired
 };
 
@@ -343,41 +341,14 @@ const REMOVE_SPOUSE_MUTATION = gql`
 
 const RELATIONS_QUERY = gql`
     query Relations($id: Int!) {
-        children(filter: $id) {
+        relations(filter: $id) {
             tid
             id
+            relation
             first_name
             middle_name
             last_name
-            birth_date
-            passed_date
-        }
-        parents(filter: $id) {
-            tid
-            id
-            first_name
-            middle_name
-            last_name
-            birth_date
-            passed_date
-        }
-        siblings(filter: $id) {
-            tid
-            id
-            first_name
-            middle_name
-            last_name
-            birth_date
-            passed_date
-        }
-        spouses(filter: $id) {
-            tid
-            id
-            first_name
-            middle_name
-            last_name
-            birth_date
-            passed_date
+            notes
         }
     }
 `;

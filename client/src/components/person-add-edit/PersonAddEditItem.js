@@ -36,15 +36,15 @@ const ShowNameContainer = styled.div`
     margin-bottom: 0.5rem;
 `;
 
-const Item = ({ data }) => {
-    const { data: relationsData } = useQuery(RELATIONS_QUERY, {
-        variables: { id: data.id }
-    });
-
+const Item = ({ id }) => {
     const [edit, setEdit] = useState(false);
     const [avatarEdit, setAvatarEdit] = useState(false);
     const [infoEdit, setInfoEdit] = useState(false);
     const [familyEdit, setFamilyEdit] = useState(false);
+
+    const { loading, data } = useQuery(RELATIONS_QUERY, {
+        variables: { id: id }
+    });
 
     const onInfoEdit = () => {
         setInfoEdit(!infoEdit);
@@ -70,65 +70,51 @@ const Item = ({ data }) => {
 
     return (
         <Container>
-            <ShowNameContainer>
-                {[data.first_name, data.middle_name, data.last_name].filter((item) => item !== null).join(" ")}
-            </ShowNameContainer>
-            {edit && avatarEdit ? <AvatarEdit person_key={data.id} link={data.link_photo} stopEdit={stopEdit} /> : null}
-            {edit && infoEdit ? <InfoEdit data={data} stopEdit={stopEdit} /> : null}
-            {edit && familyEdit ? <FamilyEdit person_key={data.id} family_data={relationsData} stopEdit={stopEdit} /> : null}
-            {!edit ? (
-                <AddEditShow>
-                    <AvatarShow link={data.link_photo} onAvatarEdit={onAvatarEdit} />
-                    <InfoShow data={data} onInfoEdit={onInfoEdit} />
-                    <div />
-                    <FamilyShow family_data={relationsData} onFamilyEdit={onFamilyEdit} />
-                </AddEditShow>
-            ) : null}
+            {loading ? (
+                <p>Loading...</p>
+            ) : (
+                <>
+                    <ShowNameContainer>
+                        {[data.person.first_name, data.person.middle_name, data.person.last_name].filter((item) => item !== null).join(" ")}
+                    </ShowNameContainer>
+                    {edit && avatarEdit ? <AvatarEdit person_key={id} link={data.person.link_photo} stopEdit={stopEdit} /> : null}
+                    {edit && infoEdit ? <InfoEdit data={data.person} stopEdit={stopEdit} /> : null}
+                    {edit && familyEdit ? <FamilyEdit person_key={id} family_data={data.relations} stopEdit={stopEdit} /> : null}
+                    {!edit ? (
+                        <AddEditShow>
+                            <AvatarShow link={data.person.link_photo} onAvatarEdit={onAvatarEdit} />
+                            <InfoShow data={data.person} onInfoEdit={onInfoEdit} />
+                            <FamilyShow family_data={data.relations} onFamilyEdit={onFamilyEdit} />
+                        </AddEditShow>
+                    ) : null}
+                </>
+            )}
         </Container>
     );
 };
 
 Item.propTypes = {
-    data: PropTypes.object.isRequired
+    id: PropTypes.number
 };
 
 const RELATIONS_QUERY = gql`
     query Relations($id: Int!) {
-        children(filter: $id) {
-            tid
+        person(filter: $id) {
             id
             first_name
             middle_name
             last_name
-            birth_date
-            passed_date
+            notes
+            link_photo
         }
-        parents(filter: $id) {
+        relations(filter: $id) {
             tid
             id
+            relation
             first_name
             middle_name
             last_name
-            birth_date
-            passed_date
-        }
-        siblings(filter: $id) {
-            tid
-            id
-            first_name
-            middle_name
-            last_name
-            birth_date
-            passed_date
-        }
-        spouses(filter: $id) {
-            tid
-            id
-            first_name
-            middle_name
-            last_name
-            birth_date
-            passed_date
+            notes
         }
     }
 `;

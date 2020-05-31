@@ -69,7 +69,7 @@ const Counter = styled.div`
 
 const InfoEdit = ({ data, stopEdit }) => {
     const [updatePerson] = useMutation(UPDATE_PERSON_MUTATION, {
-        refetchQueries: [{ query: PEOPLE_QUERY }],
+        // refetchQueries: [{ query: PERSON_QUERY, variables: { filter: parseInt(data.id, 10) } }],
         onError: (errors) => console.log(errors),
         onCompleted: () => {
             toast.success("Person updated");
@@ -78,7 +78,7 @@ const InfoEdit = ({ data, stopEdit }) => {
     });
 
     const [deletePerson] = useMutation(DELETE_PERSON_MUTATION, {
-        refetchQueries: [{ query: PEOPLE_QUERY }],
+        // refetchQueries: [{ query: PERSON_QUERY, variables: { filter: parseInt(data.id, 10) } }],
         onError: (errors) => console.log(errors),
         onCompleted: () => {
             toast.success("Person deleted");
@@ -238,21 +238,6 @@ const UPDATE_PERSON_MUTATION = gql`
 const DELETE_PERSON_MUTATION = gql`
     mutation($id: Int!) {
         deletePerson(id: $id)
-    }
-`;
-
-const PEOPLE_QUERY = gql`
-    {
-        people {
-            id
-            first_name
-            middle_name
-            last_name
-            link_photo
-            birth_date
-            passed_date
-            notes
-        }
     }
 `;
 

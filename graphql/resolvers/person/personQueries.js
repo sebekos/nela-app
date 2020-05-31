@@ -52,5 +52,87 @@ module.exports = {
         } catch (err) {
             throw new Error(err);
         }
+    },
+    relations: async (_, args) => {
+        try {
+            const [results] = await sequelize.query(`
+                SELECT
+                MS.id AS tid,
+                MP.id,
+                'children' AS relation,
+                MP.first_name,
+                MP.middle_name,
+                MP.last_name,
+                MP.link_photo,
+                MP.birth_date,
+                MP.passed_date
+                FROM main.children AS MS
+                LEFT JOIN main.people AS MP
+                ON MS.child_key = MP.id
+                WHERE person_key = ${args.filter}
+                AND MS.deleted = 0
+                AND MP.deleted = 0
+
+                UNION ALL
+
+                SELECT
+                MS.id AS tid,
+                MP.id,
+                'parents' AS relation,
+                MP.first_name,
+                MP.middle_name,
+                MP.last_name,
+                MP.link_photo,
+                MP.birth_date,
+                MP.passed_date
+                FROM main.parents AS MS
+                LEFT JOIN main.people AS MP
+                ON MS.parent_key = MP.id
+                WHERE person_key = ${args.filter}
+                AND MS.deleted = 0
+                AND MP.deleted = 0
+
+                UNION ALL
+
+                SELECT
+                MS.id AS tid,
+                MP.id,
+                'siblings' AS relation,
+                MP.first_name,
+                MP.middle_name,
+                MP.last_name,
+                MP.link_photo,
+                MP.birth_date,
+                MP.passed_date
+                FROM main.siblings AS MS
+                LEFT JOIN main.people AS MP
+                ON MS.sibling_key = MP.id
+                WHERE person_key = ${args.filter}
+                AND MS.deleted = 0
+                AND MP.deleted = 0
+
+                UNION ALL
+
+                SELECT
+                MS.id AS tid,
+                MP.id,
+                'spouses' AS relation,
+                MP.first_name,
+                MP.middle_name,
+                MP.last_name,
+                MP.link_photo,
+                MP.birth_date,
+                MP.passed_date
+                FROM main.spouses AS MS
+                LEFT JOIN main.people AS MP
+                ON MS.spouse_key = MP.id
+                WHERE person_key = ${args.filter}
+                AND MS.deleted = 0
+                AND MP.deleted = 0
+                `);
+            return results;
+        } catch (err) {
+            throw new Error(err);
+        }
     }
 };
