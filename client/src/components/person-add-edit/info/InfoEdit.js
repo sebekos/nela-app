@@ -2,9 +2,16 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import gql from "graphql-tag";
 import PropTypes from "prop-types";
-import { TextField, TextareaAutosize } from "@material-ui/core";
+import { TextField, TextareaAutosize, CircularProgress } from "@material-ui/core";
 import { toast } from "react-toastify";
 import { useMutation } from "@apollo/react-hooks";
+
+const CircularContainer = styled.div`
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+`;
 
 const EditContainer = styled.div`
     position: relative;
@@ -68,7 +75,7 @@ const Counter = styled.div`
 `;
 
 const InfoEdit = ({ data, stopEdit }) => {
-    const [updatePerson] = useMutation(UPDATE_PERSON_MUTATION, {
+    const [updatePerson, { loading: updateLoading }] = useMutation(UPDATE_PERSON_MUTATION, {
         // refetchQueries: [{ query: PERSON_QUERY, variables: { filter: parseInt(data.id, 10) } }],
         onError: (errors) => console.log(errors),
         onCompleted: () => {
@@ -77,7 +84,7 @@ const InfoEdit = ({ data, stopEdit }) => {
         }
     });
 
-    const [deletePerson] = useMutation(DELETE_PERSON_MUTATION, {
+    const [deletePerson, { loading: deleteLoading }] = useMutation(DELETE_PERSON_MUTATION, {
         // refetchQueries: [{ query: PERSON_QUERY, variables: { filter: parseInt(data.id, 10) } }],
         onError: (errors) => console.log(errors),
         onCompleted: () => {
@@ -115,6 +122,7 @@ const InfoEdit = ({ data, stopEdit }) => {
 
     return (
         <EditContainer>
+            <CircularContainer>{updateLoading || deleteLoading ? <CircularProgress /> : null}</CircularContainer>
             <SaveEditDeleteContainer>
                 <SaveText onClick={onSave}>Save</SaveText>
                 <CancelText onClick={stopEdit}>Cancel</CancelText>

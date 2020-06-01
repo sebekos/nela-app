@@ -9,6 +9,14 @@ import GenInput from "../../universal/GenInput";
 import { useLazyQuery, useMutation } from "@apollo/react-hooks";
 import { toast } from "react-toastify";
 import { uuid } from "uuidv4";
+import { CircularProgress } from "@material-ui/core";
+
+const CircularContainer = styled.div`
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+`;
 
 const FamilyEditContainer = styled.div``;
 
@@ -154,6 +162,9 @@ const PeopleItems = ({ data, addParent, addSibling, addChild, addSpouse }) => {
 };
 
 const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
+    const [search, setSearch] = useState("");
+    const [curLoading, setCurLoading] = useState(false);
+
     const [searchPeople, { loading, data }] = useLazyQuery(SEARCH_PEOPLE_QUERY);
 
     const [addParentMutation] = useMutation(ADD_PARENT_MUTATION, {
@@ -164,8 +175,11 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
 
     const [removeParentMutation] = useMutation(REMOVE_PARENT_MUTATION, {
         onError: (errors) => console.log(errors),
-        onCompleted: () => toast.success("Parent removed"),
-        refetchQueries: [{ query: RELATIONS_QUERY, variables: { id: person_key } }]
+        refetchQueries: [{ query: RELATIONS_QUERY, variables: { id: person_key } }],
+        onCompleted: () => {
+            setCurLoading(false);
+            toast.success("Parent removed");
+        }
     });
 
     const [addChildMutation] = useMutation(ADD_CHILD_MUTATION, {
@@ -204,8 +218,6 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
         refetchQueries: [{ query: RELATIONS_QUERY, variables: { id: person_key } }]
     });
 
-    const [search, setSearch] = useState("");
-
     const onChange = (e) => setSearch(e.target.value);
 
     const onSubmit = (e) => {
@@ -232,15 +244,18 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
         addSpouseMutation({ variables: { person_key, spouse_key } });
     };
 
-    const removeParent = (e) => removeParentMutation({ variables: { id: parseInt(e.target.id, 10) } });
+    const removeParent = (e) => {
+        setCurLoading(true);
+        removeParentMutation({ variables: { id: parseInt(e.target.id, 10) } });
+    };
+
     const removeChild = (e) => removeChildMutation({ variables: { id: parseInt(e.target.id, 10) } });
     const removeSibling = (e) => removeSiblingMutation({ variables: { id: parseInt(e.target.id, 10) } });
     const removeSpouse = (e) => removeSpouseMutation({ variables: { id: parseInt(e.target.id, 10) } });
 
-    console.log(family_data);
-
     return (
         <FamilyEditContainer>
+            <CircularContainer>{curLoading ? <CircularProgress /> : null}</CircularContainer>
             <SaveEditDeleteContainer>
                 <CancelText onClick={stopEdit}>Done</CancelText>
             </SaveEditDeleteContainer>
