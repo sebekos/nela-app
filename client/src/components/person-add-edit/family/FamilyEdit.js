@@ -184,37 +184,55 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
 
     const [addChildMutation] = useMutation(ADD_CHILD_MUTATION, {
         onError: (errors) => console.log(errors),
-        onCompleted: () => toast.success("Child added"),
+        onCompleted: () => {
+            setCurLoading(false);
+            toast.success("Child added");
+        },
         refetchQueries: [{ query: RELATIONS_QUERY, variables: { id: person_key } }]
     });
 
     const [removeChildMutation] = useMutation(REMOVE_CHILD_MUTATION, {
         onError: (errors) => console.log(errors),
-        onCompleted: () => toast.success("Child removed"),
+        onCompleted: () => {
+            setCurLoading(false);
+            toast.success("Child removed");
+        },
         refetchQueries: [{ query: RELATIONS_QUERY, variables: { id: person_key } }]
     });
 
     const [addSiblingMutation] = useMutation(ADD_SIBLING_MUTATION, {
         onError: (errors) => console.log(errors),
-        onCompleted: () => toast.success("Sibling added"),
+        onCompleted: () => {
+            setCurLoading(false);
+            toast.success("Sibling added");
+        },
         refetchQueries: [{ query: RELATIONS_QUERY, variables: { id: person_key } }]
     });
 
     const [removeSiblingMutation] = useMutation(REMOVE_SIBLING_MUTATION, {
         onError: (errors) => console.log(errors),
-        onCompleted: () => toast.success("Sibling removed"),
+        onCompleted: () => {
+            setCurLoading(false);
+            toast.success("Sibling removed");
+        },
         refetchQueries: [{ query: RELATIONS_QUERY, variables: { id: person_key } }]
     });
 
     const [addSpouseMutation] = useMutation(ADD_SPOUSE_MUTATION, {
         onError: (errors) => console.log(errors),
-        onCompleted: () => toast.success("Spouse added"),
+        onCompleted: () => {
+            setCurLoading(false);
+            toast.success("Spouse added");
+        },
         refetchQueries: [{ query: RELATIONS_QUERY, variables: { id: person_key } }]
     });
 
     const [removeSpouseMutation] = useMutation(REMOVE_SPOUSE_MUTATION, {
         onError: (errors) => console.log(errors),
-        onCompleted: () => toast.success("Spouse removed"),
+        onCompleted: () => {
+            setCurLoading(false);
+            toast.success("Spouse removed");
+        },
         refetchQueries: [{ query: RELATIONS_QUERY, variables: { id: person_key } }]
     });
 
@@ -249,9 +267,20 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
         removeParentMutation({ variables: { id: parseInt(e.target.id, 10) } });
     };
 
-    const removeChild = (e) => removeChildMutation({ variables: { id: parseInt(e.target.id, 10) } });
-    const removeSibling = (e) => removeSiblingMutation({ variables: { id: parseInt(e.target.id, 10) } });
-    const removeSpouse = (e) => removeSpouseMutation({ variables: { id: parseInt(e.target.id, 10) } });
+    const removeChild = (e) => {
+        setCurLoading(true);
+        removeChildMutation({ variables: { id: parseInt(e.target.id, 10) } });
+    };
+
+    const removeSibling = (e) => {
+        setCurLoading(true);
+        removeSiblingMutation({ variables: { id: parseInt(e.target.id, 10) } });
+    };
+
+    const removeSpouse = (e) => {
+        setCurLoading(true);
+        removeSpouseMutation({ variables: { id: parseInt(e.target.id, 10) } });
+    };
 
     return (
         <FamilyEditContainer>
