@@ -165,7 +165,9 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
     const [search, setSearch] = useState("");
     const [curLoading, setCurLoading] = useState(false);
 
-    const [searchPeople, { loading, data }] = useLazyQuery(SEARCH_PEOPLE_QUERY);
+    const [searchPeople, { loading, data }] = useLazyQuery(SEARCH_PEOPLE_QUERY, {
+        onCompleted: () => setCurLoading(false)
+    });
 
     const [addParentMutation] = useMutation(ADD_PARENT_MUTATION, {
         onError: (errors) => console.log(errors),
@@ -240,25 +242,30 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
 
     const onSubmit = (e) => {
         e.preventDefault();
+        setCurLoading(true);
         searchPeople({ variables: { search } });
     };
     const addParent = (e) => {
         let parent_key = parseInt(e.target.parentElement.getAttribute("value"), 10);
+        setCurLoading(true);
         addParentMutation({ variables: { person_key, parent_key } });
     };
 
     const addSibling = (e) => {
         let sibling_key = parseInt(e.target.parentElement.getAttribute("value"), 10);
+        setCurLoading(true);
         addSiblingMutation({ variables: { person_key, sibling_key } });
     };
 
     const addChild = (e) => {
         let child_key = parseInt(e.target.parentElement.getAttribute("value"), 10);
+        setCurLoading(true);
         addChildMutation({ variables: { person_key, child_key } });
     };
 
     const addSpouse = (e) => {
         let spouse_key = parseInt(e.target.parentElement.getAttribute("value"), 10);
+        setCurLoading(true);
         addSpouseMutation({ variables: { person_key, spouse_key } });
     };
 
