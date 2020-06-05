@@ -75,9 +75,11 @@ const Map = ({ data, history }) => {
         <MapContainer>
             <List disablePadding={true}>
                 {data.map((person) => {
-                    const { first_name, middle_name, last_name, birth_date, passed_date } = person;
+                    const { first_name, middle_name, last_name, birth_date, birth_location, passed_date } = person;
                     const name = [first_name, middle_name, last_name].map((item) => (item !== null ? item : null)).join(" ");
                     const dates = [birth_date, passed_date].map((item) => (item !== null ? item : null)).join(" - ");
+                    const location = birth_location ? `${birth_location}, ` : "";
+                    const secondary = `${location}${dates}`;
                     return (
                         <ListItem
                             divider={true}
@@ -85,7 +87,7 @@ const Map = ({ data, history }) => {
                             onClick={(e) => onClick(`/Rodzina/${person.id}`)}
                             style={{ cursor: "pointer" }}
                         >
-                            <ListItemText primary={name} secondary={dates} />
+                            <ListItemText primary={name} secondary={secondary} />
                         </ListItem>
                     );
                 })}
@@ -158,6 +160,8 @@ const Family = () => {
         onSearch({ variables: { search } });
     };
 
+    console.log(perArray);
+
     return (
         <Container>
             <MainTitle>Rodzina</MainTitle>
@@ -187,6 +191,7 @@ const SEARCH_PEOPLE_QUERY = gql`
                 middle_name
                 last_name
                 birth_date
+                birth_location
                 passed_date
             }
         }

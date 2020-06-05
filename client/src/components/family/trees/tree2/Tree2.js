@@ -101,6 +101,7 @@ const TREE1_QUERY = gql`
             link_photo
             notes
             birth_date
+            birth_location
             passed_date
         }
         children(filter: $id) {

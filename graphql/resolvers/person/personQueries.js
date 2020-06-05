@@ -32,6 +32,7 @@ module.exports = {
                 middle_name,
                 last_name,
                 birth_date,
+                birth_location,
                 passed_date,
                 link_photo
                 FROM main.people AS MP

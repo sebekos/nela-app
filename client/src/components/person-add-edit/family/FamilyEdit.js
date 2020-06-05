@@ -170,13 +170,22 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
     });
 
     const [addParentMutation] = useMutation(ADD_PARENT_MUTATION, {
-        onError: (errors) => console.log(errors),
-        onCompleted: () => toast.success("Parent added"),
+        onError: (errors) => {
+            setCurLoading(false);
+            console.log(errors);
+        },
+        onCompleted: () => {
+            setCurLoading(false);
+            toast.success("Parent added");
+        },
         refetchQueries: [{ query: RELATIONS_QUERY, variables: { id: person_key } }]
     });
 
     const [removeParentMutation] = useMutation(REMOVE_PARENT_MUTATION, {
-        onError: (errors) => console.log(errors),
+        onError: (errors) => {
+            setCurLoading(false);
+            console.log(errors);
+        },
         refetchQueries: [{ query: RELATIONS_QUERY, variables: { id: person_key } }],
         onCompleted: () => {
             setCurLoading(false);
@@ -185,7 +194,10 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
     });
 
     const [addChildMutation] = useMutation(ADD_CHILD_MUTATION, {
-        onError: (errors) => console.log(errors),
+        onError: (errors) => {
+            setCurLoading(false);
+            console.log(errors);
+        },
         onCompleted: () => {
             setCurLoading(false);
             toast.success("Child added");
@@ -194,7 +206,10 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
     });
 
     const [removeChildMutation] = useMutation(REMOVE_CHILD_MUTATION, {
-        onError: (errors) => console.log(errors),
+        onError: (errors) => {
+            setCurLoading(false);
+            console.log(errors);
+        },
         onCompleted: () => {
             setCurLoading(false);
             toast.success("Child removed");
@@ -203,7 +218,10 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
     });
 
     const [addSiblingMutation] = useMutation(ADD_SIBLING_MUTATION, {
-        onError: (errors) => console.log(errors),
+        onError: (errors) => {
+            setCurLoading(false);
+            console.log(errors);
+        },
         onCompleted: () => {
             setCurLoading(false);
             toast.success("Sibling added");
@@ -212,7 +230,10 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
     });
 
     const [removeSiblingMutation] = useMutation(REMOVE_SIBLING_MUTATION, {
-        onError: (errors) => console.log(errors),
+        onError: (errors) => {
+            setCurLoading(false);
+            console.log(errors);
+        },
         onCompleted: () => {
             setCurLoading(false);
             toast.success("Sibling removed");
@@ -221,7 +242,10 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
     });
 
     const [addSpouseMutation] = useMutation(ADD_SPOUSE_MUTATION, {
-        onError: (errors) => console.log(errors),
+        onError: (errors) => {
+            setCurLoading(false);
+            console.log(errors);
+        },
         onCompleted: () => {
             setCurLoading(false);
             toast.success("Spouse added");
@@ -230,7 +254,10 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
     });
 
     const [removeSpouseMutation] = useMutation(REMOVE_SPOUSE_MUTATION, {
-        onError: (errors) => console.log(errors),
+        onError: (errors) => {
+            setCurLoading(false);
+            console.log(errors);
+        },
         onCompleted: () => {
             setCurLoading(false);
             toast.success("Spouse removed");

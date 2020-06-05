@@ -11,6 +11,8 @@ const Container = styled.div`
 
 const ShowDatesContainer = styled.div``;
 
+const BirthLocationContainer = styled.div``;
+
 const ShowNotesContainer = styled.div`
     overflow-wrap: break-word;
     padding: 0.25rem;
@@ -32,13 +34,14 @@ const EditText = styled.div`
     color: blue;
 `;
 
-const InfoShow = ({ data: { birth_date, passed_date, notes }, onInfoEdit }) => {
+const InfoShow = ({ data: { birth_date, birth_location, passed_date, notes }, onInfoEdit }) => {
     return (
         <Container>
             <EditContainer>
                 <EditText onClick={onInfoEdit}>Edit Info</EditText>
             </EditContainer>
             <ShowDatesContainer>{[birth_date, passed_date].filter((item) => item !== null).join(" - ")}</ShowDatesContainer>
+            {birth_location && <BirthLocationContainer>{birth_location}</BirthLocationContainer>}
             <ShowNotesContainer>{notes ? notes : "No Info"}</ShowNotesContainer>
         </Container>
     );

@@ -17,7 +17,7 @@ module.exports = {
         };
         try {
             const gallery = await Gallery.create(galleryFields);
-            return gallery;
+            return true;
         } catch (err) {
             throw new Error(err);
         }

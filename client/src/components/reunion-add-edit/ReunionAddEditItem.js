@@ -88,8 +88,6 @@ const DeleteText = styled(SaveText)`
 
 const SaveEditDeleteContainer = styled.div`
     display: flex;
-    margin-left: auto;
-    margin-right: 0;
     width: fit-content;
 `;
 
@@ -190,6 +188,8 @@ const AddEditItem = ({ data }) => {
     };
 
     const onDelete = () => {
+        var r = window.confirm("Press OK to delete");
+        if (r !== true) return;
         deleteReunion({ variables: { id: parseInt(data.id, 10) } });
     };
 

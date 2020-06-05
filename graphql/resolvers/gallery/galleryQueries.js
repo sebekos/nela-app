@@ -9,7 +9,7 @@ module.exports = {
                 MG.title,
                 MG.text,
                 MG.createdAt,
-                (SELECT link_thumb FROM main.photos AS MP WHERE MP.key = MG.id LIMIT 1) AS thumb_1
+                (SELECT link_thumb FROM main.photos AS MP WHERE MP.key = MG.id AND deleted = 0 LIMIT 1) AS thumb_1
                 FROM main.galleries AS MG
                 WHERE id IN(
                     SELECT DISTINCT MP.key FROM main.photos AS MP

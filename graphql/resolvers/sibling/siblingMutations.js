@@ -9,9 +9,22 @@ module.exports = {
         const { person_key, sibling_key } = args.siblingInput;
         const { userId } = context;
         try {
-            const checkSibling = await Person.findOne({ where: { id: sibling_key } });
-            if (!checkSibling) {
-                throw new Error("Sibling not found");
+            // Check if same connection
+            if (person_key === sibling_key) {
+                throw new Error("You can't add yourself...");
+            }
+            // Check if connection exists
+            const relationCheck = await sequelize.query(`
+                SELECT id FROM main.children WHERE person_key = ${person_key} AND child_key = ${sibling_key} AND deleted = 0
+                UNION ALL
+                SELECT id FROM main.spouses WHERE person_key = ${person_key} AND spouse_key = ${sibling_key} AND deleted = 0
+                UNION ALL
+                SELECT id FROM main.parents WHERE person_key = ${person_key} AND parent_key = ${sibling_key} AND deleted = 0
+                UNION ALL
+                SELECT id FROM main.siblings WHERE person_key = ${person_key} AND sibling_key = ${sibling_key} AND deleted = 0
+            `);
+            if (relationCheck[0].length > 0) {
+                throw new Error("Relation already exists");
             }
             await sequelize.query(`
                 INSERT INTO main.siblings (

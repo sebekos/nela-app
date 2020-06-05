@@ -6,6 +6,7 @@ const personKeys = [
     "middle_name",
     "last_name",
     "birth_date",
+    "birth_location",
     "passed_date",
     "link_photo",
     "notes",

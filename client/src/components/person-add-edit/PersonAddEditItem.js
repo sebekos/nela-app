@@ -104,6 +104,9 @@ const RELATIONS_QUERY = gql`
             first_name
             middle_name
             last_name
+            birth_date
+            birth_location
+            passed_date
             notes
             link_photo
         }

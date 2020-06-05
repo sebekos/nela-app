@@ -62,9 +62,8 @@ const DeleteText = styled(SaveText)`
 
 const SaveEditDeleteContainer = styled.div`
     display: flex;
-    margin-left: auto;
-    margin-right: 0;
     width: fit-content;
+    z-index: 1000;
 `;
 
 const Counter = styled.div`
@@ -99,11 +98,12 @@ const InfoEdit = ({ data, stopEdit }) => {
         middle_name: data.middle_name ? data.middle_name : "",
         last_name: data.last_name,
         birth_date: data.birth_date ? data.birth_date : "",
+        birth_location: data.birth_location ? data.birth_location : "",
         passed_date: data.passed_date ? data.passed_date : "",
         notes: data.notes ? data.notes : ""
     });
 
-    const { first_name, middle_name, last_name, birth_date, passed_date, notes } = formData;
+    const { first_name, middle_name, last_name, birth_date, birth_location, passed_date, notes } = formData;
 
     const onChange = (e) => {
         setFormData({
@@ -113,10 +113,14 @@ const InfoEdit = ({ data, stopEdit }) => {
     };
 
     const onSave = () => {
-        updatePerson({ variables: { id: parseInt(data.id, 10), first_name, middle_name, last_name, birth_date, passed_date, notes } });
+        updatePerson({
+            variables: { id: parseInt(data.id, 10), first_name, middle_name, last_name, birth_date, birth_location, passed_date, notes }
+        });
     };
 
     const onDelete = () => {
+        var r = window.confirm("Press OK to delete");
+        if (r !== true) return;
         deletePerson({ variables: { id: parseInt(data.id, 10) } });
     };
 
@@ -177,6 +181,17 @@ const InfoEdit = ({ data, stopEdit }) => {
                     }}
                 />
                 <TextField
+                    name="birth_location"
+                    onChange={onChange}
+                    label="Birth location"
+                    variant="filled"
+                    value={birth_location}
+                    inputProps={{
+                        maxLength: 40
+                    }}
+                    helperText={`${birth_location.length}/${40}`}
+                />
+                <TextField
                     name="passed_date"
                     variant="filled"
                     id="date"
@@ -191,6 +206,7 @@ const InfoEdit = ({ data, stopEdit }) => {
             </EditRow2>
             <EditRow3>
                 <TextareaAutosize
+                    aria-label="empty textarea"
                     autoComplete="off"
                     placeholder="Notes"
                     name="notes"
@@ -218,6 +234,7 @@ const UPDATE_PERSON_MUTATION = gql`
         $middle_name: String
         $last_name: String!
         $birth_date: String
+        $birth_location: String
         $passed_date: String
         $notes: String
     ) {
@@ -228,6 +245,7 @@ const UPDATE_PERSON_MUTATION = gql`
                 middle_name: $middle_name
                 last_name: $last_name
                 birth_date: $birth_date
+                birth_location: $birth_location
                 passed_date: $passed_date
                 notes: $notes
             }
@@ -237,6 +255,7 @@ const UPDATE_PERSON_MUTATION = gql`
             middle_name
             last_name
             birth_date
+            birth_location
             passed_date
             notes
         }

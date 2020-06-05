@@ -54,7 +54,7 @@ const Counter = styled.div`
     color: grey;
 `;
 
-const Add = ({ first_name, middle_name, last_name, birth_date, passed_date, notes, onChange, onAdd }) => {
+const Add = ({ first_name, middle_name, last_name, birth_date, passed_date, birth_location, notes, onChange, onAdd }) => {
     return (
         <AddContainer>
             <AddRow1>
@@ -106,6 +106,17 @@ const Add = ({ first_name, middle_name, last_name, birth_date, passed_date, note
                     }}
                 />
                 <TextField
+                    name="birth_location"
+                    onChange={onChange}
+                    label="Birth location"
+                    variant="filled"
+                    value={birth_location}
+                    inputProps={{
+                        maxLength: 40
+                    }}
+                    helperText={`${birth_location.length}/${40}`}
+                />
+                <TextField
                     name="passed_date"
                     variant="filled"
                     id="date"
@@ -143,6 +154,7 @@ Add.propTypes = {
     middle_name: PropTypes.string,
     last_name: PropTypes.string,
     birth_date: PropTypes.string,
+    birth_location: PropTypes.string,
     passed_date: PropTypes.string,
     notes: PropTypes.string,
     onChange: PropTypes.func.isRequired,
@@ -161,6 +173,7 @@ const PersonAdd = () => {
                 last_name: "",
                 birth_date: "",
                 passed_date: "",
+                birth_location: "",
                 notes: ""
             });
         }
@@ -172,10 +185,11 @@ const PersonAdd = () => {
         last_name: "",
         birth_date: "",
         passed_date: "",
+        birth_location: "",
         notes: ""
     });
 
-    const { first_name, middle_name, last_name, birth_date, passed_date, notes } = formData;
+    const { first_name, middle_name, last_name, birth_date, passed_date, birth_location, notes } = formData;
 
     const onChange = (e) => {
         setFormData({
@@ -196,6 +210,7 @@ const PersonAdd = () => {
             last_name={last_name}
             birth_date={birth_date}
             passed_date={passed_date}
+            birth_location={birth_location}
             notes={notes}
             onChange={onChange}
             onAdd={onAdd}
@@ -210,6 +225,7 @@ const ADD_PERSON_QUERY = gql`
         $last_name: String!
         $birth_date: String
         $passed_date: String
+        $birth_location: String
         $notes: String
     ) {
         addPerson(
@@ -218,6 +234,7 @@ const ADD_PERSON_QUERY = gql`
                 middle_name: $middle_name
                 last_name: $last_name
                 birth_date: $birth_date
+                birth_location: $birth_location
                 passed_date: $passed_date
                 notes: $notes
             }
@@ -227,6 +244,7 @@ const ADD_PERSON_QUERY = gql`
             middle_name
             last_name
             birth_date
+            birth_location
             passed_date
             notes
         }
@@ -242,6 +260,7 @@ const PEOPLE_QUERY = gql`
             last_name
             link_photo
             birth_date
+            birth_location
             passed_date
             notes
         }

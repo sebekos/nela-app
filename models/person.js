@@ -30,6 +30,12 @@ module.exports = (sequelize, type) => {
         passed_date: {
             type: type.DATEONLY
         },
+        birth_location: {
+            type: type.STRING,
+            validate: {
+                len: [0, 40]
+            }
+        },
         link_photo: {
             type: type.STRING
         },

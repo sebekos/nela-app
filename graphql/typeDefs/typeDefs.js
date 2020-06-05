@@ -10,6 +10,7 @@ const child = require("./child");
 const sibling = require("./sibling");
 const spouse = require("./spouse");
 const thank = require("./thank");
+const wedding = require("./wedding");
 
 const typeDefs = gql`
     type Query {
@@ -29,6 +30,7 @@ const typeDefs = gql`
     ${sibling}
     ${spouse}
     ${thank}
+    ${wedding}
 `;
 
 module.exports = typeDefs;

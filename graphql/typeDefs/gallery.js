@@ -47,7 +47,7 @@ extend type Query {
 }
 
 extend type Mutation {
-    addGallery(galleryInput: GalleryInput): Gallery
+    addGallery(galleryInput: GalleryInput): Boolean
     updateGallery(updateGalleryInput: UpdateGalleryInput): Gallery
     deletePhotos(photos: [Int!]!, galleryid: Int!): Boolean
     deleteGallery(id: Int!): Boolean

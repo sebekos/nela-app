@@ -44,12 +44,18 @@ const EditText = styled.div`
 const SaveText = styled.div`
     padding: 0 0.3rem 0.3rem;
     font-size: 0.7rem;
-    color: blue;
+    color: green;
     text-align: right;
     cursor: pointer;
     width: fit-content;
-    margin-left: auto;
-    margin-right: 0;
+`;
+
+const CancelText = styled(SaveText)`
+    color: #333;
+`;
+
+const DeleteText = styled(SaveText)`
+    color: red;
 `;
 
 const ShowContainer = ({ text, title, onEdit, galleryid }) => {
@@ -85,8 +91,6 @@ const TextArea = styled.div`
 
 const SaveEditDeleteContainer = styled.div`
     display: flex;
-    margin-left: auto;
-    margin-right: 0;
     width: fit-content;
 `;
 
@@ -102,8 +106,8 @@ const EditContainer = ({ text, title, onSave, onChange, onCancel, onDelete }) =>
         <>
             <SaveEditDeleteContainer>
                 <SaveText onClick={onSave}>Save</SaveText>
-                <SaveText onClick={onCancel}>Cancel</SaveText>
-                <SaveText onClick={onDelete}>Delete</SaveText>
+                <CancelText onClick={onCancel}>Cancel</CancelText>
+                <DeleteText onClick={onDelete}>Delete</DeleteText>
             </SaveEditDeleteContainer>
             <Title>
                 <TextField
@@ -224,6 +228,8 @@ const AddEditItem = ({ data }) => {
     };
 
     const onDelete = () => {
+        var r = window.confirm("Press OK to delete");
+        if (r !== true) return;
         deleteGallery({ variables: { id: parseInt(data.id, 10) } });
     };
 

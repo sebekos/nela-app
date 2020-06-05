@@ -5,6 +5,7 @@ input PersonInput {
     last_name: String!
     birth_date: String
     passed_date: String
+    birth_location: String
     link_photo: String
     notes: String
 }
@@ -16,6 +17,7 @@ input UpdatePersonInput {
     last_name: String!
     birth_date: String
     passed_date: String
+    birth_location: String
     link_photo: String
     notes: String
 }
@@ -27,6 +29,7 @@ type Person {
     last_name: String!
     birth_date: String
     passed_date: String
+    birth_location: String
     link_photo: String
     notes: String
     createdAt: String!

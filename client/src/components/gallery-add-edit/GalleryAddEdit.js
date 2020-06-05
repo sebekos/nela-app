@@ -90,6 +90,7 @@ const Add = ({ title, text, onChange, onAdd }) => {
         <AddContainer>
             <Title>
                 <TextField
+                    autoComplete="off"
                     style={{ width: "100%" }}
                     onChange={onChange}
                     label="Title"
@@ -205,12 +206,7 @@ const GALLERIES_QUERY = gql`
 
 const ADD_GALLERY_QUERY = gql`
     mutation AddGallery($title: String!, $text: String!) {
-        addGallery(galleryInput: { title: $title, text: $text }) {
-            id
-            title
-            text
-            createdAt
-        }
+        addGallery(galleryInput: { title: $title, text: $text })
     }
 `;
 

@@ -42,7 +42,9 @@ const TextInfoTitle = styled.div`
 
 const TextInfoNotes = styled.div``;
 
-const TextInfoDatesContainer = styled.div``;
+const TextInfoDatesContainer = styled.div`
+    font-size: 0.7rem;
+`;
 
 const Title = (props) => {
     const title = Object.keys(props)
@@ -60,7 +62,7 @@ const Title = (props) => {
     );
 };
 
-const TextInfoDates = ({ birth_date, passed_date }) => {
+const TextInfoDates = ({ birth_date, passed_date, birth_location }) => {
     let date = "";
     if (birth_date && !passed_date) {
         date = moment(birth_date, "YYYY-MM-DD").format("LL");
@@ -69,12 +71,14 @@ const TextInfoDates = ({ birth_date, passed_date }) => {
     } else {
         date = "No data";
     }
-    return <TextInfoDatesContainer>{date}</TextInfoDatesContainer>;
+    const location = birth_location ? `${birth_location}; ` : "";
+    return <TextInfoDatesContainer>{location + date}</TextInfoDatesContainer>;
 };
 
 TextInfoDates.propTypes = {
     birth_date: PropTypes.string,
-    passed_date: PropTypes.string
+    passed_date: PropTypes.string,
+    birth_location: PropTypes.string
 };
 
 const Main = ({ data }) => {
@@ -86,7 +90,7 @@ const Main = ({ data }) => {
             <TextInfoContainer>
                 <Title first_name={data.first_name} middle_name={data.middle_name} last_name={data.last_name} />
                 <TextInfoNotes>{data.notes ? data.notes : "No info"}</TextInfoNotes>
-                <TextInfoDates birth_date={data.birth_date} passed_date={data.passed_date} />
+                <TextInfoDates birth_date={data.birth_date} passed_date={data.passed_date} birth_location={data.birth_location} />
             </TextInfoContainer>
         </MainContainer>
     );
