@@ -184,8 +184,8 @@ const GalleryAddEdit = () => {
         <Container>
             <MainTitle>Galeria</MainTitle>
             <Add title={title} text={text} onChange={onChange} onAdd={onAdd} />
-            {loading ? <Loading /> : null}
-            {!loading && error ? <Error /> : null}
+            {loading && <Loading />}
+            {!loading && error && <Error />}
             {!loading && data && data.galleries.galleries.length > 0 ? <Map data={data.galleries.galleries} /> : <NoData />}
         </Container>
     );

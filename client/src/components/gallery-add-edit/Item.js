@@ -235,10 +235,10 @@ const AddEditItem = ({ data }) => {
 
     return (
         <Container>
-            {edit ? (
+            {edit && (
                 <EditContainer title={title} text={text} onSave={onSave} onChange={onChange} onCancel={onCancel} onDelete={onDelete} />
-            ) : null}
-            {!edit ? <ShowContainer title={title} text={text} onEdit={onEdit} onChange={onChange} galleryid={data.id} /> : null}
+            )}
+            {!edit && <ShowContainer title={title} text={text} onEdit={onEdit} onChange={onChange} galleryid={data.id} />}
             <Buttons currid={id} />
             <DateText>{timeFormat(data.createdAt / 1000)}</DateText>
         </Container>

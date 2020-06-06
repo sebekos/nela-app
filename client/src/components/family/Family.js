@@ -172,11 +172,9 @@ const Family = () => {
                 </Button>
             </Form>
             <Loading localLoading={localLoading} lazyLoading={lazyLoading} />
-            {!perArray ? <Tree isVisible={isVisible} /> : null}
-            {!localLoading && !lazyLoading && perArray && perArray.results.length > 0 ? (
-                <Map data={perArray.results} history={history} />
-            ) : null}
-            {!localLoading && !lazyLoading && perArray && perArray.results.length === 0 ? <NoResults /> : null}
+            {!perArray && <Tree isVisible={isVisible} />}
+            {!localLoading && !lazyLoading && perArray && perArray.results.length > 0 && <Map data={perArray.results} history={history} />}
+            {!localLoading && !lazyLoading && perArray && perArray.results.length === 0 && <NoResults />}
         </Container>
     );
 };

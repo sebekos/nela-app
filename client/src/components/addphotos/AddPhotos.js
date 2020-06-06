@@ -186,13 +186,13 @@ const AddPhotos = ({ match }) => {
     return (
         <Container>
             <MainTitle>Add Photos</MainTitle>
-            {loading ? <Loading /> : null}
-            {!loading && error ? <Error /> : null}
-            {!loading && !error && data ? <Description title={data.gallery.title} text={data.gallery.text} /> : null}
-            {!loading && !error && data ? <Uploader onDrop={onDrop} pictures={pictures} /> : null}
-            {progress > 0 && progress < 100 ? <Progress progress={progress} /> : null}
-            {uploadBtn && progress === 0 ? <Upload onUpload={onUpload} /> : null}
-            {progress === 100 ? <GoToGallery galleryid={match.params.id} /> : null}
+            {loading && <Loading />}
+            {!loading && error && <Error />}
+            {!loading && !error && data && <Description title={data.gallery.title} text={data.gallery.text} />}
+            {!loading && !error && data && <Uploader onDrop={onDrop} pictures={pictures} />}
+            {progress > 0 && progress < 100 && <Progress progress={progress} />}
+            {uploadBtn && progress === 0 && <Upload onUpload={onUpload} />}
+            {progress === 100 && <GoToGallery galleryid={match.params.id} />}
         </Container>
     );
 };
