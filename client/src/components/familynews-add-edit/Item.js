@@ -193,10 +193,8 @@ const Item = ({ data }) => {
 
     return (
         <Container>
-            {edit ? (
-                <EditContainer type={type} text={text} onSave={onSave} onChange={onChange} stopEdit={stopEdit} onDelete={onDelete} />
-            ) : null}
-            {!edit ? <ShowContainer type={type} text={text} onEdit={onEdit} onChange={onChange} /> : null}
+            {edit && <EditContainer type={type} text={text} onSave={onSave} onChange={onChange} stopEdit={stopEdit} onDelete={onDelete} />}
+            {!edit && <ShowContainer type={type} text={text} onEdit={onEdit} onChange={onChange} />}
             <DateText>{timeFormat(data.createdAt / 1000)}</DateText>
         </Container>
     );

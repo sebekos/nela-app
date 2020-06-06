@@ -175,8 +175,8 @@ const AddEdit = () => {
         <Container>
             <MainTitle>Wiesci</MainTitle>
             <Add text={text} type={type} onChange={onChange} onAdd={onAdd} />
-            {loading ? <Loading /> : null}
-            {!loading && error ? <Error /> : null}
+            {loading && <Loading />}
+            {!loading && error && <Error />}
             {!loading && data && data.familynews.length > 0 ? <Map data={data.familynews} /> : <NoData />}
         </Container>
     );

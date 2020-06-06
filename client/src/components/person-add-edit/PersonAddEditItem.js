@@ -77,16 +77,16 @@ const Item = ({ id }) => {
                     <ShowNameContainer>
                         {[data.person.first_name, data.person.middle_name, data.person.last_name].filter((item) => item !== null).join(" ")}
                     </ShowNameContainer>
-                    {edit && avatarEdit ? <AvatarEdit person_key={id} link={data.person.link_photo} stopEdit={stopEdit} /> : null}
-                    {edit && infoEdit ? <InfoEdit data={data.person} stopEdit={stopEdit} /> : null}
-                    {edit && familyEdit ? <FamilyEdit person_key={id} family_data={data.relations} stopEdit={stopEdit} /> : null}
-                    {!edit ? (
+                    {edit && avatarEdit && <AvatarEdit person_key={id} link={data.person.link_photo} stopEdit={stopEdit} />}
+                    {edit && infoEdit && <InfoEdit data={data.person} stopEdit={stopEdit} />}
+                    {edit && familyEdit && <FamilyEdit person_key={id} family_data={data.relations} stopEdit={stopEdit} />}
+                    {!edit && (
                         <AddEditShow>
                             <AvatarShow link={data.person.link_photo} onAvatarEdit={onAvatarEdit} />
                             <InfoShow data={data.person} onInfoEdit={onInfoEdit} />
                             <FamilyShow family_data={data.relations} onFamilyEdit={onFamilyEdit} />
                         </AddEditShow>
-                    ) : null}
+                    )}
                 </>
             )}
         </Container>

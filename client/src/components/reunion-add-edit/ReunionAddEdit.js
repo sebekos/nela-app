@@ -175,8 +175,8 @@ const AddEdit = () => {
         <Container>
             <MainTitle>Zjazdy</MainTitle>
             <Add title={title} text={text} onChange={onChange} onAdd={onAdd} />
-            {loading ? <Loading /> : null}
-            {!loading && error ? <Error /> : null}
+            {loading && <Loading />}
+            {!loading && error && <Error />}
             {!loading && data.reunion && data.reunion.length > 0 ? <Map reunion={data.reunion} /> : <NoData />}
         </Container>
     );

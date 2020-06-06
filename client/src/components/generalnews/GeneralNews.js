@@ -56,8 +56,8 @@ const GeneralNews = () => {
             <MainTitle>Newsy</MainTitle>
             <Background>
                 <Container>
-                    {loading ? <Loading /> : null}
-                    {!loading && !error ? (
+                    {loading && <Loading />}
+                    {!loading && !error && (
                         <>
                             <MediumTitle>Newsy</MediumTitle>
                             <ScrollCards data={data.news} />
@@ -73,7 +73,7 @@ const GeneralNews = () => {
                             <MediumTitle>Zjazdy</MediumTitle>
                             <Reunion data={data.reunion} />
                         </>
-                    ) : null}
+                    )}
                 </Container>
             </Background>
         </>

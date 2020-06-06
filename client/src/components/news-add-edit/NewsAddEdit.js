@@ -183,8 +183,8 @@ const AddEdit = () => {
         <Container>
             <MainTitle>Newsy</MainTitle>
             <Add title={title} text={text} onChange={onChange} onAdd={onAdd} />
-            {loading ? <Loading /> : null}
-            {!loading && error ? <Error /> : null}
+            {loading && <Loading />}
+            {!loading && error && <Error />}
             {!loading && data && data.news.length > 0 ? <Map news={data.news} /> : <NoData />}
         </Container>
     );

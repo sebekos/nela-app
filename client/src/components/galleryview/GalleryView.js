@@ -71,8 +71,8 @@ const GalleryView = ({ match }) => {
     });
     return (
         <Container>
-            {!loading && error ? <ApError /> : null}
-            {loading ? <Loading /> : null}
+            {!loading && error && <ApError />}
+            {loading && <Loading />}
             {!loading && data && data.gallery && (
                 <Info title={data.gallery.title} text={data.gallery.text} createdAt={data.gallery.createdAt} />
             )}

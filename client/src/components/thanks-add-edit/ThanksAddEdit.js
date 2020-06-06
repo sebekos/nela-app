@@ -161,8 +161,8 @@ const AddEdit = () => {
         <Container>
             <MainTitle>Thanks</MainTitle>
             <Add text={text} onChange={onChange} onAdd={onAdd} />
-            {loading ? <Loading /> : null}
-            {!loading && error ? <Error /> : null}
+            {loading && <Loading />}
+            {!loading && error && <Error />}
             {!loading && data && data.thanks.length > 0 ? <Map thanks={data.thanks} /> : <NoData />}
         </Container>
     );

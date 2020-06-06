@@ -35,8 +35,8 @@ Map.propTypes = {
 const Reunion = ({ data }) => {
     return (
         <Container>
-            {data.length > 0 ? <Map reunion={data} /> : null}
-            {data && data.length === 0 ? <NoData /> : null}
+            {data.length > 0 && <Map reunion={data} />}
+            {data && data.length === 0 && <NoData />}
         </Container>
     );
 };
