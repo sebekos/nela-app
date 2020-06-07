@@ -39,7 +39,7 @@ module.exports = {
                 WHERE MP.first_name LIKE :search AND deleted = 0
                 OR MP.middle_name LIKE :search AND deleted = 0
                 OR MP.last_name LIKE :search AND deleted = 0
-                ORDER BY MP.first_name ASC;
+                ORDER BY updatedAt DESC;
                 `,
                 {
                     replacements: { search: `%${search}%` }
@@ -47,6 +47,39 @@ module.exports = {
             );
             const returnStuff = {
                 id: "searchresults",
+                results: results
+            };
+            return returnStuff;
+        } catch (err) {
+            throw new Error(err);
+        }
+    },
+    familySearchPeople: async (_, args) => {
+        try {
+            const { search } = args;
+            const [results] = await sequelize.query(
+                `
+                SELECT
+                id,
+                first_name,
+                middle_name,
+                last_name,
+                birth_date,
+                birth_location,
+                passed_date,
+                link_photo
+                FROM main.people AS MP
+                WHERE MP.first_name LIKE :search AND deleted = 0
+                OR MP.middle_name LIKE :search AND deleted = 0
+                OR MP.last_name LIKE :search AND deleted = 0
+                ORDER BY updatedAt DESC;
+                `,
+                {
+                    replacements: { search: `%${search}%` }
+                }
+            );
+            const returnStuff = {
+                id: "familysearchresults",
                 results: results
             };
             return returnStuff;

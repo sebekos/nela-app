@@ -52,6 +52,11 @@ const resolvers = {
             });
             return { id: "searchresults", results: cachedData };
         }
+    },
+    Mutation: {
+        deletePerson: (_root, variables, { cache, getCacheKey }) => {
+            return true;
+        }
     }
 };
 

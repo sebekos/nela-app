@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import PersonAddEditItem from "./PersonAddEditItem";
 import styled from "styled-components";
-import { useLazyQuery, useQuery } from "@apollo/react-hooks";
+import { useLazyQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { uuid } from "uuidv4";
 import PropTypes from "prop-types";
@@ -54,39 +54,30 @@ const CircularContainer = styled.div`
 `;
 
 const AddEdit = () => {
-    const { loading, error } = useQuery(PEOPLE_QUERY, {
-        onCompleted: (data) => setResults(data.people)
+    const [onSearch, { loading, error, data }] = useLazyQuery(SEARCH_PEOPLE_QUERY, {
+        fetchPolicy: "network-only"
     });
 
-    const [perArray, setResults] = useState(null);
-
-    const [onSearch, { loading: lazyLoading }] = useLazyQuery(SEARCH_PEOPLE_QUERY, {
-        fetchPolicy: "network-only",
-        onCompleted: (data) => setResults(data.searchPeople.results)
-    });
+    useEffect(() => {
+        onSearch({ variables: { search: "" } });
+    }, [onSearch]);
 
     return (
         <>
             <PeopleSearch onSearch={onSearch} />
-            {loading || lazyLoading ? (
+            {loading ? (
                 <CircularContainer>
                     <CircularProgress />
                 </CircularContainer>
             ) : null}
             {!loading && error && <Error />}
-            {!loading && !lazyLoading && perArray && perArray.length > 0 && <Map people={perArray} />}
-            {!loading && !lazyLoading && perArray && perArray.length === 0 && <NoData />}
+            {!loading && data && data.searchPeople && data.searchPeople.results && data.searchPeople.results.length > 0 && (
+                <Map people={data.searchPeople.results} />
+            )}
+            {!loading && data && data.searchPeople && data.searchPeople.results && data.searchPeople.results.length === 0 && <NoData />}
         </>
     );
 };
-
-const PEOPLE_QUERY = gql`
-    {
-        people {
-            id
-        }
-    }
-`;
 
 const SEARCH_PEOPLE_QUERY = gql`
     query SearchPeople($search: String!) {

@@ -1,18 +1,16 @@
 const { Person } = require("../../../sequelize");
 const { AuthenticationError } = require("apollo-server-express");
 
-const personKeys = [
-    "first_name",
-    "middle_name",
-    "last_name",
-    "birth_date",
-    "birth_location",
-    "passed_date",
-    "link_photo",
-    "notes",
-    "createdUser",
-    "lastUser"
-];
+const personKeys = ["first_name", "middle_name", "last_name", "birth_date", "birth_location", "passed_date", "notes", "lastUser"];
+
+const verifyInputs = (userInputs) => {
+    const personFields = personKeys.reduce((memo, val) => {
+        memo[val] = userInputs[val];
+        if ((val === "birth_date" && userInputs[val] === "") || (val === "passed_date" && userInputs[val] === "")) memo[val] = null;
+        return memo;
+    }, {});
+    return personFields;
+};
 
 module.exports = {
     addPerson: async (obj, args, context, info) => {
@@ -40,10 +38,7 @@ module.exports = {
         }
         const userInputs = args.updatePersonInput;
         const { userId } = context;
-        const personFields = personKeys.reduce((memo, val) => {
-            if (userInputs[val] !== null && userInputs[val] !== "") memo[val] = userInputs[val];
-            return memo;
-        }, {});
+        const personFields = verifyInputs(userInputs);
         personFields.lastUser = userId;
         try {
             await Person.update(personFields, { where: { id: userInputs.id } });

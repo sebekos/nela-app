@@ -142,7 +142,7 @@ const ButtonsContainer = styled.div`
     width: max-content;
 `;
 
-const PeopleItems = ({ data, addParent, addSibling, addChild, addSpouse }) => {
+const PeopleItems = ({ data, addParent, addSibling, addChild, addSpouse, weddate, onWedChange }) => {
     const people = data.map((person) => {
         return (
             <PeopleItemContainer key={uuid()}>
@@ -154,6 +154,7 @@ const PeopleItems = ({ data, addParent, addSibling, addChild, addSpouse }) => {
                     <AddSibling onClick={addSibling}>Sibling</AddSibling>
                     <AddChild onClick={addChild}>Child</AddChild>
                     <AddSpouse onClick={addSpouse}>Spouse</AddSpouse>
+                    <input onChange={onWedChange} name="weddate" type="date" value={weddate}></input>
                 </ButtonsContainer>
             </PeopleItemContainer>
         );
@@ -164,8 +165,17 @@ const PeopleItems = ({ data, addParent, addSibling, addChild, addSpouse }) => {
 const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
     const [search, setSearch] = useState("");
     const [curLoading, setCurLoading] = useState(false);
+    const [weddate, setWeddate] = useState("");
+
+    const onChange = (e) => setSearch(e.target.value);
+
+    const onWedChange = (e) => {
+        console.log(e.target.value);
+        setWeddate(e.target.value);
+    };
 
     const [searchPeople, { loading, data }] = useLazyQuery(SEARCH_PEOPLE_QUERY, {
+        fetchPolicy: "network-only",
         onCompleted: () => setCurLoading(false)
     });
 
@@ -265,8 +275,6 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
         refetchQueries: [{ query: RELATIONS_QUERY, variables: { id: person_key } }]
     });
 
-    const onChange = (e) => setSearch(e.target.value);
-
     const onSubmit = (e) => {
         e.preventDefault();
         setCurLoading(true);
@@ -325,13 +333,15 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
             <Form onSubmit={onSubmit}>
                 <GenInput onChange={onChange} type="text" value={search} />
             </Form>
-            {!loading && data && data.searchPeople && data.searchPeople.results.length > 0 ? (
+            {!loading && data && data.familySearchPeople && data.familySearchPeople.results.length > 0 ? (
                 <PeopleItems
-                    data={data.searchPeople.results}
+                    data={data.familySearchPeople.results}
                     addParent={addParent}
                     addSibling={addSibling}
                     addChild={addChild}
                     addSpouse={addSpouse}
+                    weddate={weddate}
+                    onWedChange={onWedChange}
                 />
             ) : null}
             {family_data ? (
@@ -356,8 +366,8 @@ FamilyEdit.propTypes = {
 };
 
 const SEARCH_PEOPLE_QUERY = gql`
-    query SearchPeople($search: String!) {
-        searchPeople(search: $search) {
+    query FamilySearchPeople($search: String!) {
+        familySearchPeople(search: $search) {
             id
             results {
                 id

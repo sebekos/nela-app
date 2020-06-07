@@ -58,6 +58,7 @@ extend type Query {
     person(filter: Int): Person
     people: [Person!]
     searchPeople(search: String!): SearchResults!
+    familySearchPeople(search: String!): SearchResults!
     relations(filter: Int): [RelationPerson!]
 }
 

@@ -2,6 +2,7 @@ module.exports = `
 input SpouseInput {
     person_key: Int!
     spouse_key: Int!
+    wed_date: String
 }
 
 type Spouse {

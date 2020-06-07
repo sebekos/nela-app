@@ -39,11 +39,17 @@ const EditText = styled.div`
     cursor: pointer;
 `;
 
+const newsTypes = {
+    1: "Wydarzyło się",
+    2: "Witamy w rodzinie",
+    3: "Zabraklo miedzy nami"
+};
+
 const ShowContainer = ({ text, type, onEdit }) => {
     return (
         <>
             <EditText onClick={onEdit}>Edit Information</EditText>
-            <TitleText>{type}</TitleText>
+            <TitleText>{newsTypes[type]}</TitleText>
             <BodyText>{text}</BodyText>
         </>
     );

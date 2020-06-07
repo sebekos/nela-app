@@ -59,7 +59,7 @@ router.post("/", auth, (req, res) => {
     });
 });
 
-router.post("/avatar", auth, (req, res) => {
+router.post("/avatar", auth, async (req, res) => {
     const form = new multiparty.Form({
         uploadDir: `${__dirname}/../public/temp/`
     });

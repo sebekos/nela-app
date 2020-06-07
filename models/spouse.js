@@ -13,6 +13,9 @@ module.exports = (sequelize, type) => {
             type: type.INTEGER,
             allowNull: false
         },
+        wed_date: {
+            type: type.STRING
+        },
         deleted: {
             type: type.INTEGER,
             allowNull: false

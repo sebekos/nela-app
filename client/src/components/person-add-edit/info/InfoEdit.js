@@ -75,7 +75,6 @@ const Counter = styled.div`
 
 const InfoEdit = ({ data, stopEdit }) => {
     const [updatePerson, { loading: updateLoading }] = useMutation(UPDATE_PERSON_MUTATION, {
-        // refetchQueries: [{ query: PERSON_QUERY, variables: { filter: parseInt(data.id, 10) } }],
         onError: (errors) => console.log(errors),
         onCompleted: () => {
             toast.success("Person updated");
@@ -84,7 +83,7 @@ const InfoEdit = ({ data, stopEdit }) => {
     });
 
     const [deletePerson, { loading: deleteLoading }] = useMutation(DELETE_PERSON_MUTATION, {
-        // refetchQueries: [{ query: PERSON_QUERY, variables: { filter: parseInt(data.id, 10) } }],
+        refetchQueries: [{ query: SEARCH_PEOPLE_QUERY, variables: { search: "" } }],
         onError: (errors) => console.log(errors),
         onCompleted: () => {
             toast.success("Person deleted");
@@ -106,6 +105,7 @@ const InfoEdit = ({ data, stopEdit }) => {
     const { first_name, middle_name, last_name, birth_date, birth_location, passed_date, notes } = formData;
 
     const onChange = (e) => {
+        console.log(e.target.value);
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
@@ -121,7 +121,9 @@ const InfoEdit = ({ data, stopEdit }) => {
     const onDelete = () => {
         var r = window.confirm("Press OK to delete");
         if (r !== true) return;
-        deletePerson({ variables: { id: parseInt(data.id, 10) } });
+        deletePerson({
+            variables: { id: parseInt(data.id, 10) }
+        });
     };
 
     return (
@@ -226,6 +228,17 @@ InfoEdit.propTypes = {
     data: PropTypes.object,
     stopEdit: PropTypes.func.isRequired
 };
+
+const SEARCH_PEOPLE_QUERY = gql`
+    query SearchPeople($search: String!) {
+        searchPeople(search: $search) {
+            id
+            results {
+                id
+            }
+        }
+    }
+`;
 
 const UPDATE_PERSON_MUTATION = gql`
     mutation UpdatePerson(

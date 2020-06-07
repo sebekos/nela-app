@@ -163,7 +163,7 @@ Add.propTypes = {
 
 const PersonAdd = () => {
     const [addPerson] = useMutation(ADD_PERSON_QUERY, {
-        refetchQueries: [{ query: PEOPLE_QUERY }],
+        refetchQueries: [{ query: SEARCH_PEOPLE_QUERY, variables: { search: "" } }],
         onError: (err) => console.log(err),
         onCompleted: () => {
             toast.success("Person added");
@@ -251,18 +251,13 @@ const ADD_PERSON_QUERY = gql`
     }
 `;
 
-const PEOPLE_QUERY = gql`
-    {
-        people {
+const SEARCH_PEOPLE_QUERY = gql`
+    query SearchPeople($search: String!) {
+        searchPeople(search: $search) {
             id
-            first_name
-            middle_name
-            last_name
-            link_photo
-            birth_date
-            birth_location
-            passed_date
-            notes
+            results {
+                id
+            }
         }
     }
 `;

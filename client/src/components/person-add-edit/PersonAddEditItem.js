@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import gql from "graphql-tag";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useLazyQuery } from "@apollo/react-hooks";
 
 import "rc-slider/assets/index.css";
 
@@ -43,7 +43,11 @@ const Item = ({ id }) => {
     const [familyEdit, setFamilyEdit] = useState(false);
 
     const { loading, data } = useQuery(RELATIONS_QUERY, {
-        variables: { id: id }
+        variables: { id }
+    });
+
+    const [refetchPerson] = useLazyQuery(RELATIONS_QUERY, {
+        fetchPolicy: "network-only"
     });
 
     const onInfoEdit = () => {
@@ -61,18 +65,24 @@ const Item = ({ id }) => {
         setEdit(true);
     };
 
-    const stopEdit = () => {
+    const stopEdit = (refetch = false) => {
         setEdit(false);
         setAvatarEdit(false);
         setInfoEdit(false);
         setFamilyEdit(false);
+        if (refetch) {
+            refetchPerson({
+                variables: {
+                    id
+                }
+            });
+        }
     };
 
     return (
         <Container>
-            {loading ? (
-                <p>Loading...</p>
-            ) : (
+            {loading && <p>Loading...</p>}
+            {data && (
                 <>
                     <ShowNameContainer>
                         {[data.person.first_name, data.person.middle_name, data.person.last_name].filter((item) => item !== null).join(" ")}

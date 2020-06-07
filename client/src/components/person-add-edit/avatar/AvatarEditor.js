@@ -9,8 +9,6 @@ import GenInput from "../../universal/GenInput";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { LinearProgress } from "@material-ui/core";
-import { useLazyQuery } from "@apollo/react-hooks";
-import gql from "graphql-tag";
 
 const Container = styled.div`
     text-align: center;
@@ -152,10 +150,6 @@ const PersonAvatarEdit = ({ person_key, stopEdit }) => {
     const [scaledImage, setScaledImage] = useState("");
     const [progress, setProgress] = useState(0);
 
-    const [refetchPerson] = useLazyQuery(REFETCH_PERSON, {
-        variables: { filter: parseInt(person_key, 10) }
-    });
-
     const onChange = (e) => {
         setFile(e.target.files[0]);
         setFilenames(e.target.files[0].name);
@@ -194,9 +188,8 @@ const PersonAvatarEdit = ({ person_key, stopEdit }) => {
                 }
             })
             .then(() => {
-                refetchPerson();
                 toast.success("Avatar uploaded");
-                stopEdit();
+                stopEdit(true);
             })
             .catch((err) => {
                 toast.error("Upload error");
@@ -226,20 +219,5 @@ PersonAvatarEdit.propTypes = {
     stopEdit: PropTypes.func.isRequired,
     person_key: PropTypes.number
 };
-
-const REFETCH_PERSON = gql`
-    query($filter: Int!) {
-        person(filter: $filter) {
-            id
-            first_name
-            middle_name
-            last_name
-            birth_date
-            passed_date
-            link_photo
-            createdAt
-        }
-    }
-`;
 
 export default PersonAvatarEdit;
