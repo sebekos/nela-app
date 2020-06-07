@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import CyclePng from "../../img/cycle.png";
 import PrimaryButton from "../universal/PrimaryButton";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
     display: grid;
@@ -69,7 +70,9 @@ const Text = () => {
             <TextDesc>
                 Dnia 27 lutego 2020 r. zmarła w Częstochowie Elżbieta-Wanda Pytlewska z domu Sobieraj- żona Janusza Pytlewskiego.
             </TextDesc>
-            <HistoryButton>Wiesci</HistoryButton>
+            <Link to="/newsy">
+                <HistoryButton>Wiesci</HistoryButton>
+            </Link>
         </TextContainer>
     );
 };

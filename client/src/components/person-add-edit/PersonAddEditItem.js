@@ -17,6 +17,7 @@ import InfoEdit from "./info/InfoEdit";
 const Container = styled.div`
     position: relative;
     max-width: 800px;
+    min-height: 250px;
     padding: 0.5rem;
     color: #333;
     margin: 1rem auto;

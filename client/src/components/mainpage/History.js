@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import MapPng from "../../img/map.png";
 import PrimaryButton from "../universal/PrimaryButton";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
     display: grid;
@@ -65,7 +66,9 @@ const Text = () => {
                 rozmów - wywiadów są nagrane na taśmach video. Jak się okazuje po wielu latach poszukiwań Pytlewskich w zasobach
                 archiwalnych, parafiach, materiałach historycznych, w dokumentach prywatnych zbiorów
             </TextDesc>
-            <HistoryButton>Historia</HistoryButton>
+            <Link to="/historia">
+                <HistoryButton>Historia</HistoryButton>
+            </Link>
         </TextContainer>
     );
 };

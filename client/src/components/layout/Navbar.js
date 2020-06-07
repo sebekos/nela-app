@@ -4,6 +4,7 @@ import { useQuery, useLazyQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router";
 
 const Container = styled.div`
     display: grid;
@@ -37,7 +38,7 @@ const LinksContainer = styled.div`
     }
 `;
 
-const GuestLinks = ({ onNav, currMenu }) => {
+const GuestLinks = ({ currMenu }) => {
     const links = ["Home", "Historia", "Rodzina", "Galeria", "Newsy", "Kontakt"];
     return (
         <>
@@ -48,7 +49,6 @@ const GuestLinks = ({ onNav, currMenu }) => {
                         to={`/${link !== "Home" ? link : ""}`}
                         key={`guestlinks-${index}`}
                         className={link.toLowerCase() === currMenu.toLowerCase() ? "active-link" : null}
-                        onClick={onNav}
                     >
                         {link}
                     </Link>
@@ -56,10 +56,6 @@ const GuestLinks = ({ onNav, currMenu }) => {
             })}
         </>
     );
-};
-
-GuestLinks.propTypes = {
-    onNav: PropTypes.func.isRequired
 };
 
 const AuthLinks = ({ onLogout }) => {
@@ -77,7 +73,7 @@ AuthLinks.propTypes = {
     onLogout: PropTypes.func.isRequired
 };
 
-const Navbar = () => {
+const Navbar = ({ history }) => {
     const {
         data: {
             auth: { isAuth }
@@ -90,18 +86,21 @@ const Navbar = () => {
     const [bottom, setBottom] = useState(false);
 
     useEffect(() => {
-        const path = window.location.pathname.split("/")[1];
-        path ? setCurrMenu(path) : setCurrMenu("Home");
+        let currPath = history.location.pathname.split("/")[1];
+        currPath = currPath === "" ? "Home" : currPath;
+        setCurrMenu(currPath);
         window.addEventListener("scroll", listenToScroll);
-    }, []);
+    }, [history.location.pathname]);
+
+    history.listen((location, action) => {
+        let currPath = location.pathname.split("/")[1];
+        currPath = currPath === "" ? "Home" : currPath;
+        setCurrMenu(currPath);
+    });
 
     const onLogout = (e) => {
         e.preventDefault();
         logout();
-    };
-
-    const onNav = (e) => {
-        setCurrMenu(e.target.getAttribute("route"));
     };
 
     const listenToScroll = () => {
@@ -115,7 +114,7 @@ const Navbar = () => {
     return (
         <Container className={bottom ? "nav-bottom" : ""}>
             <Title>Pytlewskich</Title>
-            <LinksContainer>{isAuth ? <AuthLinks onLogout={onLogout} /> : <GuestLinks currMenu={currMenu} onNav={onNav} />}</LinksContainer>
+            <LinksContainer>{isAuth ? <AuthLinks onLogout={onLogout} /> : <GuestLinks currMenu={currMenu} />}</LinksContainer>
         </Container>
     );
 };
@@ -134,4 +133,4 @@ const LOGOUT_QUERY = gql`
     }
 `;
 
-export default Navbar;
+export default withRouter(Navbar);
