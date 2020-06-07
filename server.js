@@ -25,5 +25,17 @@ app.use("/upload", require("./routes/upload"));
 // Apply middleware
 server.applyMiddleware({ app });
 
+// Serve static assets in production
+if (process.env.NODE_ENV === "production") {
+    //Set static folder
+    app.use(express.static("client/build"));
+
+    app.get("*", (req, res) => {
+        res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+    });
+}
+
+const PORT = process.env.PORT || 4000;
+
 // Listen
-app.listen({ port: 4000 }, () => console.log(`🚀 Server ready at http://localhost:4000`));
+app.listen({ port: PORT }, () => console.log(`🚀 Server ready at http://localhost:${PORT}`));
