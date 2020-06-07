@@ -52,6 +52,10 @@ const PeopleItemContainer = styled.div`
 
 const PersonText = styled.span`
     margin: 0 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 140px;
 `;
 
 const AddParent = styled(SuccessButton)`
