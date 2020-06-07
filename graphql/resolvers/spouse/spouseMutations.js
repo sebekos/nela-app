@@ -6,8 +6,9 @@ module.exports = {
         if (!context.isAuth) {
             throw new AuthenticationError("Unauthenticated!");
         }
-        const { person_key, spouse_key } = args.spouseInput;
+        const { person_key, spouse_key, wed_date } = args.spouseInput;
         const { userId } = context;
+        const curr_wed_date = wed_date === "" ? null : `\"${wed_date}\"`;
         try {
             // Check if same connection
             if (person_key === spouse_key) {
@@ -30,6 +31,7 @@ module.exports = {
                 INSERT INTO main.spouses (
                     person_key,
                     spouse_key,
+                    wed_date,
                     deleted,
                     createdUser,
                     lastUser,
@@ -37,7 +39,7 @@ module.exports = {
                     updatedAt
                 )
                 VALUES
-                (${person_key}, ${spouse_key}, 0, \"${userId}\", \"${userId}\", CURRENT_DATE(), CURRENT_DATE())
+                (${person_key}, ${spouse_key}, ${curr_wed_date}, 0, \"${userId}\", \"${userId}\", CURRENT_DATE(), CURRENT_DATE())
             `);
             return true;
         } catch (err) {

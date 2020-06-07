@@ -20,6 +20,7 @@ const MainTitle = styled.div`
 
 const IntroContainer = styled.div`
     position: relative;
+    background-color: lightgrey;
 `;
 
 const IntroText = styled.div`

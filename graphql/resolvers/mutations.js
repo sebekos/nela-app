@@ -1,3 +1,4 @@
+const auth = require("./auth/authMutations");
 const news = require("./news/newsMutations");
 const reunion = require("./reunion/reunionMutations");
 const familynews = require("./familynews/familynewsMutations");
@@ -11,6 +12,7 @@ const thank = require("./thank/thankMutations");
 
 module.exports = {
     Mutation: {
+        ...auth,
         ...news,
         ...reunion,
         ...familynews,

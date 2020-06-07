@@ -15,6 +15,7 @@ const ImageContainer = styled.div`
     overflow: hidden;
     width: fit-content;
     cursor: pointer;
+    background-color: lightgrey;
 `;
 
 const ImageSrc = styled.img`

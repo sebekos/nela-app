@@ -3,6 +3,7 @@ import gql from "graphql-tag";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { useQuery, useLazyQuery } from "@apollo/react-hooks";
+import { CircularProgress } from "@material-ui/core";
 
 import "rc-slider/assets/index.css";
 
@@ -36,6 +37,21 @@ const ShowNameContainer = styled.div`
     margin-bottom: 0.5rem;
 `;
 
+const CircularContainer = styled.div`
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+`;
+
+const Loading = () => {
+    return (
+        <CircularContainer>
+            <CircularProgress />
+        </CircularContainer>
+    );
+};
+
 const Item = ({ id }) => {
     const [edit, setEdit] = useState(false);
     const [avatarEdit, setAvatarEdit] = useState(false);
@@ -46,7 +62,7 @@ const Item = ({ id }) => {
         variables: { id }
     });
 
-    const [refetchPerson] = useLazyQuery(RELATIONS_QUERY, {
+    const [refetchPerson, { loading: lazyLoading }] = useLazyQuery(RELATIONS_QUERY, {
         fetchPolicy: "network-only"
     });
 
@@ -81,7 +97,7 @@ const Item = ({ id }) => {
 
     return (
         <Container>
-            {loading && <p>Loading...</p>}
+            {(loading || lazyLoading) && <Loading />}
             {data && (
                 <>
                     <ShowNameContainer>
@@ -124,6 +140,7 @@ const RELATIONS_QUERY = gql`
             tid
             id
             relation
+            info_date
             first_name
             middle_name
             last_name

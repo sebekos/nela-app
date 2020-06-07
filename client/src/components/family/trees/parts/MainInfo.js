@@ -14,7 +14,9 @@ const MainContainer = styled.div`
 `;
 
 const ImageContainer = styled.div`
-    max-height: 250px;
+    height: 250px;
+    width: 250px;
+    background-color: lightgrey;
 `;
 
 const Image = styled.img`

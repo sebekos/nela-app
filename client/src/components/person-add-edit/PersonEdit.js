@@ -53,6 +53,14 @@ const CircularContainer = styled.div`
     transform: translate(-50%, -50%);
 `;
 
+const Loading = () => {
+    return (
+        <CircularContainer>
+            <CircularProgress />
+        </CircularContainer>
+    );
+};
+
 const AddEdit = () => {
     const [onSearch, { loading, error, data }] = useLazyQuery(SEARCH_PEOPLE_QUERY, {
         fetchPolicy: "network-only"
@@ -65,11 +73,7 @@ const AddEdit = () => {
     return (
         <>
             <PeopleSearch onSearch={onSearch} />
-            {loading ? (
-                <CircularContainer>
-                    <CircularProgress />
-                </CircularContainer>
-            ) : null}
+            {loading && <Loading />}
             {!loading && error && <Error />}
             {!loading && data && data.searchPeople && data.searchPeople.results && data.searchPeople.results.length > 0 && (
                 <Map people={data.searchPeople.results} />

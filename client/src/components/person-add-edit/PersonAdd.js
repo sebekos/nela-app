@@ -5,7 +5,7 @@ import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { toast } from "react-toastify";
 import PropTypes from "prop-types";
-import { TextField, TextareaAutosize } from "@material-ui/core";
+import { TextField, TextareaAutosize, CircularProgress } from "@material-ui/core";
 
 const AddContainer = styled.div`
     position: relative;
@@ -161,8 +161,23 @@ Add.propTypes = {
     onAdd: PropTypes.func.isRequired
 };
 
+const CircularContainer = styled.div`
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+`;
+
+const Loading = () => {
+    return (
+        <CircularContainer>
+            <CircularProgress />
+        </CircularContainer>
+    );
+};
+
 const PersonAdd = () => {
-    const [addPerson] = useMutation(ADD_PERSON_QUERY, {
+    const [addPerson, { loading }] = useMutation(ADD_PERSON_QUERY, {
         refetchQueries: [{ query: SEARCH_PEOPLE_QUERY, variables: { search: "" } }],
         onError: (err) => console.log(err),
         onCompleted: () => {
@@ -204,17 +219,20 @@ const PersonAdd = () => {
     };
 
     return (
-        <Add
-            first_name={first_name}
-            middle_name={middle_name}
-            last_name={last_name}
-            birth_date={birth_date}
-            passed_date={passed_date}
-            birth_location={birth_location}
-            notes={notes}
-            onChange={onChange}
-            onAdd={onAdd}
-        />
+        <>
+            {loading && <Loading />}
+            <Add
+                first_name={first_name}
+                middle_name={middle_name}
+                last_name={last_name}
+                birth_date={birth_date}
+                passed_date={passed_date}
+                birth_location={birth_location}
+                notes={notes}
+                onChange={onChange}
+                onAdd={onAdd}
+            />
+        </>
     );
 };
 

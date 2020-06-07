@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import gql from "graphql-tag";
 import PropTypes from "prop-types";
 import axios from "axios";
-import { LinearProgress } from "@material-ui/core";
+import { LinearProgress, CircularProgress } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
 const Container = styled.div`
@@ -28,14 +28,19 @@ const MainTitle = styled.div`
     font-weight: bold;
 `;
 
-const LoadingContainer = styled.div`
-    width: fit-content;
-    margin: auto;
-    padding: 5rem;
+const CircularContainer = styled.div`
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 `;
 
 const Loading = () => {
-    return <LoadingContainer>Loading...</LoadingContainer>;
+    return (
+        <CircularContainer>
+            <CircularProgress />
+        </CircularContainer>
+    );
 };
 
 const ErrorContainer = styled.div`

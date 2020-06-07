@@ -38,6 +38,7 @@ const Image1 = styled.img`
     height: 600px;
     width: 100%;
     object-fit: cover;
+    background-color: lightgrey;
 `;
 
 const IntroTextContainer = styled.div`

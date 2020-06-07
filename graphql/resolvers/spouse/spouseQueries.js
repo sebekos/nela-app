@@ -7,6 +7,7 @@ module.exports = {
                 SELECT
                 MS.id AS tid,
                 MP.id,
+                MS.wed_date,
                 MP.first_name,
                 MP.middle_name,
                 MP.last_name,

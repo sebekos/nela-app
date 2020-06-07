@@ -37,6 +37,7 @@ const DateText = styled.div`
 const ImageContainer = styled.div`
     height: 200px;
     overflow: hidden;
+    background-color: lightgrey;
 `;
 
 const ImageSrc = styled.img`

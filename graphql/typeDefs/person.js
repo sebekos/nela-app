@@ -39,6 +39,7 @@ type RelationPerson {
     tid: Int
     id: Int
     relation: String
+    info_date: String
     first_name: String
     middle_name: String
     last_name: String!

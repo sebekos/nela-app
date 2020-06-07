@@ -6,7 +6,7 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { toast } from "react-toastify";
 import { uuid } from "uuidv4";
-import { TextareaAutosize } from "@material-ui/core";
+import { TextareaAutosize, CircularProgress } from "@material-ui/core";
 import PropTypes from "prop-types";
 
 const Container = styled.div`
@@ -25,16 +25,6 @@ const MainTitle = styled.div`
     background-color: white;
     font-weight: bold;
 `;
-
-const LoadingContainer = styled.div`
-    width: fit-content;
-    margin: auto;
-    padding: 5rem;
-`;
-
-const Loading = () => {
-    return <LoadingContainer>Loading...</LoadingContainer>;
-};
 
 const ErrorContainer = styled.div`
     width: fit-content;
@@ -125,8 +115,23 @@ Map.propTypes = {
     thanks: PropTypes.array.isRequired
 };
 
+const CircularContainer = styled.div`
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+`;
+
+const Loading = () => {
+    return (
+        <CircularContainer>
+            <CircularProgress />
+        </CircularContainer>
+    );
+};
+
 const AddEdit = () => {
-    const [addThank] = useMutation(ADD_THANKS_QUERY, {
+    const [addThank, { loading: lazyLoading }] = useMutation(ADD_THANKS_QUERY, {
         refetchQueries: [{ query: THANKS_QUERY }],
         onError: (err) => console.log(err),
         onCompleted: () => {
@@ -161,9 +166,10 @@ const AddEdit = () => {
         <Container>
             <MainTitle>Thanks</MainTitle>
             <Add text={text} onChange={onChange} onAdd={onAdd} />
-            {loading && <Loading />}
+            {(loading || lazyLoading) && <Loading />}
             {!loading && error && <Error />}
-            {!loading && data && data.thanks.length > 0 ? <Map thanks={data.thanks} /> : <NoData />}
+            {!loading && data && data.thanks.length > 0 && <Map thanks={data.thanks} />}
+            {!loading && data && data.thanks.length === 0 && <NoData />}
         </Container>
     );
 };

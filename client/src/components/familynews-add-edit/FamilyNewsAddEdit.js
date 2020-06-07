@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { uuid } from "uuidv4";
 import PropTypes from "prop-types";
 import { TextareaAutosize } from "@material-ui/core";
+import { CircularProgress } from "@material-ui/core";
 
 const Container = styled.div`
     max-width: 1100px;
@@ -26,16 +27,6 @@ const MainTitle = styled.div`
     background-color: white;
     font-weight: bold;
 `;
-
-const LoadingContainer = styled.div`
-    width: fit-content;
-    margin: auto;
-    padding: 5rem;
-`;
-
-const Loading = () => {
-    return <LoadingContainer>Loading...</LoadingContainer>;
-};
 
 const ErrorContainer = styled.div`
     width: fit-content;
@@ -137,8 +128,23 @@ Map.propTypes = {
     data: PropTypes.array.isRequired
 };
 
+const CircularContainer = styled.div`
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+`;
+
+const Loading = () => {
+    return (
+        <CircularContainer>
+            <CircularProgress />
+        </CircularContainer>
+    );
+};
+
 const AddEdit = () => {
-    const [addFamilyNews] = useMutation(ADD_FAMILY_NEWS_QUERY, {
+    const [addFamilyNews, { loading: lazyLoading }] = useMutation(ADD_FAMILY_NEWS_QUERY, {
         refetchQueries: [{ query: FAMILY_NEWS_QUERY }],
         onCompleted: () => {
             toast.success("News added");
@@ -175,9 +181,10 @@ const AddEdit = () => {
         <Container>
             <MainTitle>Wiesci</MainTitle>
             <Add text={text} type={type} onChange={onChange} onAdd={onAdd} />
-            {loading && <Loading />}
+            {(loading || lazyLoading) && <Loading />}
             {!loading && error && <Error />}
-            {!loading && data && data.familynews.length > 0 ? <Map data={data.familynews} /> : <NoData />}
+            {!loading && data && data.familynews.length > 0 && <Map data={data.familynews} />}
+            {!loading && data && data.familynews.length === 0 && <NoData />}
         </Container>
     );
 };

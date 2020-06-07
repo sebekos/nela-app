@@ -7,6 +7,7 @@ import gql from "graphql-tag";
 import { toast } from "react-toastify";
 import { uuid } from "uuidv4";
 import { TextareaAutosize, TextField } from "@material-ui/core";
+import { CircularProgress } from "@material-ui/core";
 import PropTypes from "prop-types";
 
 const Container = styled.div`
@@ -25,16 +26,6 @@ const MainTitle = styled.div`
     background-color: white;
     font-weight: bold;
 `;
-
-const LoadingContainer = styled.div`
-    width: fit-content;
-    margin: auto;
-    padding: 5rem;
-`;
-
-const Loading = () => {
-    return <LoadingContainer>Loading...</LoadingContainer>;
-};
 
 const ErrorContainer = styled.div`
     width: fit-content;
@@ -137,8 +128,23 @@ Map.propTypes = {
     reunion: PropTypes.array.isRequired
 };
 
+const CircularContainer = styled.div`
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+`;
+
+const Loading = () => {
+    return (
+        <CircularContainer>
+            <CircularProgress />
+        </CircularContainer>
+    );
+};
+
 const AddEdit = () => {
-    const [addReunion] = useMutation(ADD_RUNION_QUERY, {
+    const [addReunion, { loading: lazyLoading }] = useMutation(ADD_RUNION_QUERY, {
         refetchQueries: [{ query: REUNIONS_QUERY }],
         onError: (err) => console.log(err),
         onCompleted: () => {
@@ -175,9 +181,10 @@ const AddEdit = () => {
         <Container>
             <MainTitle>Zjazdy</MainTitle>
             <Add title={title} text={text} onChange={onChange} onAdd={onAdd} />
-            {loading && <Loading />}
+            {(loading || lazyLoading) && <Loading />}
             {!loading && error && <Error />}
-            {!loading && data.reunion && data.reunion.length > 0 ? <Map reunion={data.reunion} /> : <NoData />}
+            {!loading && data.reunion && data.reunion.length > 0 && <Map reunion={data.reunion} />}
+            {!loading && data.reunion && data.reunion.length === 0 && <NoData />}
         </Container>
     );
 };

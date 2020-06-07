@@ -12,6 +12,7 @@ const MainBackground = styled.div`
     background-position: center top 0rem;
     background-repeat: no-repeat;
     background-size: auto;
+    background-color: lightgrey;
 `;
 
 const SiteContainer = styled.div`

@@ -105,7 +105,6 @@ const InfoEdit = ({ data, stopEdit }) => {
     const { first_name, middle_name, last_name, birth_date, birth_location, passed_date, notes } = formData;
 
     const onChange = (e) => {
-        console.log(e.target.value);
         setFormData({
             ...formData,
             [e.target.name]: e.target.value

@@ -8,6 +8,7 @@ input SpouseInput {
 type Spouse {
     tid: Int!
     id: Int!
+    wed_date: String
     first_name: String
     middle_name: String
     last_name: String!

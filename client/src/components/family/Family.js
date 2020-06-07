@@ -160,8 +160,6 @@ const Family = () => {
         onSearch({ variables: { search } });
     };
 
-    console.log(perArray);
-
     return (
         <Container>
             <MainTitle>Rodzina</MainTitle>

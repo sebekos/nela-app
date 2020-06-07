@@ -48,12 +48,14 @@ const RelationConversion = {
     children: "Child"
 };
 
-const RelationItem = ({ relation, first_name, last_name }) => {
+const RelationItem = ({ relation, first_name, last_name, info_date }) => {
+    const infoDate = info_date ? ` ślub: ${info_date}` : null;
     return (
         <RelationItemContainer>
             <FamilySpan>{RelationConversion[relation]}</FamilySpan>{" "}
             <FamilyName>
                 {first_name} {last_name}
+                {infoDate}
             </FamilyName>
         </RelationItemContainer>
     );
@@ -73,8 +75,16 @@ const FamilyShow = ({ family_data, onFamilyEdit }) => {
             </EditContainer>
             {family_data ? (
                 family_data.map((item) => {
-                    const { relation, first_name, last_name } = item;
-                    return <RelationItem key={uuid()} relation={relation} first_name={first_name} last_name={last_name} />;
+                    const { relation, first_name, last_name, info_date } = item;
+                    return (
+                        <RelationItem
+                            key={uuid()}
+                            relation={relation}
+                            first_name={first_name}
+                            last_name={last_name}
+                            info_date={info_date}
+                        />
+                    );
                 })
             ) : (
                 <p>No Family Members</p>

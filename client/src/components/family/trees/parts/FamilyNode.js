@@ -13,12 +13,15 @@ const InfoContainer = styled.div`
 `;
 
 const Image = styled.img`
-    max-width: 100px;
-    background-color: #333;
+    width: 100px;
+    height: 100px;
+    background-color: lightgrey;
 `;
 
 const RootImage = styled.img`
-    max-width: 100px;
+    width: 100px;
+    height: 100px;
+    background-color: lightgrey;
     border: 3px solid orange;
 `;
 

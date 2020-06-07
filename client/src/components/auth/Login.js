@@ -5,6 +5,7 @@ import PrimaryButton from "../universal/PrimaryButton";
 import { Redirect } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useLazyQuery, useQuery } from "@apollo/react-hooks";
+import { CircularProgress } from "@material-ui/core";
 import gql from "graphql-tag";
 import axios from "axios";
 
@@ -55,6 +56,21 @@ const InputsContainer = ({ onChangeHandler, onSubmitHandler, email, password }) 
     );
 };
 
+const CircularContainer = styled.div`
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+`;
+
+const Loading = () => {
+    return (
+        <CircularContainer>
+            <CircularProgress />
+        </CircularContainer>
+    );
+};
+
 const Login = () => {
     const [formData, setFormData] = useState({
         email: "",
@@ -98,6 +114,7 @@ const Login = () => {
     return (
         <Container>
             <MainTitle>Login</MainTitle>
+            {loading && <Loading />}
             <FormContainer onSubmit={onSubmitHandler}>
                 <InputsContainer onChangeHandler={onChangeHandler} onSubmitHandler={onSubmitHandler} email={email} password={password} />
             </FormContainer>

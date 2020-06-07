@@ -97,12 +97,14 @@ const RelationConversion = {
     children: "Child"
 };
 
-const RelationItem = ({ tid, relation, first_name, last_name, onRemove }) => {
+const RelationItem = ({ tid, relation, first_name, last_name, info_date, onRemove }) => {
+    const infoDate = info_date ? ` ślub: ${info_date}` : null;
     return (
         <RelationItemContainer>
             <FamilySpan>{RelationConversion[relation]}</FamilySpan>
             <FamilyName>
                 {first_name} {last_name}
+                {infoDate}
             </FamilyName>
             <RemoveButton onClick={onRemove} id={tid}>
                 Remove
@@ -121,7 +123,7 @@ const Remove = ({ data, removeParent, removeChild, removeSibling, removeSpouse }
     return (
         <>
             {data.map((item) => {
-                const { tid, first_name, last_name, relation } = item;
+                const { tid, first_name, last_name, relation, info_date } = item;
                 return (
                     <RelationItem
                         tid={tid}
@@ -129,6 +131,7 @@ const Remove = ({ data, removeParent, removeChild, removeSibling, removeSpouse }
                         relation={relation}
                         first_name={first_name}
                         last_name={last_name}
+                        info_date={info_date}
                         onRemove={removeFuncs[relation]}
                     />
                 );
@@ -142,37 +145,65 @@ const ButtonsContainer = styled.div`
     width: max-content;
 `;
 
-const PeopleItems = ({ data, addParent, addSibling, addChild, addSpouse, weddate, onWedChange }) => {
-    const people = data.map((person) => {
-        return (
-            <PeopleItemContainer key={uuid()}>
-                <PersonText>
-                    {person.first_name} {person.last_name}
-                </PersonText>
-                <ButtonsContainer value={person.id}>
-                    <AddParent onClick={addParent}>Parent</AddParent>
-                    <AddSibling onClick={addSibling}>Sibling</AddSibling>
-                    <AddChild onClick={addChild}>Child</AddChild>
-                    <AddSpouse onClick={addSpouse}>Spouse</AddSpouse>
-                    <input onChange={onWedChange} name="weddate" type="date" value={weddate}></input>
-                </ButtonsContainer>
-            </PeopleItemContainer>
-        );
-    });
-    return people;
+const PeopleItem = ({ id, first_name, last_name, addParent, addSibling, addChild, addSpouse }) => {
+    const [weddate, setWeddate] = useState("");
+
+    const onWedChange = (e) => {
+        setWeddate(e.target.value);
+    };
+
+    const onSpouse = () => {
+        addSpouse(id, weddate);
+    };
+
+    return (
+        <PeopleItemContainer>
+            <PersonText>
+                {first_name} {last_name}
+            </PersonText>
+            <ButtonsContainer value={id}>
+                <AddParent onClick={addParent}>Parent</AddParent>
+                <AddSibling onClick={addSibling}>Sibling</AddSibling>
+                <AddChild onClick={addChild}>Child</AddChild>
+                <AddSpouse onClick={onSpouse}>Spouse</AddSpouse>
+                <input onChange={onWedChange} name="weddate" type="date" value={weddate}></input>
+            </ButtonsContainer>
+        </PeopleItemContainer>
+    );
 };
+
+const PeopleItems = ({ data, addParent, addSibling, addChild, addSpouse }) => {
+    return (
+        <>
+            {data.map((person) => {
+                const { id, first_name, last_name } = person;
+                return (
+                    <PeopleItem
+                        key={uuid()}
+                        id={id}
+                        first_name={first_name}
+                        last_name={last_name}
+                        addParent={addParent}
+                        addSibling={addSibling}
+                        addChild={addChild}
+                        addSpouse={addSpouse}
+                    />
+                );
+            })}
+        </>
+    );
+};
+
+const SearchInput = styled(GenInput)`
+    margin: auto;
+    width: 634px;
+`;
 
 const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
     const [search, setSearch] = useState("");
     const [curLoading, setCurLoading] = useState(false);
-    const [weddate, setWeddate] = useState("");
 
     const onChange = (e) => setSearch(e.target.value);
-
-    const onWedChange = (e) => {
-        console.log(e.target.value);
-        setWeddate(e.target.value);
-    };
 
     const [searchPeople, { loading, data }] = useLazyQuery(SEARCH_PEOPLE_QUERY, {
         fetchPolicy: "network-only",
@@ -298,10 +329,9 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
         addChildMutation({ variables: { person_key, child_key } });
     };
 
-    const addSpouse = (e) => {
-        let spouse_key = parseInt(e.target.parentElement.getAttribute("value"), 10);
+    const addSpouse = (spouse_key, wed_date) => {
         setCurLoading(true);
-        addSpouseMutation({ variables: { person_key, spouse_key } });
+        addSpouseMutation({ variables: { person_key, spouse_key, wed_date } });
     };
 
     const removeParent = (e) => {
@@ -331,7 +361,7 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
                 <CancelText onClick={stopEdit}>Done</CancelText>
             </SaveEditDeleteContainer>
             <Form onSubmit={onSubmit}>
-                <GenInput onChange={onChange} type="text" value={search} />
+                <SearchInput placeholder="Search people" onChange={onChange} type="text" value={search} />
             </Form>
             {!loading && data && data.familySearchPeople && data.familySearchPeople.results.length > 0 ? (
                 <PeopleItems
@@ -340,8 +370,6 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
                     addSibling={addSibling}
                     addChild={addChild}
                     addSpouse={addSpouse}
-                    weddate={weddate}
-                    onWedChange={onWedChange}
                 />
             ) : null}
             {family_data ? (
@@ -416,8 +444,8 @@ const REMOVE_SIBLING_MUTATION = gql`
 `;
 
 const ADD_SPOUSE_MUTATION = gql`
-    mutation AddSpouse($person_key: Int!, $spouse_key: Int!) {
-        addSpouse(spouseInput: { person_key: $person_key, spouse_key: $spouse_key })
+    mutation AddSpouse($person_key: Int!, $spouse_key: Int!, $wed_date: String) {
+        addSpouse(spouseInput: { person_key: $person_key, spouse_key: $spouse_key, wed_date: $wed_date })
     }
 `;
 
@@ -433,6 +461,7 @@ const RELATIONS_QUERY = gql`
             tid
             id
             relation
+            info_date
             first_name
             middle_name
             last_name

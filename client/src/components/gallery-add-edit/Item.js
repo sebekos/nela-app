@@ -8,7 +8,7 @@ import SuccessButton from "../universal/SuccessButton";
 import PropTypes from "prop-types";
 import timeFormat from "../../utils/timeFormat";
 import { toast } from "react-toastify";
-import { TextareaAutosize, TextField } from "@material-ui/core";
+import { TextareaAutosize, TextField, CircularProgress } from "@material-ui/core";
 
 const Container = styled.div`
     position: relative;
@@ -174,8 +174,23 @@ Buttons.propTypes = {
     currid: PropTypes.number
 };
 
+const CircularContainer = styled.div`
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+`;
+
+const Loading = () => {
+    return (
+        <CircularContainer>
+            <CircularProgress />
+        </CircularContainer>
+    );
+};
+
 const AddEditItem = ({ data }) => {
-    const [updateGallery] = useMutation(UPDATE_GALLERY_QUERY, {
+    const [updateGallery, { loading }] = useMutation(UPDATE_GALLERY_QUERY, {
         onError: (error) => {
             console.log(error);
         },
@@ -235,6 +250,7 @@ const AddEditItem = ({ data }) => {
 
     return (
         <Container>
+            {loading && <Loading />}
             {edit && (
                 <EditContainer title={title} text={text} onSave={onSave} onChange={onChange} onCancel={onCancel} onDelete={onDelete} />
             )}

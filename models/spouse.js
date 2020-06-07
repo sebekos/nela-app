@@ -14,7 +14,7 @@ module.exports = (sequelize, type) => {
             allowNull: false
         },
         wed_date: {
-            type: type.STRING
+            type: type.DATEONLY
         },
         deleted: {
             type: type.INTEGER,

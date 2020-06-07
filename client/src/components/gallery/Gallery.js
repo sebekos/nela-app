@@ -119,12 +119,19 @@ const Gallery = () => {
     return (
         <Container>
             <MainTitle>Galeria</MainTitle>
-            {loading && <Loading />}
-            {!loading && error && <Error />}
-            {!loading && data && data.galleries.galleries.length > 0 && <GalleryList data={data.galleries.galleries} history={history} />}
-            <SmallTitle>Most recent</SmallTitle>
-            {!loading && data && data.ui_galleries.galleries.length > 0 && <Map data={data.ui_galleries.galleries} />}
-            {data && data.ui_galleries.galleries.length === 0 && <NoData />}
+            {loading ? (
+                <Loading />
+            ) : (
+                <>
+                    {!loading && error && <Error />}
+                    {!loading && data && data.galleries.galleries.length > 0 && (
+                        <GalleryList data={data.galleries.galleries} history={history} />
+                    )}
+                    <SmallTitle>Most recent</SmallTitle>
+                    {!loading && data && data.ui_galleries.galleries.length > 0 && <Map data={data.ui_galleries.galleries} />}
+                    {data && data.ui_galleries.galleries.length === 0 && <NoData />}
+                </>
+            )}
         </Container>
     );
 };
