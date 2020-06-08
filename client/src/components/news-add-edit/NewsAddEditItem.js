@@ -113,9 +113,9 @@ const EditContainer = ({ text, title, onSave, onChange, stopEdit, onDelete }) =>
                     value={title}
                     name="title"
                     inputProps={{
-                        maxLength: 42
+                        maxLength: 40
                     }}
-                    helperText={`${title.length}/${42}`}
+                    helperText={`${title.length}/${40}`}
                 />
             </Title>
             <TextArea>
@@ -127,8 +127,9 @@ const EditContainer = ({ text, title, onSave, onChange, stopEdit, onDelete }) =>
                     value={text}
                     type="text"
                     rowsMin={3}
+                    maxLength={425}
                 />
-                <Counter>{text.length}/500</Counter>
+                <Counter>{text.length}/425</Counter>
             </TextArea>
         </>
     );

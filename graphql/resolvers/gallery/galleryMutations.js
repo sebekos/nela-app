@@ -16,7 +16,7 @@ module.exports = {
             lastUser: userId
         };
         try {
-            const gallery = await Gallery.create(galleryFields);
+            await Gallery.create(galleryFields);
             return true;
         } catch (err) {
             throw new Error(err);

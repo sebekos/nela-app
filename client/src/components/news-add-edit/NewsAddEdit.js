@@ -88,9 +88,9 @@ const Add = ({ title, text, onChange, onAdd }) => {
                     value={title}
                     name="title"
                     inputProps={{
-                        maxLength: 42
+                        maxLength: 40
                     }}
-                    helperText={`${title.length}/${42}`}
+                    helperText={`${title.length}/${40}`}
                 />
             </Title>
             <TextArea>
@@ -102,10 +102,10 @@ const Add = ({ title, text, onChange, onAdd }) => {
                     value={text}
                     type="text"
                     rowsMin={3}
-                    maxLength={500}
+                    maxLength={425}
                 />
             </TextArea>
-            <Counter>{text.length}/500</Counter>
+            <Counter>{text.length}/425</Counter>
             <SuccessButton onClick={onAdd}>Add</SuccessButton>
         </AddContainer>
     );

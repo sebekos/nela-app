@@ -20,11 +20,9 @@ const NewsCard = styled.div`
     overflow: hidden;
     font-size: 0.9rem;
     color: #333;
-
-    box-shadow: 1px 1px 3px 2px #ccc;
     word-break: break-all;
     background-color: white;
-    opacity: 0.9;
+    opacity: 0.92;
 `;
 
 const Title = styled.div`

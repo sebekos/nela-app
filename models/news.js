@@ -9,14 +9,14 @@ module.exports = (sequelize, type) => {
             type: type.STRING,
             allowNull: false,
             validate: {
-                len: [1, 42]
+                len: [1, 40]
             }
         },
         text: {
             type: type.TEXT,
             allowNull: false,
             validate: {
-                len: [1, 500]
+                len: [1, 425]
             }
         },
         deleted: {

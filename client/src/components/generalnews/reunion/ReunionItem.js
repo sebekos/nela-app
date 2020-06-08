@@ -11,7 +11,7 @@ const Container = styled.div`
 
     box-shadow: 1px 1px 3px 2px #ccc;
     background-color: white;
-    opacity: 0.9;
+    opacity: 0.92;
 `;
 
 const TitleText = styled.div`
