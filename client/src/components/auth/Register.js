@@ -66,7 +66,7 @@ const InputsContainer = ({ onChangeHandler, onSubmitHandler, email, password, pa
                 required
             ></GenInput>
             <PrimaryButton type="submit" onClick={onSubmitHandler}>
-                Login
+                Register
             </PrimaryButton>
         </>
     );
@@ -133,7 +133,7 @@ const Register = () => {
 
     return (
         <Container>
-            <MainTitle>Login</MainTitle>
+            <MainTitle>Register</MainTitle>
             {loading && <Loading />}
             <FormContainer onSubmit={onSubmitHandler}>
                 <InputsContainer onChangeHandler={onChangeHandler} onSubmitHandler={onSubmitHandler} email={email} password={password} />

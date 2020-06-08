@@ -4,6 +4,7 @@ const typeDefs = require("./graphql/typeDefs/typeDefs");
 const Queries = require("./graphql/resolvers/queries");
 const Mutations = require("./graphql/resolvers/mutations");
 const isAuth = require("./middleware/is-auth");
+const path = require("path");
 
 // Graphql setup
 const server = new ApolloServer({
