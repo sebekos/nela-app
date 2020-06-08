@@ -12,6 +12,6 @@ extend type Query {
 }
 
 extend type Mutation {
-    register(email: String!, password: String!, key: String!): Boolean
+    register(email: String!, password: String!, register_key: String!): AuthData!
 }
 `;
