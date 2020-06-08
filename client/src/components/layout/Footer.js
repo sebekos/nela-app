@@ -90,6 +90,9 @@ const Footer = () => {
             <Link to="/login">
                 <LoginText>Login</LoginText>
             </Link>
+            <Link to="/register">
+                <LoginText>Register</LoginText>
+            </Link>
             <ContactInfo />
             <AdminInfo />
             <CopyRight>&copy; Sebekos {currDate.getFullYear()}</CopyRight>
