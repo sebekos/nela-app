@@ -9,6 +9,8 @@ const { AuthenticationError } = require("apollo-server-express");
 const auth = require("../middleware/exp-auth");
 
 router.post("/", auth, (req, res) => {
+    console.log("Curr dir");
+    console.log(`${__dirname}`);
     const form = new multiparty.Form({
         uploadDir: `${__dirname}/../public/temp/`
     });
@@ -60,6 +62,8 @@ router.post("/", auth, (req, res) => {
 });
 
 router.post("/avatar", auth, async (req, res) => {
+    console.log("Curr dir");
+    console.log(`${__dirname}`);
     const form = new multiparty.Form({
         uploadDir: `${__dirname}/../public/temp/`
     });
