@@ -63,7 +63,8 @@ router.post("/", auth, (req, res) => {
 
 router.post("/avatar", auth, async (req, res) => {
     console.log("inside avatar");
-    console.log(req);
+    console.log(req.headers);
+    console.log(req.headers);
     console.log("Curr dir");
     console.log(`${__dirname}`);
     const form = new multiparty.Form({
@@ -71,9 +72,12 @@ router.post("/avatar", auth, async (req, res) => {
     });
     console.log("before form parse");
     form.parse(req, async (error, fields, files) => {
+        // Check fields and files
         console.log("inside form parse");
         console.log(fields);
         console.log(files);
+        if (fields === null || files === null) throw new Error("Data not received correctly");
+
         // Constants
         const photoCnt = Object.keys(files).length;
         const person_key = fields.person_key;
