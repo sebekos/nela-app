@@ -8,24 +8,14 @@ const { Photo, Person } = require("../sequelize");
 const { AuthenticationError } = require("apollo-server-express");
 const auth = require("../middleware/exp-auth");
 
-router.get("/blah", async (req, res) => {
-    console.log("inside test get");
-    res.send("inside test get");
-});
-
-router.post("/testpost", async (req, res) => {
-    console.log("inside test post");
-    console.log(req.body);
-    res.send(req.body);
-});
-
 router.post("/", auth, (req, res) => {
-    console.log("Curr dir");
-    console.log(`${__dirname}`);
     const form = new multiparty.Form({
-        uploadDir: `${__dirname}/../public/temp/`
+        // uploadDir: `${__dirname}/../public/temp/`
     });
     form.parse(req, async (error, fields, files) => {
+        // Check for data
+        if (fields === undefined || files === undefined) throw new Error("Data not received correctly");
+
         // Constants
         const photoCnt = Object.keys(files).length;
         const galId = fields.galleryId;
@@ -73,33 +63,11 @@ router.post("/", auth, (req, res) => {
 });
 
 router.post("/avatar", auth, async (req, res) => {
-    console.log("start avatar");
-    console.log(req);
-    console.log("inside avatar");
-    console.log(req.headers);
-    console.log("Curr dir");
-    console.log(`${__dirname}`);
-    console.log(`Node ENV`);
-    console.log(process.env.NODE_ENV);
-    console.log("list directories");
-
-    const getDirectories = (source) =>
-        fs
-            .readdirSync(source, { withFileTypes: true })
-            .filter((dirent) => dirent.isDirectory())
-            .map((dirent) => dirent.name);
-
-    console.log(getDirectories(path.join(__dirname, `..`)));
-
     const form = new multiparty.Form({
         // uploadDir: `${__dirname}/../public/temp/`
     });
-    console.log("before form parse");
     form.parse(req, async (error, fields, files) => {
-        // Check fields and files
-        console.log("inside form parse");
-        console.log(fields);
-        console.log(files);
+        // Check for data
         if (fields === undefined || files === undefined) throw new Error("Data not received correctly");
 
         // Constants
