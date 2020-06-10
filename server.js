@@ -19,6 +19,9 @@ const server = new ApolloServer({
 // Init express
 const app = express();
 
+// Init middleware
+app.use(express.json({ extended: false }));
+
 // Express routes
 app.use(express.static("public"));
 app.use("/upload", require("./routes/upload"));

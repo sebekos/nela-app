@@ -8,6 +8,17 @@ const { Photo, Person } = require("../sequelize");
 const { AuthenticationError } = require("apollo-server-express");
 const auth = require("../middleware/exp-auth");
 
+router.get("/test", async (req, res) => {
+    console.log("inside test get");
+    res.send("inside test get");
+});
+
+router.post("/test", async (req, res) => {
+    console.log("inside test post");
+    console.log(req.body);
+    res.send("inside test get");
+});
+
 router.post("/", auth, (req, res) => {
     console.log("Curr dir");
     console.log(`${__dirname}`);
@@ -76,7 +87,7 @@ router.post("/avatar", auth, async (req, res) => {
         console.log("inside form parse");
         console.log(fields);
         console.log(files);
-        if (fields === null || files === null) throw new Error("Data not received correctly");
+        if (fields === undefined || files === undefined) throw new Error("Data not received correctly");
 
         // Constants
         const photoCnt = Object.keys(files).length;
