@@ -1,5 +1,7 @@
 node_modules/
 .env
-public/images/gallery/
-public/images/avatars/
+public/images/gallery/*
+!public/images/gallery/.gitkeep
+public/images/avatars/*
+!public/images/avatars/.gitkeep
 public/temp/
