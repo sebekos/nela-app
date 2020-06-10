@@ -79,8 +79,20 @@ router.post("/avatar", auth, async (req, res) => {
     console.log(req.headers);
     console.log("Curr dir");
     console.log(`${__dirname}`);
+    console.log(`Node ENV`);
+    console.log(process.env.NODE_ENV);
+    console.log("list directories");
+
+    const getDirectories = (source) =>
+        fs
+            .readdirSync(source, { withFileTypes: true })
+            .filter((dirent) => dirent.isDirectory())
+            .map((dirent) => dirent.name);
+
+    console.log(getDirectories(path.join(__dirname, `..`)));
+
     const form = new multiparty.Form({
-        uploadDir: `${__dirname}/../public/temp/`
+        // uploadDir: `${__dirname}/../public/temp/`
     });
     console.log("before form parse");
     form.parse(req, async (error, fields, files) => {
