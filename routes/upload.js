@@ -8,15 +8,15 @@ const { Photo, Person } = require("../sequelize");
 const { AuthenticationError } = require("apollo-server-express");
 const auth = require("../middleware/exp-auth");
 
-router.get("/test", async (req, res) => {
+router.get("/blah", async (req, res) => {
     console.log("inside test get");
     res.send("inside test get");
 });
 
-router.post("/test", async (req, res) => {
+router.post("/testpost", async (req, res) => {
     console.log("inside test post");
     console.log(req.body);
-    res.send("inside test get");
+    res.send(req.body);
 });
 
 router.post("/", auth, (req, res) => {
