@@ -73,8 +73,9 @@ router.post("/", auth, (req, res) => {
 });
 
 router.post("/avatar", auth, async (req, res) => {
+    console.log("start avatar");
+    console.log(req);
     console.log("inside avatar");
-    console.log(req.headers);
     console.log(req.headers);
     console.log("Curr dir");
     console.log(`${__dirname}`);
