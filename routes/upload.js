@@ -10,7 +10,7 @@ const auth = require("../middleware/exp-auth");
 
 router.post("/", auth, (req, res) => {
     const form = new multiparty.Form({
-        // uploadDir: `${__dirname}/../public/temp/`
+        uploadDir: path.join(__dirname, `../public/temp`) //`${__dirname}/../public/temp/`
     });
     form.parse(req, async (error, fields, files) => {
         // Check for data
@@ -64,7 +64,7 @@ router.post("/", auth, (req, res) => {
 
 router.post("/avatar", auth, async (req, res) => {
     const form = new multiparty.Form({
-        // uploadDir: `${__dirname}/../public/temp/`
+        uploadDir: path.join(__dirname, `../public/temp`) //`${__dirname}/../public/temp/`// uploadDir: `${__dirname}/../public/temp/`
     });
     form.parse(req, async (error, fields, files) => {
         // Check for data

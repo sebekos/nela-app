@@ -22,6 +22,7 @@ const Container = styled.div`
 
 const TitleText = styled.div`
     font-weight: bold;
+    color: #333;
 `;
 
 const BodyText = styled.div`

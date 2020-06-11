@@ -27,6 +27,7 @@ const RootImage = styled.img`
 
 const NameContainer = styled.div`
     text-align: center;
+    color: #333;
 `;
 
 const FamilyNode = ({ node, isRoot, style }) => {
