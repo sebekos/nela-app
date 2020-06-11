@@ -176,7 +176,7 @@ const PersonAvatarEdit = ({ person_key, stopEdit }) => {
         var newfile = new File([scaledImage], "file");
         let formData = new FormData();
         formData.append("person_key", person_key);
-        formData.append(`avatar-${person_key}`, newfile);
+        formData.append("image", newfile);
         await axios
             .post(`/upload/avatar`, formData, {
                 headers: {

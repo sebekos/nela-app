@@ -24,7 +24,7 @@ const ChangeAvatarContainer = styled.div`
 const AvatarShow = ({ link, onAvatarEdit }) => {
     return (
         <Container>
-            <AvatarImage src={link ? `/images/avatars/${link}?t=${new Date().getTime()}` : DefaultAvatar} alt="avatar" />
+            <AvatarImage src={link ? `${link}?t=${new Date().getTime()}` : DefaultAvatar} alt="avatar" />
             <ChangeAvatarContainer onClick={onAvatarEdit}>Change Avatar</ChangeAvatarContainer>
         </Container>
     );

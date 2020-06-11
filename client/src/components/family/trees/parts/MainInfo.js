@@ -87,7 +87,7 @@ const Main = ({ data }) => {
     return (
         <MainContainer>
             <ImageContainer>
-                <Image src={data.link_photo ? `/images/avatars/${data.link_photo}` : DefaultAvatar} alt="avatar" />
+                <Image src={data.link_photo ? `${data.link_photo}` : DefaultAvatar} alt="avatar" />
             </ImageContainer>
             <TextInfoContainer>
                 <Title first_name={data.first_name} middle_name={data.middle_name} last_name={data.last_name} />
