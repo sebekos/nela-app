@@ -3,7 +3,6 @@ const router = express.Router();
 const multiparty = require("multiparty");
 const uuid = require("uuid");
 const fs = require("fs");
-const path = require("path");
 const { Photo, Person } = require("../sequelize");
 const { AuthenticationError } = require("apollo-server-express");
 const auth = require("../middleware/exp-auth");
@@ -38,9 +37,7 @@ const uploadFile = (buffer, name, type) => {
 };
 
 router.post("/", auth, (req, res) => {
-    const form = new multiparty.Form({
-        //uploadDir: path.join(__dirname, `../public/temp`) //`${__dirname}/../public/temp/`
-    });
+    const form = new multiparty.Form();
     form.parse(req, async (error, fields, files) => {
         // Check for data
         if (fields === undefined || files === undefined) throw new Error("Data not received correctly");
@@ -51,41 +48,41 @@ router.post("/", auth, (req, res) => {
 
         // Error check
         if (error) throw new Error(error);
-        if (photoCnt % 2 !== 0 || photoCnt < 2) throw new Error("Server Error");
+        if (photoCnt % 2 !== 0 || photoCnt < 2) throw new Error("File error");
 
-        // Check path
-        const currPath = path.join(__dirname, `../public/images/gallery/${galId}`);
-        if (!fs.existsSync(currPath)) {
-            await fs.mkdirSync(currPath);
-        }
-
-        // Update names and path
-        try {
-            for (let i = 0; i < photoCnt / 2; i++) {
-                // Unique ID
+        // Upload files
+        let returnUrls = null;
+        await Promise.all(
+            Object.keys(files).map(async (photo) => {
+                let fieldName = files[photo][0].fieldName;
+                let path = files[photo][0].path;
+                let buffer = fs.readFileSync(path);
+                let type = await FileType.fromBuffer(buffer);
                 let curUuid = uuid();
-
-                // Set path after upload
-                let path_reg = files[`reg-${i}`][0].path;
-                await fs.renameSync(path_reg, `${currPath}/${curUuid}_reg.jpeg`);
-                let path_thumb = files[`thumb-${i}`][0].path;
-                await fs.renameSync(path_thumb, `${currPath}/${curUuid}_thumb.jpeg`);
-
-                // Add to Photo MySQL
-                const photoFields = {
-                    key: galId,
-                    order: 0,
-                    link_main: `${curUuid}_reg.jpeg`,
-                    link_thumb: `${curUuid}_thumb.jpeg`,
-                    deleted: 0,
-                    createdUser: "12345",
-                    lastUser: "12345"
-                };
-                await Photo.create(photoFields);
-            }
-        } catch (error) {
-            console.log(error);
-            throw new Error("Server Error");
+                let fileName = `gallery/${galId}/${curUuid}-${fieldName}`;
+                return new Promise((resolve, reject) => resolve(uploadFile(buffer, fileName, type)));
+            })
+        )
+            .then((results) => {
+                returnUrls = results.map((item) => {
+                    return item.Location;
+                });
+            })
+            .catch((err) => {
+                return res.status(400).json({ errors: [{ msg: "S3 Error" }] });
+            });
+        for (let i = 0; i < photoCnt / 2; i++) {
+            // Add to Photo MySQL
+            const photoFields = {
+                key: galId,
+                order: 0,
+                link_main: returnUrls[i * 2],
+                link_thumb: returnUrls[i * 2 + 1],
+                deleted: 0,
+                createdUser: res.locals.user.userId,
+                lastUser: res.locals.user.userId
+            };
+            await Photo.create(photoFields);
         }
         res.send(true);
     });
@@ -99,7 +96,6 @@ router.post("/avatar", [auth], async (req, res) => {
 
         // Constants
         const photoCnt = Object.keys(files).length;
-        const person_key = fields.person_key;
 
         // Error check
         if (error) throw new Error(error);

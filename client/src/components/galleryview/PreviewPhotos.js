@@ -25,10 +25,10 @@ const ImageSrc = styled.img`
     object-fit: cover;
 `;
 
-const Image = ({ link_thumb, galId, onClickThumbnail }) => {
+const Image = ({ link_thumb, onClickThumbnail }) => {
     return (
         <ImageContainer onClick={onClickThumbnail}>
-            <ImageSrc src={`/images/gallery/${galId}/${link_thumb}`} alt="photo" />
+            <ImageSrc src={link_thumb} alt="photo" />
         </ImageContainer>
     );
 };
@@ -44,7 +44,7 @@ const PreviewPhotos = ({ onClickThumbnail, photos }) => {
         <Container>
             {photos.map((photo) => {
                 return (
-                    <Image onClickThumbnail={onClickThumbnail} key={uuid()} link_thumb={photo.link_thumb} galId={photo.key}>
+                    <Image onClickThumbnail={onClickThumbnail} key={uuid()} link_thumb={photo.link_thumb}>
                         photo
                     </Image>
                 );

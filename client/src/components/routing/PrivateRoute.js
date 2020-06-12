@@ -12,7 +12,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
         loading
     } = useQuery(CHECK_AUTH_QUERY);
     if (!isAuth) {
-        return <Redirect to="login" />;
+        return <Redirect to="/login" />;
     }
     return <Route {...rest} render={(props) => (!loading && !isAuth ? null : <Component {...props} />)} />;
 };

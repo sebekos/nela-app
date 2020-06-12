@@ -45,10 +45,10 @@ const ImageSrc = styled.img`
     object-fit: cover;
 `;
 
-const Image = ({ thumb_1, id }) => {
+const Image = ({ thumb_1 }) => {
     return (
         <ImageContainer>
-            <ImageSrc src={`/images/gallery/${id}/${thumb_1}`} alt="photo" />
+            <ImageSrc src={thumb_1} alt="photo" />
         </ImageContainer>
     );
 };
@@ -62,7 +62,7 @@ const Item = ({ data: { id, title, text, createdAt, thumb_1 } }) => {
     return (
         <Container>
             <Link to={`/galeria/${id}`} style={{ textDecoration: "none", color: "#333" }}>
-                <Image thumb_1={thumb_1} id={id} />
+                <Image thumb_1={thumb_1} />
                 <TextContainer>
                     <TitleText>{title}</TitleText>
                     <BodyText>{text}</BodyText>

@@ -137,6 +137,7 @@ const AddPhotos = ({ match }) => {
     const [progress, setProgress] = useState(0);
     const [pictures, setPictures] = useState([]);
     const [uploadBtn, setUploadBtn] = useState(false);
+    const [uploadSuccess, setUploadSuccess] = useState(false);
 
     const { loading, error, data } = useQuery(GALLERY_QUERY, {
         variables: {
@@ -145,9 +146,7 @@ const AddPhotos = ({ match }) => {
     });
 
     const [refetchGallery] = useLazyQuery(PHOTOS_QUERY, {
-        variables: {
-            filter: parseInt(match.params.id, 10)
-        }
+        fetchPolicy: "network-only"
     });
 
     const onDrop = (picture) => {
@@ -155,6 +154,7 @@ const AddPhotos = ({ match }) => {
         if (picture.length > 0) {
             setUploadBtn(true);
             setProgress(0);
+            setUploadSuccess(false);
         } else {
             setUploadBtn(false);
         }
@@ -180,8 +180,14 @@ const AddPhotos = ({ match }) => {
                 }
             })
             .then(() => {
+                setUploadSuccess(true);
+                setProgress(0);
                 toast.success("Photos uploaded");
-                refetchGallery();
+                refetchGallery({
+                    variables: {
+                        filter: parseInt(match.params.id, 10)
+                    }
+                });
             })
             .catch((err) => {
                 console.log(err);
@@ -195,9 +201,9 @@ const AddPhotos = ({ match }) => {
             {!loading && error && <Error />}
             {!loading && !error && data && <Description title={data.gallery.title} text={data.gallery.text} />}
             {!loading && !error && data && <Uploader onDrop={onDrop} pictures={pictures} />}
-            {progress > 0 && progress < 100 && <Progress progress={progress} />}
-            {uploadBtn && progress === 0 && <Upload onUpload={onUpload} />}
-            {progress === 100 && <GoToGallery galleryid={match.params.id} />}
+            {progress > 0 && !uploadSuccess && <Progress progress={progress} />}
+            {uploadBtn && progress === 0 && !uploadSuccess && <Upload onUpload={onUpload} />}
+            {uploadSuccess && <GoToGallery galleryid={match.params.id} />}
         </Container>
     );
 };
@@ -214,7 +220,7 @@ const GALLERY_QUERY = gql`
 `;
 
 const PHOTOS_QUERY = gql`
-    query($filter: Int!) {
+    query Photos($filter: Int!) {
         photos(filter: $filter) {
             order
             key

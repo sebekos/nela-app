@@ -75,6 +75,7 @@ const DeletePhotos = ({ match }) => {
     });
 
     const [deletePhotos] = useMutation(DELETE_PHOTOS_MUTATION, {
+        refetchQueries: [{ query: GALLERY_PHOTOS, variables: { id: parseInt(match.params.id, 10) } }],
         onCompleted: () => {
             toast.success("Deleted photos");
         }

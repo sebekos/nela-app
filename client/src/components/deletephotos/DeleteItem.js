@@ -18,7 +18,7 @@ const DeleteButton = styled(DangerButton)`
 const DeleteItem = ({ image, onDelete, galleryid, photoid }) => {
     return (
         <Container>
-            <DeleteImg src={`/images/gallery/${galleryid}/${image}`} alt="" />
+            <DeleteImg src={image} alt="" />
             <DeleteButton value={image} onClick={onDelete}>
                 X
             </DeleteButton>

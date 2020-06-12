@@ -34,8 +34,8 @@ const FamilyNode = ({ node, isRoot, style }) => {
     return (
         <Container style={style}>
             <InfoContainer>
-                {isRoot ? <RootImage src={node.link_photo ? `/${node.link_photo}` : DefaultAvatar} /> : null}
-                {!isRoot ? <Image src={node.link_photo ? `/${node.link_photo}` : DefaultAvatar} /> : null}
+                {isRoot ? <RootImage src={node.link_photo ? `${node.link_photo}` : DefaultAvatar} /> : null}
+                {!isRoot ? <Image src={node.link_photo ? `${node.link_photo}` : DefaultAvatar} /> : null}
                 <NameContainer>{node.first_name}</NameContainer>
             </InfoContainer>
         </Container>

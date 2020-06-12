@@ -33,7 +33,7 @@ const PhotoViewer = ({ photos }) => {
                 backdropCloseable={true}
                 currImg={currImg}
                 imgs={photos.map((photo) => {
-                    return { src: `/images/gallery/${photo.key}/${photo.link_main}` };
+                    return { src: photo.link_main };
                 })}
                 isOpen={open}
                 onClickPrev={onPrevImg}
