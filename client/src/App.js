@@ -23,6 +23,7 @@ import PersonAddEdit from "./components/person-add-edit/PersonAddEdit";
 import ScrollToTop from "./utils/scrollToTop";
 import Tree2 from "./components/family/trees/tree2/Tree2";
 import GeneralNews from "./components/generalnews/GeneralNews";
+import GeneralNews2 from "./components/generalnews2/GeneralNews2";
 import DeletePhotos from "./components/deletephotos/DeletePhotos";
 import ThanksAddEdit from "./components/thanks-add-edit/ThanksAddEdit";
 
@@ -39,6 +40,7 @@ const App = () => {
                 <Route exact path="/rodzina" component={Family} />
                 <Route exact path="/rodzina/:id" component={Tree2} />
                 <Route exact path="/newsy" component={GeneralNews} />
+                <Route exact path="/newsy2" component={GeneralNews2} />
                 <Route exact path="/kontakt" component={Contact} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/register" component={Register} />
