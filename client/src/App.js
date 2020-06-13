@@ -23,7 +23,7 @@ import PersonAddEdit from "./components/person-add-edit/PersonAddEdit";
 import ScrollToTop from "./utils/scrollToTop";
 import Tree2 from "./components/family/trees/tree2/Tree2";
 import GeneralNews from "./components/generalnews/GeneralNews";
-import GeneralNews2 from "./components/generalnews2/GeneralNews2";
+import GeneralNews2 from "./components/generalnews/GeneralNews";
 import DeletePhotos from "./components/deletephotos/DeletePhotos";
 import ThanksAddEdit from "./components/thanks-add-edit/ThanksAddEdit";
 

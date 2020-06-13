@@ -1,7 +1,9 @@
 const unixTime = (time) => {
-    const dateTime = new Date(time * 1000).toLocaleDateString("en-US");
-    const hourTime = new Date(time * 1000).toLocaleTimeString("en-US");
-
+    var utcSeconds = time / 1000;
+    var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
+    d.setUTCSeconds(utcSeconds);
+    const dateTime = d.toLocaleDateString("en-GB");
+    const hourTime = d.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
     return `${dateTime} ${hourTime}`;
 };
 

@@ -1,25 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import Reunion from "./reunion/Reunion";
-import Loading from "../universal/Loading";
-import ScrollCards from "./menu/ScrollCards";
-import gql from "graphql-tag";
+import { Paper, Tabs, Tab, CircularProgress } from "@material-ui/core";
 import { useQuery } from "@apollo/react-hooks";
-import NewsImage from "../../img/news.jpeg";
-
-const Background = styled.div`
-    background-image: url(${NewsImage});
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
-    margin-top: 4rem;
-`;
+import gql from "graphql-tag";
+import ReunionPanels from "./Panels/ReunionPanels";
+import GenPanels from "./Panels/GenPanels";
 
 const Container = styled.div`
-    margin: -3rem auto 0;
+    margin: auto;
     padding: 0rem 0 0;
-    max-width: 1300px;
+    max-width: max-content;
     min-height: 100vh;
 `;
 
@@ -33,49 +23,63 @@ const MainTitle = styled.div`
     font-weight: bold;
 `;
 
-const MediumTitle = styled.div`
-    font-size: 2rem;
-    color: #333;
-    padding: 3rem 0 0rem 3rem;
-    width: 100%;
-    background-color: white;
-    font-weight: bold;
-    background: transparent;
+const LoadingContainer = styled.div`
+    width: fit-content;
+    margin: auto;
+    padding: 1rem 0 0;
+    position: relative;
+    height: 70px;
 `;
 
-const SmallTitle = styled(MediumTitle)`
-    padding: 0 0 0 5rem;
-    font-size: 1rem;
-    margin: 1rem 0 -0.3rem;
+const CircularContainer = styled.div`
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 `;
+
+const Loading = () => {
+    return (
+        <LoadingContainer>
+            <CircularContainer>
+                <CircularProgress />
+            </CircularContainer>
+        </LoadingContainer>
+    );
+};
 
 const GeneralNews = () => {
     const { data, loading, error } = useQuery(GENERAL_NEWS_QUERY);
+    const [value, setValue] = useState(0);
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
     return (
         <>
             <MainTitle>Newsy</MainTitle>
-            <Background>
-                <Container>
-                    {loading && <Loading />}
-                    {!loading && !error && (
-                        <>
-                            <MediumTitle>Newsy</MediumTitle>
-                            <ScrollCards data={data.news} />
-                            <MediumTitle>Wiesci</MediumTitle>
-                            <SmallTitle>Wydarzyło się</SmallTitle>
-                            <ScrollCards data={data.fam1} />
-                            <SmallTitle>Zabraklo miedzy nami</SmallTitle>
-                            <ScrollCards data={data.fam2} />
-                            <SmallTitle>Witamy w rodzinie</SmallTitle>
-                            <ScrollCards data={data.fam3} />
-                            <MediumTitle>Podziękowania</MediumTitle>
-                            <ScrollCards data={data.thanks} />
-                            <MediumTitle>Zjazdy</MediumTitle>
-                            <Reunion data={data.reunion} />
-                        </>
-                    )}
-                </Container>
-            </Background>
+            <Paper>
+                <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" centered>
+                    <Tab style={{ textTransform: "capitalize" }} label="Newsy" />
+                    <Tab style={{ textTransform: "capitalize" }} label="Wydarzyło się" />
+                    <Tab style={{ textTransform: "capitalize" }} label="Zabraklo miedzy nami" />
+                    <Tab style={{ textTransform: "capitalize" }} label="Witamy w rodzinie" />
+                    <Tab style={{ textTransform: "capitalize" }} label="Podziękowania" />
+                    <Tab style={{ textTransform: "capitalize" }} label="Zjazdy" />
+                </Tabs>
+            </Paper>
+            <Container>
+                {loading && <Loading />}
+                {!loading && !error && (
+                    <>
+                        <GenPanels value={value} data={data.news} index={0} />
+                        <GenPanels value={value} data={data.happened} index={1} />
+                        <GenPanels value={value} data={data.later} index={2} />
+                        <GenPanels value={value} data={data.hello} index={3} />
+                        <GenPanels value={value} data={data.thanks} index={4} />
+                        <ReunionPanels value={value} data={data.reunion} index={5} />
+                    </>
+                )}
+            </Container>
         </>
     );
 };
@@ -88,19 +92,19 @@ const GENERAL_NEWS_QUERY = gql`
             text
             createdAt
         }
-        fam1: familynews(filter: 1) {
+        happened: familynews(filter: 1) {
             id
             type
             text
             createdAt
         }
-        fam2: familynews(filter: 2) {
+        later: familynews(filter: 2) {
             id
             type
             text
             createdAt
         }
-        fam3: familynews(filter: 3) {
+        hello: familynews(filter: 3) {
             id
             type
             text
