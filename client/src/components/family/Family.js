@@ -7,6 +7,7 @@ import { uuid } from "uuidv4";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import { Button, TextField, List, ListItem, ListItemText, CircularProgress } from "@material-ui/core";
+import AlphaSearch from "./AlphaSearch";
 import TreePng from "../../img/tree.png";
 
 const Container = styled.div`
