@@ -172,5 +172,27 @@ module.exports = {
         } catch (err) {
             throw new Error(err);
         }
+    },
+    alphaSearch: async (_, args) => {
+        try {
+            const [results] = await sequelize.query(
+                `
+                SELECT 
+                substr(last_name,1,1) AS alpha, 
+                count(1) AS num
+                FROM main.people
+                WHERE deleted = 0
+                GROUP BY substr(last_name,1,1)
+                ORDER BY alpha ASC;
+                `
+            );
+            const returnStuff = {
+                id: "alphaSearch",
+                results: results
+            };
+            return returnStuff;
+        } catch (err) {
+            throw new Error(err);
+        }
     }
 };
