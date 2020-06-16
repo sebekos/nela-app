@@ -7,23 +7,12 @@ import { uuid } from "uuidv4";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import { Button, TextField, List, ListItem, ListItemText, CircularProgress } from "@material-ui/core";
-import AlphaSearch from "./AlphaSearch";
 import TreePng from "../../img/tree.png";
 
 const Container = styled.div`
     margin: auto;
-    padding: 4rem 0 0;
+    padding: 2rem 0 0;
     min-height: 100vh;
-`;
-
-const MainTitle = styled.div`
-    font-size: 3rem;
-    color: #3e4444;
-    text-align: center;
-    padding: 0rem 0 1rem;
-    width: 100%;
-    background-color: white;
-    font-weight: bold;
 `;
 
 const LoadingContainer = styled.div`
@@ -129,7 +118,7 @@ const Tree = ({ isVisible }) => {
     );
 };
 
-const Family = () => {
+const NameSearch = ({ value, index }) => {
     const history = useHistory();
 
     const [search, setSearch] = useState("");
@@ -161,9 +150,10 @@ const Family = () => {
         onSearch({ variables: { search } });
     };
 
+    if (value !== index) return null;
+
     return (
         <Container>
-            <MainTitle>Rodzina</MainTitle>
             <Form noValidate autoComplete="off" onSubmit={onSubmit}>
                 <TextField onChange={onChange} label="First or Last name" variant="filled" value={search} />
                 <Button variant="contained" color="primary" onClick={onSubmit}>
@@ -201,4 +191,4 @@ const LOCAL_RESULTS_QUERY = gql`
     }
 `;
 
-export default Family;
+export default NameSearch;

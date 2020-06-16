@@ -12,7 +12,7 @@ import Footer from "./components/layout/Footer";
 import Contact from "./components/contact/Contact";
 import History from "./components/history/History";
 import Gallery from "./components/gallery/Gallery";
-import Family from "./components/family/Family";
+import FamilySearch from "./components/family/FamilySearch";
 import NewsAddEdit from "./components/news-add-edit/NewsAddEdit";
 import ReunionAddEdit from "./components/reunion-add-edit/ReunionAddEdit";
 import FamilyNewsAddEdit from "./components/familynews-add-edit/FamilyNewsAddEdit";
@@ -37,7 +37,7 @@ const App = () => {
             <Navbar />
             <Switch>
                 <Route exact path="/" component={MainPage} />
-                <Route exact path="/rodzina" component={Family} />
+                <Route exact path="/rodzina" component={FamilySearch} />
                 <Route exact path="/rodzina/:id" component={Tree2} />
                 <Route exact path="/newsy" component={GeneralNews} />
                 <Route exact path="/newsy2" component={GeneralNews2} />
