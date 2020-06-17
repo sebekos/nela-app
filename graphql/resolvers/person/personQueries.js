@@ -186,11 +186,7 @@ module.exports = {
                 ORDER BY alpha ASC;
                 `
             );
-            const returnStuff = {
-                id: "alphaSearch",
-                results: results
-            };
-            return returnStuff;
+            return results;
         } catch (err) {
             throw new Error(err);
         }

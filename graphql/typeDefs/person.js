@@ -56,32 +56,8 @@ type SearchResults {
 }
 
 type AlphaCount {
-    A: Int
-    B: Int
-    C: Int
-    D: Int
-    E: Int
-    F: Int
-    G: Int
-    H: Int
-    I: Int
-    J: Int
-    K: Int
-    L: Int
-    M: Int
-    N: Int
-    O: Int
-    P: Int
-    Q: Int
-    R: Int
-    S: Int
-    T: Int
-    U: Int
-    V: Int
-    W: Int
-    X: Int
-    Y: Int
-    Z: Int
+   alpha: String!
+   num: Int!
 }
 
 extend type Query {
@@ -90,7 +66,7 @@ extend type Query {
     searchPeople(search: String!): SearchResults!
     familySearchPeople(search: String!): SearchResults!
     relations(filter: Int): [RelationPerson!]
-    alphaSearch: AlphaCount!
+    alphaSearch: [AlphaCount!]!
 }
 
 extend type Mutation {

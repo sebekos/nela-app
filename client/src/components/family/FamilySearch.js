@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Paper, Tabs, Tab } from "@material-ui/core";
 import NameSearch from "./NameSearch";
+import AlphaSearch from "./AlphaSearch";
 
 const Container = styled.div`
     margin: auto;
@@ -34,6 +35,7 @@ const FamilySearch = () => {
                 </Tabs>
             </Paper>
             <NameSearch value={value} index={0} />
+            <AlphaSearch value={value} index={1} />
         </Container>
     );
 };
