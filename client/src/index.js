@@ -48,6 +48,16 @@ cache.writeData({
             token: null,
             tokenExpiration: null,
             __typename: "AuthData"
+        },
+        family_tab: {
+            id: "family_tab",
+            page: 0,
+            __typename: "FamilyTab"
+        },
+        news_tab: {
+            id: "news_tab",
+            page: 0,
+            __typename: "NewsTab"
         }
     }
 });

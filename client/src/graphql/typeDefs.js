@@ -23,6 +23,11 @@ const typeDefs = gql`
         logout: Boolean!
         search: SearchResults!
     }
+
+    type Mutation {
+        set_family_tab: Boolean!
+        set_news_tab: Boolean!
+    }
 `;
 
 export default typeDefs;

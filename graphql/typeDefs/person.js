@@ -67,6 +67,7 @@ extend type Query {
     familySearchPeople(search: String!): SearchResults!
     relations(filter: Int): [RelationPerson!]
     alphaSearch: [AlphaCount!]!
+    alphaList(filter: String!): [Person!]
 }
 
 extend type Mutation {

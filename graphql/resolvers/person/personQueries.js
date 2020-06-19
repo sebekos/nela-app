@@ -190,5 +190,28 @@ module.exports = {
         } catch (err) {
             throw new Error(err);
         }
+    },
+    alphaList: async (_, args) => {
+        try {
+            const [results] = await sequelize.query(
+                `
+                SELECT 
+                id,
+                first_name,
+                middle_name,
+                last_name,
+                birth_date,
+                birth_location,
+                passed_date,
+                link_photo
+                FROM main.people
+                WHERE last_name LIKE '${args.filter}%'
+                ORDER BY first_name
+                `
+            );
+            return results;
+        } catch (err) {
+            throw new Error(err);
+        }
     }
 };

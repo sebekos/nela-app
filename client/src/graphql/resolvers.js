@@ -54,6 +54,24 @@ const resolvers = {
         }
     },
     Mutation: {
+        set_family_tab: (_root, variables, { cache, getCacheKey }) => {
+            const data = {
+                id: "family_tab",
+                page: variables.page,
+                __typename: "FamilyTab"
+            };
+            cache.writeData({ data: { family_tab: data } });
+            return true;
+        },
+        set_news_tab: (_root, variables, { cache, getCacheKey }) => {
+            const data = {
+                id: "news_tab",
+                page: variables.page,
+                __typename: "NewsTab"
+            };
+            cache.writeData({ data: { news_tab: data } });
+            return true;
+        },
         deletePerson: (_root, variables, { cache, getCacheKey }) => {
             return true;
         }

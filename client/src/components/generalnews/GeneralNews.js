@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Paper, Tabs, Tab, CircularProgress } from "@material-ui/core";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import ReunionPanels from "./Panels/ReunionPanels";
 import GenPanels from "./Panels/GenPanels";
@@ -51,8 +51,19 @@ const Loading = () => {
 const GeneralNews = () => {
     const { data, loading, error } = useQuery(GENERAL_NEWS_QUERY);
     const [value, setValue] = useState(0);
+    const {} = useQuery(NEWS_TAB, {
+        onCompleted: (data) => {
+            setValue(data.news_tab.page);
+        }
+    });
+    const [setNewsTab] = useMutation(SET_NEWS_TAB);
     const handleChange = (event, newValue) => {
         setValue(newValue);
+        setNewsTab({
+            variables: {
+                page: newValue
+            }
+        });
     };
     return (
         <>
@@ -121,6 +132,20 @@ const GENERAL_NEWS_QUERY = gql`
             text
             createdAt
         }
+    }
+`;
+
+const NEWS_TAB = gql`
+    {
+        news_tab @client {
+            page
+        }
+    }
+`;
+
+const SET_NEWS_TAB = gql`
+    mutation NewsTab($page: Int!) {
+        set_news_tab(page: $page) @client
     }
 `;
 
