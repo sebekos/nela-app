@@ -152,7 +152,7 @@ const AlphaSearch = ({ value, index }) => {
             {!loading && data && data.alphaSearch && <AlphaKeys data={data.alphaSearch} onAlpha={onAlpha} />}
             {loading || alphaLoading ? <Loading /> : null}
             {!listData && <Abc isVisible={isVisible} />}
-            {!alphaLoading && listData && listData.length > 0 ? <ListItems alphaData={listData} /> : null}
+            {!alphaLoading && listData && listData.length > 0 ? <ListItems alphaData={listData} history={history} /> : null}
         </Container>
     );
 };
