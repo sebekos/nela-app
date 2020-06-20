@@ -48,8 +48,8 @@ const Family = () => {
                 <>
                     <Paper>
                         <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" centered>
-                            <Tab style={{ textTransform: "capitalize" }} label="Search" />
-                            <Tab style={{ textTransform: "capitalize" }} label="List" />
+                            <Tab style={{ textTransform: "capitalize" }} label="Szukaj" />
+                            <Tab style={{ textTransform: "capitalize" }} label="Lista" />
                         </Tabs>
                     </Paper>
                     <NameSearch value={value} index={0} />

@@ -21,7 +21,8 @@ const useStyles = makeStyles({
         height: "100%"
     },
     title: {
-        fontSize: 14
+        fontSize: 15,
+        fontWeight: "bold"
     },
     date: {
         position: "absolute",

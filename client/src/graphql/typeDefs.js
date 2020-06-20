@@ -26,6 +26,7 @@ const typeDefs = gql`
 
     type Mutation {
         set_family_tab: Boolean!
+        set_family_letter: Boolean!
         set_news_tab: Boolean!
     }
 `;

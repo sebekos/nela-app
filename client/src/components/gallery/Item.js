@@ -1,80 +1,69 @@
 import React from "react";
-import styled from "styled-components";
-import PropTypes from "prop-types";
-import timeFormat from "../../utils/timeFormat";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import { Card, CardContent, CardMedia } from "@material-ui/core";
+import { uuid } from "uuidv4";
 import { Link } from "react-router-dom";
+import timeFormat from "../../utils/timeFormat";
 
-const Container = styled.div`
-    max-width: 350px;
-    padding: 0;
-    color: #333;
-    margin: 1rem auto 0;
-
-    box-shadow: 1px 1px 3px 2px #ccc;
-`;
-
-const TextContainer = styled.div`
-    padding: 0.5rem 0.5rem 0.1rem;
-`;
-
-const TitleText = styled.div`
-    font-weight: bold;
-    text-align: center;
-`;
-
-const BodyText = styled.div`
-    font-size: 0.8rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-`;
-
-const DateText = styled.div`
-    font-size: 0.7rem;
-    text-align: right;
-`;
-
-const ImageContainer = styled.div`
-    height: 200px;
-    overflow: hidden;
-    background-color: lightgrey;
-`;
-
-const ImageSrc = styled.img`
-    width: 350px;
-    object-fit: cover;
-`;
-
-const Image = ({ thumb_1 }) => {
-    return (
-        <ImageContainer>
-            <ImageSrc src={thumb_1} alt="photo" />
-        </ImageContainer>
-    );
-};
-
-Image.propTypes = {
-    thumb_1: PropTypes.string,
-    id: PropTypes.number
-};
+const useStyles = makeStyles({
+    container: {
+        margin: "1rem auto",
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr 1fr"
+    },
+    root: {
+        width: 400,
+        height: 300,
+        margin: 5
+    },
+    media: {
+        height: 0,
+        paddingTop: "61.25%",
+        margin: "-20px -20px 0 -20px"
+    },
+    content: {
+        position: "relative",
+        height: "100%"
+    },
+    title: {
+        marginTop: ".5rem",
+        fontSize: 14
+    },
+    text: {
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap",
+        overflow: "hidden"
+    },
+    date: {
+        position: "absolute",
+        bottom: 0,
+        right: 5
+    }
+});
 
 const Item = ({ data: { id, title, text, createdAt, thumb_1 } }) => {
+    const classes = useStyles();
     return (
-        <Container>
+        <div className={classes.container}>
             <Link to={`/galeria/${id}`} style={{ textDecoration: "none", color: "#333" }}>
-                <Image thumb_1={thumb_1} />
-                <TextContainer>
-                    <TitleText>{title}</TitleText>
-                    <BodyText>{text}</BodyText>
-                    <DateText>{timeFormat(createdAt / 1000)}</DateText>
-                </TextContainer>
+                <Card className={classes.root} variant="outlined" key={uuid()}>
+                    <CardContent className={classes.content}>
+                        <CardMedia className={classes.media} image={thumb_1} title="Paella dish" />
+                        <Typography className={classes.title} color="textSecondary" gutterBottom align="center">
+                            {title}
+                        </Typography>
+                        <Typography className={classes.text} variant="body2" component="p" gutterBottom>
+                            {text}
+                        </Typography>
+                        <Typography className={classes.date} color="textSecondary" variant="body2" component="p" align="right">
+                            {timeFormat(createdAt)}
+                        </Typography>
+                    </CardContent>
+                </Card>
             </Link>
-        </Container>
+        </div>
     );
-};
-
-Item.propTypes = {
-    data: PropTypes.object.isRequired
 };
 
 export default Item;

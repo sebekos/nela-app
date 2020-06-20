@@ -71,7 +71,7 @@ const TextInfoDates = ({ birth_date, passed_date, birth_location }) => {
     } else if (birth_date && passed_date) {
         date = `${moment(birth_date, "YYYY-MM-DD").format("LL")} - ${moment(passed_date, "YYYY-MM-DD").format("LL")}`;
     } else {
-        date = "No data";
+        date = "brak informacji";
     }
     const location = birth_location ? `${birth_location}; ` : "";
     return <TextInfoDatesContainer>{location + date}</TextInfoDatesContainer>;
@@ -91,7 +91,7 @@ const Main = ({ data }) => {
             </ImageContainer>
             <TextInfoContainer>
                 <Title first_name={data.first_name} middle_name={data.middle_name} last_name={data.last_name} />
-                <TextInfoNotes>{data.notes ? data.notes : "No info"}</TextInfoNotes>
+                <TextInfoNotes>{data.notes ? data.notes : "brak informacji"}</TextInfoNotes>
                 <TextInfoDates birth_date={data.birth_date} passed_date={data.passed_date} birth_location={data.birth_location} />
             </TextInfoContainer>
         </MainContainer>

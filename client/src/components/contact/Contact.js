@@ -55,8 +55,8 @@ const Banner = () => {
     return (
         <IntroContainer>
             <IntroTextContainer>
-                <IntroText>We'd love to hear from you.</IntroText>
-                <IntroTextSmall>Wether you can a question about our family or yours our team is ready.</IntroTextSmall>
+                <IntroText>Chcielibyśmy usłyszeć od ciebie</IntroText>
+                <IntroTextSmall>Czy masz pytanie dotyczące naszej rodziny lub swojego zespołu, nasz zespół jest gotowy.</IntroTextSmall>
             </IntroTextContainer>
             <Image1 src={ContactImage} alt="image1" />
         </IntroContainer>

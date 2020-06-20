@@ -59,7 +59,7 @@ const Tree2 = ({ match }) => {
     });
     return (
         <Container>
-            <MainTitle>Person Info</MainTitle>
+            <MainTitle>Informacja</MainTitle>
             {loading ? <Loading /> : null}
             <DataContainer>
                 {!loading && data ? (

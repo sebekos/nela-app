@@ -39,7 +39,7 @@ module.exports = {
                 WHERE MP.first_name LIKE :search AND deleted = 0
                 OR MP.middle_name LIKE :search AND deleted = 0
                 OR MP.last_name LIKE :search AND deleted = 0
-                ORDER BY updatedAt DESC;
+                ORDER BY first_name ASC;
                 `,
                 {
                     replacements: { search: `%${search}%` }
@@ -88,6 +88,10 @@ module.exports = {
         }
     },
     relations: async (_, args) => {
+        const { filter } = args;
+        if (isNaN(filter)) {
+            throw new Error("Invalid search value");
+        }
         try {
             const [results] = await sequelize.query(`
                 SELECT
@@ -104,7 +108,7 @@ module.exports = {
                 FROM main.children AS MS
                 LEFT JOIN main.people AS MP
                 ON MS.child_key = MP.id
-                WHERE person_key = ${args.filter}
+                WHERE person_key = ${filter}
                 AND MS.deleted = 0
                 AND MP.deleted = 0
 
@@ -124,7 +128,7 @@ module.exports = {
                 FROM main.parents AS MS
                 LEFT JOIN main.people AS MP
                 ON MS.parent_key = MP.id
-                WHERE person_key = ${args.filter}
+                WHERE person_key = ${filter}
                 AND MS.deleted = 0
                 AND MP.deleted = 0
 
@@ -144,7 +148,7 @@ module.exports = {
                 FROM main.siblings AS MS
                 LEFT JOIN main.people AS MP
                 ON MS.sibling_key = MP.id
-                WHERE person_key = ${args.filter}
+                WHERE person_key = ${filter}
                 AND MS.deleted = 0
                 AND MP.deleted = 0
 
@@ -164,7 +168,7 @@ module.exports = {
                 FROM main.spouses AS MS
                 LEFT JOIN main.people AS MP
                 ON MS.spouse_key = MP.id
-                WHERE person_key = ${args.filter}
+                WHERE person_key = ${filter}
                 AND MS.deleted = 0
                 AND MP.deleted = 0
                 `);
@@ -192,6 +196,10 @@ module.exports = {
         }
     },
     alphaList: async (_, args) => {
+        const { filter } = args;
+        if (filter.length !== 1) {
+            throw new Error("Invalid search value");
+        }
         try {
             const [results] = await sequelize.query(
                 `
@@ -209,7 +217,11 @@ module.exports = {
                 ORDER BY first_name
                 `
             );
-            return results;
+            const returnStuff = {
+                id: "alphalistresults",
+                results: results
+            };
+            return returnStuff;
         } catch (err) {
             throw new Error(err);
         }

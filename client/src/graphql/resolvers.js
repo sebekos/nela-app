@@ -51,6 +51,27 @@ const resolvers = {
                 return cache.data.data[item];
             });
             return { id: "searchresults", results: cachedData };
+        },
+        searchAlpha: (_root, variables, { cache, getCacheKey }) => {
+            console.log("here");
+            let localData = cache.data.data["AlphaListResults:alphalistresults"];
+            let cachedData = [];
+            if (localData) {
+                localData = localData.results.map((item) => item.id);
+            }
+            cachedData = localData.map((item) => {
+                return cache.data.data[item];
+            });
+            return cachedData;
+        },
+        set_family_letter: (_root, variables, { cache, getCacheKey }) => {
+            const data = {
+                id: "family_tab",
+                letter: variables.letter,
+                __typename: "FamilyTab"
+            };
+            cache.writeData({ data: { family_tab: data } });
+            return true;
         }
     },
     Mutation: {

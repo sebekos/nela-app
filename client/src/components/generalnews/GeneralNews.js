@@ -6,11 +6,20 @@ import gql from "graphql-tag";
 import ReunionPanels from "./Panels/ReunionPanels";
 import GenPanels from "./Panels/GenPanels";
 
+import LandingImage from "../../img/news.jpeg";
+
+const Background = styled.div`
+    background-image: url(${LandingImage});
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+`;
+
 const Container = styled.div`
     margin: auto;
     padding: 0rem 0 0;
-    max-width: max-content;
     min-height: 100vh;
+    max-width: fit-content;
 `;
 
 const MainTitle = styled.div`
@@ -68,29 +77,32 @@ const GeneralNews = () => {
     return (
         <>
             <MainTitle>Newsy</MainTitle>
-            <Paper>
-                <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" centered>
-                    <Tab style={{ textTransform: "capitalize" }} label="Newsy" />
-                    <Tab style={{ textTransform: "capitalize" }} label="Wydarzyło się" />
-                    <Tab style={{ textTransform: "capitalize" }} label="Zabraklo miedzy nami" />
-                    <Tab style={{ textTransform: "capitalize" }} label="Witamy w rodzinie" />
-                    <Tab style={{ textTransform: "capitalize" }} label="Podziękowania" />
-                    <Tab style={{ textTransform: "capitalize" }} label="Zjazdy" />
-                </Tabs>
-            </Paper>
-            <Container>
-                {loading && <Loading />}
-                {!loading && !error && (
-                    <>
-                        <GenPanels value={value} data={data.news} index={0} />
-                        <GenPanels value={value} data={data.happened} index={1} />
-                        <GenPanels value={value} data={data.later} index={2} />
-                        <GenPanels value={value} data={data.hello} index={3} />
-                        <GenPanels value={value} data={data.thanks} index={4} />
-                        <ReunionPanels value={value} data={data.reunion} index={5} />
-                    </>
-                )}
-            </Container>
+
+            <Background>
+                <Paper>
+                    <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" centered>
+                        <Tab style={{ textTransform: "capitalize" }} label="Newsy" />
+                        <Tab style={{ textTransform: "capitalize" }} label="Wydarzyło się" />
+                        <Tab style={{ textTransform: "capitalize" }} label="Zabraklo miedzy nami" />
+                        <Tab style={{ textTransform: "capitalize" }} label="Witamy w rodzinie" />
+                        <Tab style={{ textTransform: "capitalize" }} label="Podziękowania" />
+                        <Tab style={{ textTransform: "capitalize" }} label="Zjazdy" />
+                    </Tabs>
+                </Paper>
+                <Container>
+                    {loading && <Loading />}
+                    {!loading && !error && (
+                        <>
+                            <GenPanels value={value} data={data.news} index={0} />
+                            <GenPanels value={value} data={data.happened} index={1} />
+                            <GenPanels value={value} data={data.later} index={2} />
+                            <GenPanels value={value} data={data.hello} index={3} />
+                            <GenPanels value={value} data={data.thanks} index={4} />
+                            <ReunionPanels value={value} data={data.reunion} index={5} />
+                        </>
+                    )}
+                </Container>
+            </Background>
         </>
     );
 };

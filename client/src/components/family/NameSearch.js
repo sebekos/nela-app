@@ -105,9 +105,9 @@ const TreeImgContainer = styled.div`
 `;
 
 const Image = styled.img`
-    width: 500px;
+    width: 450px;
     height: auto;
-    margin: 5rem 0;
+    margin: 1rem 0;
 `;
 
 const Tree = ({ isVisible }) => {
@@ -155,9 +155,9 @@ const NameSearch = ({ value, index }) => {
     return (
         <Container>
             <Form noValidate autoComplete="off" onSubmit={onSubmit}>
-                <TextField onChange={onChange} label="First or Last name" variant="filled" value={search} />
+                <TextField onChange={onChange} label="Nazwisko" variant="filled" value={search} />
                 <Button variant="contained" color="primary" onClick={onSubmit}>
-                    Search
+                    Szukaj
                 </Button>
             </Form>
             <Loading localLoading={localLoading} lazyLoading={lazyLoading} />
