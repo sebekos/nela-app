@@ -34,6 +34,7 @@ module.exports = {
                 birth_date,
                 birth_location,
                 passed_date,
+                passed_location,
                 link_photo
                 FROM main.people AS MP
                 WHERE MP.first_name LIKE :search AND deleted = 0
@@ -67,6 +68,7 @@ module.exports = {
                 birth_date,
                 birth_location,
                 passed_date,
+                passed_location,
                 link_photo
                 FROM main.people AS MP
                 WHERE MP.first_name LIKE :search AND deleted = 0
@@ -211,9 +213,11 @@ module.exports = {
                 birth_date,
                 birth_location,
                 passed_date,
+                passed_location,
                 link_photo
                 FROM main.people
                 WHERE last_name LIKE '${args.filter}%'
+                AND deleted = 0
                 ORDER BY first_name
                 `
             );

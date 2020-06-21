@@ -34,14 +34,14 @@ const EditText = styled.div`
     color: blue;
 `;
 
-const InfoShow = ({ data: { birth_date, birth_location, passed_date, notes }, onInfoEdit }) => {
+const InfoShow = ({ data: { birth_date, birth_location, passed_date, passed_location, notes }, onInfoEdit }) => {
     return (
         <Container>
             <EditContainer>
                 <EditText onClick={onInfoEdit}>Edit Info</EditText>
             </EditContainer>
             <ShowDatesContainer>{[birth_date, passed_date].filter((item) => item !== null).join(" - ")}</ShowDatesContainer>
-            {birth_location && <BirthLocationContainer>{birth_location}</BirthLocationContainer>}
+            <BirthLocationContainer>{[birth_location, passed_location].filter((item) => item !== null).join(" - ")}</BirthLocationContainer>
             <ShowNotesContainer>{notes ? notes : "No Info"}</ShowNotesContainer>
         </Container>
     );

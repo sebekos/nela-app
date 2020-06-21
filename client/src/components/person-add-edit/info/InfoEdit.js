@@ -98,11 +98,12 @@ const InfoEdit = ({ data, stopEdit }) => {
         last_name: data.last_name,
         birth_date: data.birth_date ? data.birth_date : "",
         birth_location: data.birth_location ? data.birth_location : "",
+        passed_location: data.passed_location ? data.passed_location : "",
         passed_date: data.passed_date ? data.passed_date : "",
         notes: data.notes ? data.notes : ""
     });
 
-    const { first_name, middle_name, last_name, birth_date, birth_location, passed_date, notes } = formData;
+    const { first_name, middle_name, last_name, birth_date, birth_location, passed_location, passed_date, notes } = formData;
 
     const onChange = (e) => {
         setFormData({
@@ -113,7 +114,17 @@ const InfoEdit = ({ data, stopEdit }) => {
 
     const onSave = () => {
         updatePerson({
-            variables: { id: parseInt(data.id, 10), first_name, middle_name, last_name, birth_date, birth_location, passed_date, notes }
+            variables: {
+                id: parseInt(data.id, 10),
+                first_name,
+                middle_name,
+                last_name,
+                birth_date,
+                birth_location,
+                passed_date,
+                passed_location,
+                notes
+            }
         });
     };
 
@@ -192,6 +203,8 @@ const InfoEdit = ({ data, stopEdit }) => {
                     }}
                     helperText={`${birth_location.length}/${40}`}
                 />
+            </EditRow2>
+            <EditRow2>
                 <TextField
                     name="passed_date"
                     variant="filled"
@@ -203,6 +216,17 @@ const InfoEdit = ({ data, stopEdit }) => {
                     InputLabelProps={{
                         shrink: true
                     }}
+                />
+                <TextField
+                    name="passed_location"
+                    onChange={onChange}
+                    label="Passed location"
+                    variant="filled"
+                    value={passed_location}
+                    inputProps={{
+                        maxLength: 40
+                    }}
+                    helperText={`${passed_location.length}/${40}`}
                 />
             </EditRow2>
             <EditRow3>
@@ -248,6 +272,7 @@ const UPDATE_PERSON_MUTATION = gql`
         $birth_date: String
         $birth_location: String
         $passed_date: String
+        $passed_location: String
         $notes: String
     ) {
         updatePerson(
@@ -259,6 +284,7 @@ const UPDATE_PERSON_MUTATION = gql`
                 birth_date: $birth_date
                 birth_location: $birth_location
                 passed_date: $passed_date
+                passed_location: $passed_location
                 notes: $notes
             }
         ) {
@@ -269,6 +295,7 @@ const UPDATE_PERSON_MUTATION = gql`
             birth_date
             birth_location
             passed_date
+            passed_location
             notes
         }
     }

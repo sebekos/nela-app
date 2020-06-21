@@ -13,7 +13,7 @@ const useStyles = makeStyles({
         gridTemplateColumns: "1fr 1fr 1fr"
     },
     root: {
-        width: 400,
+        width: 390,
         height: 300,
         margin: 5
     },

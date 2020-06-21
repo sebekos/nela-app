@@ -51,6 +51,15 @@ const Loading = () => {
     );
 };
 
+const SmallTitle = styled.div`
+    color: #3e4444;
+    width: 100%;
+    background-color: white;
+    font-weight: bold;
+    padding: 2rem 0 0 5rem;
+    font-size: 1rem;
+`;
+
 const Tree2 = ({ match }) => {
     const { data, loading } = useQuery(TREE1_QUERY, {
         variables: {
@@ -65,6 +74,7 @@ const Tree2 = ({ match }) => {
                 {!loading && data ? (
                     <>
                         <MainInfo data={data.person} />
+                        <SmallTitle>Rodzina</SmallTitle>
                         <ReactFamilyTree
                             nodes={singleTree(data)}
                             rootId={parseInt(match.params.id, 10)}
@@ -103,6 +113,7 @@ const TREE1_QUERY = gql`
             birth_date
             birth_location
             passed_date
+            passed_location
         }
         children(filter: $id) {
             id

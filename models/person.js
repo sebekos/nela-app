@@ -36,6 +36,12 @@ module.exports = (sequelize, type) => {
                 len: [0, 40]
             }
         },
+        passed_location: {
+            type: type.STRING,
+            validate: {
+                len: [0, 40]
+            }
+        },
         link_photo: {
             type: type.STRING
         },

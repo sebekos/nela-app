@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { CircularProgress, List, ListItem, ListItemText } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import AbcImage from "../../img/abc.png";
+import moment from "moment";
 
 const Container = styled.div`
     width: max-content;
@@ -62,15 +63,6 @@ const Loading = () => {
     );
 };
 
-const nameFix = (first_name, middle_name, last_name, birth_date) => {
-    return [first_name, middle_name, last_name, birth_date].filter((item) => item !== null).join(" ");
-};
-
-const NameContainer = styled.div`
-    color: #333;
-    text-decoration: none;
-`;
-
 const ListItems = ({ alphaData, history }) => {
     const onClick = (link) => {
         history.push(link);
@@ -78,14 +70,14 @@ const ListItems = ({ alphaData, history }) => {
     return (
         <List style={{ width: "500px" }}>
             {alphaData.map((person) => {
-                const { first_name, middle_name, last_name, birth_date, birth_location, passed_date } = person;
+                const { first_name, middle_name, last_name, birth_date, birth_location } = person;
                 const name = [first_name, middle_name, last_name].map((item) => (item !== null ? item : null)).join(" ");
-                const dates = [birth_date, passed_date].map((item) => (item !== null ? item : null)).join(" - ");
+                const dates = birth_date ? moment(birth_date, "YYYY-MM-DD").format("DD/MM/YYYY") : "";
                 const location = birth_location ? `${birth_location}, ` : "";
                 const secondary = `${location}${dates}`;
                 return (
                     <ListItem divider={true} key={uuid()} onClick={(e) => onClick(`/Rodzina/${person.id}`)} style={{ cursor: "pointer" }}>
-                        <ListItemText primary={name} secondary={secondary} />
+                        <ListItemText primary={`${name} ${secondary}`} />
                     </ListItem>
                 );
             })}
@@ -119,7 +111,7 @@ const AlphaSearch = ({ value, index }) => {
     const [listData, setListData] = useState(null);
     const { loading, data } = useQuery(ALPHA_SEARCH);
 
-    const { loading: localLoading } = useQuery(LOCAL_RESULTS_QUERY, {
+    useQuery(LOCAL_RESULTS_QUERY, {
         fetchPolicy: "no-cache",
         onCompleted: (data) => {
             if (data) {
@@ -129,7 +121,7 @@ const AlphaSearch = ({ value, index }) => {
         }
     });
 
-    const [alphaList, { data: alphaData, loading: alphaLoading }] = useLazyQuery(ALPHA_LIST, {
+    const [alphaList, { loading: alphaLoading }] = useLazyQuery(ALPHA_LIST, {
         fetchPolicy: "network-only",
         onCompleted: (data) => {
             setListData(data.alphaList.results);

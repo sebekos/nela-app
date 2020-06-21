@@ -1,7 +1,17 @@
 const { Person } = require("../../../sequelize");
 const { AuthenticationError } = require("apollo-server-express");
 
-const personKeys = ["first_name", "middle_name", "last_name", "birth_date", "birth_location", "passed_date", "notes", "lastUser"];
+const personKeys = [
+    "first_name",
+    "middle_name",
+    "last_name",
+    "birth_date",
+    "birth_location",
+    "passed_date",
+    "passed_location",
+    "notes",
+    "lastUser"
+];
 
 const verifyInputs = (userInputs) => {
     const personFields = personKeys.reduce((memo, val) => {

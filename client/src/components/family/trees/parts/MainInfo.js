@@ -42,7 +42,9 @@ const TextInfoTitle = styled.div`
     font-weight: bold;
 `;
 
-const TextInfoNotes = styled.div``;
+const TextInfoNotes = styled.div`
+    font-size: 0.9rem;
+`;
 
 const TextInfoDatesContainer = styled.div`
     font-size: 0.7rem;
@@ -64,17 +66,20 @@ const Title = (props) => {
     );
 };
 
-const TextInfoDates = ({ birth_date, passed_date, birth_location }) => {
+const TextInfoDates = ({ birth_date, passed_date, birth_location, passed_location }) => {
+    const location = birth_location ? ` w ${birth_location}` : "";
+    const location2 = passed_location ? ` w ${passed_location}` : "";
     let date = "";
     if (birth_date && !passed_date) {
-        date = moment(birth_date, "YYYY-MM-DD").format("LL");
+        date = moment(birth_date, "YYYY-MM-DD").format("DD/MM/YYYY") + location;
     } else if (birth_date && passed_date) {
-        date = `${moment(birth_date, "YYYY-MM-DD").format("LL")} - ${moment(passed_date, "YYYY-MM-DD").format("LL")}`;
+        date = `${moment(birth_date, "YYYY-MM-DD").format("DD/MM/YYYY")}${location} - ${moment(passed_date, "YYYY-MM-DD").format(
+            "DD/MM/YYYY"
+        )}${location2}`;
     } else {
         date = "brak informacji";
     }
-    const location = birth_location ? `${birth_location}; ` : "";
-    return <TextInfoDatesContainer>{location + date}</TextInfoDatesContainer>;
+    return <TextInfoDatesContainer>{date}</TextInfoDatesContainer>;
 };
 
 TextInfoDates.propTypes = {
@@ -92,7 +97,12 @@ const Main = ({ data }) => {
             <TextInfoContainer>
                 <Title first_name={data.first_name} middle_name={data.middle_name} last_name={data.last_name} />
                 <TextInfoNotes>{data.notes ? data.notes : "brak informacji"}</TextInfoNotes>
-                <TextInfoDates birth_date={data.birth_date} passed_date={data.passed_date} birth_location={data.birth_location} />
+                <TextInfoDates
+                    birth_date={data.birth_date}
+                    passed_date={data.passed_date}
+                    birth_location={data.birth_location}
+                    passed_location={data.passed_location}
+                />
             </TextInfoContainer>
         </MainContainer>
     );

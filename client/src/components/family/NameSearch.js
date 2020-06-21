@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import { Button, TextField, List, ListItem, ListItemText, CircularProgress } from "@material-ui/core";
 import TreePng from "../../img/tree.png";
+import moment from "moment";
 
 const Container = styled.div`
     margin: auto;
@@ -65,11 +66,10 @@ const Map = ({ data, history }) => {
         <MapContainer>
             <List disablePadding={true}>
                 {data.map((person) => {
-                    const { first_name, middle_name, last_name, birth_date, birth_location, passed_date } = person;
+                    const { first_name, middle_name, last_name, birth_date } = person;
                     const name = [first_name, middle_name, last_name].map((item) => (item !== null ? item : null)).join(" ");
-                    const dates = [birth_date, passed_date].map((item) => (item !== null ? item : null)).join(" - ");
-                    const location = birth_location ? `${birth_location}, ` : "";
-                    const secondary = `${location}${dates}`;
+                    const dates = birth_date ? moment(birth_date, "YYYY-MM-DD").format("DD/MM/YYYY") : "";
+                    const secondary = `${dates}`;
                     return (
                         <ListItem
                             divider={true}
@@ -77,7 +77,7 @@ const Map = ({ data, history }) => {
                             onClick={(e) => onClick(`/Rodzina/${person.id}`)}
                             style={{ cursor: "pointer" }}
                         >
-                            <ListItemText primary={name} secondary={secondary} />
+                            <ListItemText primary={`${name} ${secondary}`} />
                         </ListItem>
                     );
                 })}

@@ -60,7 +60,7 @@ const Loading = () => {
 const GeneralNews = () => {
     const { data, loading, error } = useQuery(GENERAL_NEWS_QUERY);
     const [value, setValue] = useState(0);
-    const {} = useQuery(NEWS_TAB, {
+    useQuery(NEWS_TAB, {
         onCompleted: (data) => {
             setValue(data.news_tab.page);
         }

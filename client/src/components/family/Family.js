@@ -25,7 +25,7 @@ const MainTitle = styled.div`
 const Family = () => {
     const [value, setValue] = useState(0);
 
-    const { data, loading } = useQuery(FAMILY_TAB, {
+    const { loading } = useQuery(FAMILY_TAB, {
         onCompleted: (data) => {
             setValue(data.family_tab.page);
         }

@@ -9,7 +9,7 @@ import { List, ListItem, ListItemText, Paper, CircularProgress } from "@material
 import { useHistory } from "react-router-dom";
 
 const Container = styled.div`
-    max-width: 1100px;
+    max-width: 1200px;
     margin: auto;
     padding: 4rem 0 0;
     min-height: 100vh;
@@ -127,7 +127,7 @@ const Gallery = () => {
                     {!loading && data && data.galleries.galleries.length > 0 && (
                         <GalleryList data={data.galleries.galleries} history={history} />
                     )}
-                    <SmallTitle>Most recent</SmallTitle>
+                    <SmallTitle>Najnowszy</SmallTitle>
                     {!loading && data && data.ui_galleries.galleries.length > 0 && <Map data={data.ui_galleries.galleries} />}
                     {data && data.ui_galleries.galleries.length === 0 && <NoData />}
                 </>
