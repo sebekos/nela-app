@@ -4,6 +4,7 @@ import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import PrivateRoute from "./components/routing/PrivateRoute";
 import Dashboard from "./components/dashboard/Dashboard";
+import Dashboard2 from "./components/dashboard/Dashboard2";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import Navbar from "./components/layout/Navbar";
@@ -48,6 +49,7 @@ const App = () => {
                 <Route exact path="/galeria" component={Gallery} />
                 <Route exact path="/galeria/:id" component={GalleryView} />
                 <PrivateRoute exact path="/dashboard" component={Dashboard} />
+                <PrivateRoute exact path="/dashboard2" component={Dashboard2} />
                 <PrivateRoute exact path="/personaddedit" component={PersonAddEdit} />
                 <PrivateRoute exact path="/newsaddedit" component={NewsAddEdit} />
                 <PrivateRoute exact path="/reunionaddedit" component={ReunionAddEdit} />
