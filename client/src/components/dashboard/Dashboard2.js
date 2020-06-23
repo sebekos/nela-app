@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Paper, Tabs, Tab, CircularProgress } from "@material-ui/core";
+import { Paper, Tabs, Tab } from "@material-ui/core";
+import NewsAddEdit from "../news-add-edit/NewsAddEdit";
 
 const Container = styled.div`
-    max-width: 1100px;
     margin: auto;
     padding: 4rem 0 0;
     min-height: 100vh;
@@ -37,6 +37,7 @@ const Dashboard = () => {
                     <Tab style={{ textTransform: "capitalize" }} label="Zjazdy" />
                 </Tabs>
             </Paper>
+            <NewsAddEdit value={value} index={0} />
         </Container>
     );
 };

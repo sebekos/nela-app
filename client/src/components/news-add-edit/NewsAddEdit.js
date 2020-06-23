@@ -17,16 +17,6 @@ const Container = styled.div`
     min-height: 100vh;
 `;
 
-const MainTitle = styled.div`
-    font-size: 3rem;
-    color: #3e4444;
-    text-align: center;
-    padding: 0rem 0 1rem;
-    width: 100%;
-    background-color: white;
-    font-weight: bold;
-`;
-
 const ErrorContainer = styled.div`
     width: fit-content;
     margin: auto;
@@ -151,7 +141,7 @@ const Loading = () => {
     );
 };
 
-const AddEdit = () => {
+const AddEdit = ({ index, value }) => {
     const [addNews, { loading: lazyLoading }] = useMutation(ADD_NEWS_QUERY, {
         refetchQueries: [{ query: NEWS_QUERY }],
         onError: (err) => console.log(err),
@@ -185,9 +175,10 @@ const AddEdit = () => {
         addNews({ variables: { title, text } });
     };
 
+    if (value !== index) return null;
+
     return (
         <Container>
-            <MainTitle>Newsy</MainTitle>
             <Add title={title} text={text} onChange={onChange} onAdd={onAdd} />
             {(loading || lazyLoading) && <Loading />}
             {!loading && error && <Error />}
