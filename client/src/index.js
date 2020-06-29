@@ -59,6 +59,11 @@ cache.writeData({
             id: "news_tab",
             page: 0,
             __typename: "NewsTab"
+        },
+        dashboard_tab: {
+            id: "dashboard_tab",
+            page: 0,
+            __typename: "DashboardTab"
         }
     }
 });

@@ -16,16 +16,6 @@ const Container = styled.div`
     min-height: 100vh;
 `;
 
-const MainTitle = styled.div`
-    font-size: 3rem;
-    color: #3e4444;
-    text-align: center;
-    padding: 0rem 0 1rem;
-    width: 100%;
-    background-color: white;
-    font-weight: bold;
-`;
-
 const ErrorContainer = styled.div`
     width: fit-content;
     margin: auto;
@@ -130,7 +120,7 @@ const Loading = () => {
     );
 };
 
-const AddEdit = () => {
+const AddEdit = ({ index, value }) => {
     const [addThank, { loading: lazyLoading }] = useMutation(ADD_THANKS_QUERY, {
         refetchQueries: [{ query: THANKS_QUERY }],
         onError: (err) => console.log(err),
@@ -162,9 +152,10 @@ const AddEdit = () => {
         addThank({ variables: { text } });
     };
 
+    if (value !== index) return null;
+
     return (
         <Container>
-            <MainTitle>Thanks</MainTitle>
             <Add text={text} onChange={onChange} onAdd={onAdd} />
             {(loading || lazyLoading) && <Loading />}
             {!loading && error && <Error />}

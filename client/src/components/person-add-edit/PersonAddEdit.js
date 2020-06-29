@@ -10,20 +10,10 @@ const Container = styled.div`
     min-height: 100vh;
 `;
 
-const MainTitle = styled.div`
-    font-size: 3rem;
-    color: #3e4444;
-    text-align: center;
-    padding: 0rem 0 1rem;
-    width: 100%;
-    background-color: white;
-    font-weight: bold;
-`;
-
-const AddEdit = () => {
+const AddEdit = ({ value, index }) => {
+    if (value !== index) return null;
     return (
         <Container>
-            <MainTitle>People</MainTitle>
             <PersonAdd />
             <PersonEdit />
         </Container>

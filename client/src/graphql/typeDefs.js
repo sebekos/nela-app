@@ -22,6 +22,7 @@ const typeDefs = gql`
         loaduser: Boolean!
         logout: Boolean!
         search: SearchResults!
+        set_dashboard_tab: Boolean!
     }
 
     type Mutation {

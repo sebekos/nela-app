@@ -18,16 +18,6 @@ const Container = styled.div`
     min-height: 100vh;
 `;
 
-const MainTitle = styled.div`
-    font-size: 3rem;
-    color: #3e4444;
-    text-align: center;
-    padding: 0rem 0 1rem;
-    width: 100%;
-    background-color: white;
-    font-weight: bold;
-`;
-
 const ErrorContainer = styled.div`
     width: fit-content;
     margin: auto;
@@ -143,7 +133,7 @@ const Loading = () => {
     );
 };
 
-const AddEdit = () => {
+const AddEdit = ({ index, value }) => {
     const [addFamilyNews, { loading: lazyLoading }] = useMutation(ADD_FAMILY_NEWS_QUERY, {
         refetchQueries: [{ query: FAMILY_NEWS_QUERY }],
         onCompleted: () => {
@@ -177,9 +167,10 @@ const AddEdit = () => {
         addFamilyNews({ variables: { text, type: parseInt(type, 10) } });
     };
 
+    if (value !== index) return null;
+
     return (
         <Container>
-            <MainTitle>Wiesci</MainTitle>
             <Add text={text} type={type} onChange={onChange} onAdd={onAdd} />
             {(loading || lazyLoading) && <Loading />}
             {!loading && error && <Error />}

@@ -53,7 +53,6 @@ const resolvers = {
             return { id: "searchresults", results: cachedData };
         },
         searchAlpha: (_root, variables, { cache, getCacheKey }) => {
-            console.log("here");
             let localData = cache.data.data["AlphaListResults:alphalistresults"];
             let cachedData = [];
             if (localData) {
@@ -64,6 +63,10 @@ const resolvers = {
             });
             return cachedData;
         },
+        searchDashboard: (_root, variables, { cache, getCacheKey }) => {
+            let localData = cache.data.data["DashboardTab:dashboard_tab"];
+            return localData.page;
+        },
         set_family_letter: (_root, variables, { cache, getCacheKey }) => {
             const data = {
                 id: "family_tab",
@@ -71,6 +74,15 @@ const resolvers = {
                 __typename: "FamilyTab"
             };
             cache.writeData({ data: { family_tab: data } });
+            return true;
+        },
+        set_dashboard_tab: (_root, variables, { cache, getCacheKey }) => {
+            const data = {
+                id: "dashboard_tab",
+                page: variables.page,
+                __typename: "DashboardTab"
+            };
+            cache.writeData({ data: { news_tab: data } });
             return true;
         }
     },
