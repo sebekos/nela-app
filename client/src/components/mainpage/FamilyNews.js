@@ -2,7 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import CyclePng from "../../img/cycle.png";
 import PrimaryButton from "../universal/PrimaryButton";
-import { Link } from "react-router-dom";
+import { useMutation } from "@apollo/react-hooks";
+import { useHistory } from "react-router-dom";
+import gql from "graphql-tag";
 
 const Container = styled.div`
     display: grid;
@@ -53,7 +55,7 @@ const HistoryButton = styled(PrimaryButton)`
     margin: 1rem 0 0rem;
 `;
 
-const Text = () => {
+const Text = ({ onNews }) => {
     return (
         <TextContainer>
             <TextDescBold>Wydarzyło się</TextDescBold>
@@ -70,20 +72,35 @@ const Text = () => {
             <TextDesc>
                 Dnia 27 lutego 2020 r. zmarła w Częstochowie Elżbieta-Wanda Pytlewska z domu Sobieraj- żona Janusza Pytlewskiego.
             </TextDesc>
-            <Link to="/newsy">
-                <HistoryButton>Wiesci</HistoryButton>
-            </Link>
+            <HistoryButton onClick={onNews}>Wiesci</HistoryButton>
         </TextContainer>
     );
 };
 
 const FamilyNews = () => {
+    const history = useHistory();
+    const [setNewsTab] = useMutation(SET_NEWS_TAB, {
+        onCompleted: () => history.push("/newsy")
+    });
+    const onNews = () => {
+        setNewsTab({
+            variables: {
+                page: 1
+            }
+        });
+    };
     return (
         <Container>
-            <Text />
+            <Text onNews={onNews} />
             <Image />
         </Container>
     );
 };
+
+const SET_NEWS_TAB = gql`
+    mutation NewsTab($page: Int!) {
+        set_news_tab(page: $page) @client
+    }
+`;
 
 export default FamilyNews;

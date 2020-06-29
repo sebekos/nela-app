@@ -2,7 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import NewsPng from "../../img/news.png";
 import PrimaryButton from "../universal/PrimaryButton";
-import { Link } from "react-router-dom";
+import { useMutation } from "@apollo/react-hooks";
+import { useHistory } from "react-router-dom";
+import gql from "graphql-tag";
 
 const Container = styled.div`
     display: grid;
@@ -52,7 +54,7 @@ const FamilyButton = styled(PrimaryButton)`
     font-size: 1rem;
 `;
 
-const Text = () => {
+const Text = ({ onNews }) => {
     return (
         <TextContainer>
             <TextTitle>Newsy</TextTitle>
@@ -60,20 +62,35 @@ const Text = () => {
                 Witamy na stronie www.pytlewski.pl. Wszystkie aktualne informacje dotyczące strony będą podawane tutaj pod zdjęciem młyna.
                 Zapraszamy ponownie...
             </TextDesc>
-            <Link to="newsy">
-                <FamilyButton>Newsy</FamilyButton>
-            </Link>
+            <FamilyButton onClick={onNews}>Newsy</FamilyButton>
         </TextContainer>
     );
 };
 
 const News = () => {
+    const history = useHistory();
+    const [setNewsTab] = useMutation(SET_NEWS_TAB, {
+        onCompleted: () => history.push("/newsy")
+    });
+    const onNews = () => {
+        setNewsTab({
+            variables: {
+                page: 0
+            }
+        });
+    };
     return (
         <Container>
             <Image />
-            <Text />
+            <Text onNews={onNews} />
         </Container>
     );
 };
+
+const SET_NEWS_TAB = gql`
+    mutation NewsTab($page: Int!) {
+        set_news_tab(page: $page) @client
+    }
+`;
 
 export default News;
