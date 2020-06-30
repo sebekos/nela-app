@@ -20,7 +20,7 @@ const EditContainer = styled.div`
 const EditRow1 = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    padding: 0.5rem 0 1rem;
+    padding: 0.5rem 0 0rem;
     & > div {
         margin: 0 0.5rem;
     }
