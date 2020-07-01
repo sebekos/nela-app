@@ -14,13 +14,26 @@ const InfoContainer = styled.div`
 
 const Image = styled.img`
     width: 100px;
-    height: 100px;
     background-color: lightgrey;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+`;
+
+const ImageDiv = styled.div`
+    position: relative;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
 `;
 
 const RootImage = styled.img`
     width: 100px;
-    height: 100px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background-color: lightgrey;
     border: 3px solid orange;
 `;
@@ -34,8 +47,10 @@ const FamilyNode = ({ node, isRoot, style }) => {
     return (
         <Container style={style}>
             <InfoContainer>
-                {isRoot ? <RootImage src={node.link_photo ? `${node.link_photo}` : DefaultAvatar} /> : null}
-                {!isRoot ? <Image src={node.link_photo ? `${node.link_photo}` : DefaultAvatar} /> : null}
+                <ImageDiv>
+                    {isRoot ? <RootImage src={node.link_photo ? `${node.link_photo}` : DefaultAvatar} /> : null}
+                    {!isRoot ? <Image src={node.link_photo ? `${node.link_photo}` : DefaultAvatar} /> : null}
+                </ImageDiv>
                 <NameContainer>{node.first_name}</NameContainer>
             </InfoContainer>
         </Container>

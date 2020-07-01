@@ -17,10 +17,17 @@ const ImageContainer = styled.div`
     height: 250px;
     width: 250px;
     background-color: lightgrey;
+    overflow: hidden;
+    position: relative;
 `;
 
 const Image = styled.img`
     background-color: black;
+    min-width: 200px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 `;
 
 const TextInfoContainer = styled.div`
@@ -38,7 +45,7 @@ const TextInfoTitleContainer = styled.div`
 `;
 
 const TextInfoTitle = styled.div`
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-weight: bold;
 `;
 
