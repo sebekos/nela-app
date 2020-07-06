@@ -6,7 +6,8 @@ module.exports = {
         try {
             const returnData = await FamilyNews.findAll({
                 where: { type: args.filter ? args.filter : { [Op.ne]: 0 }, deleted: 0 },
-                order: [["createdAt", "DESC"]]
+                order: [["createdAt", "DESC"]],
+                limit: 9
             });
             return returnData;
         } catch (error) {

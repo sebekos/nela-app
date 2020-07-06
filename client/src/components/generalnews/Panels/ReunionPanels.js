@@ -11,7 +11,8 @@ const useStyles = makeStyles({
     },
     root: {
         maxWidth: 1100,
-        margin: 10
+        margin: 10,
+        border: "1px solid #E8E8E8"
     },
     content: {
         position: "relative",
@@ -37,7 +38,7 @@ const ReunionPanels = ({ value, index, data }) => {
     return (
         <div className={classes.container} hidden={value !== index}>
             {data.map((item) => (
-                <Card className={classes.root} variant="outlined" key={uuid()}>
+                <Card className={classes.root} key={uuid()}>
                     <CardContent className={classes.content}>
                         {item.title && (
                             <Typography className={classes.title} color="textSecondary" gutterBottom align="center">

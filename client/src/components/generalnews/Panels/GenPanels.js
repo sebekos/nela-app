@@ -14,7 +14,8 @@ const useStyles = makeStyles({
     root: {
         width: 400,
         height: 300,
-        margin: 5
+        margin: 5,
+        border: "1px solid #E8E8E8"
     },
     content: {
         position: "relative",
@@ -37,7 +38,7 @@ const GenPanels = ({ value, index, data }) => {
     return (
         <div className={classes.container} hidden={value !== index}>
             {data.map((item) => (
-                <Card className={classes.root} variant="outlined" key={uuid()}>
+                <Card className={classes.root} key={uuid()}>
                     <CardContent className={classes.content}>
                         {item.title && (
                             <Typography className={classes.title} color="textSecondary" gutterBottom align="center">

@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import GenInput from "../universal/GenInput";
-import PrimaryButton from "../universal/PrimaryButton";
 import { Redirect } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useLazyQuery, useQuery } from "@apollo/react-hooks";
-import { CircularProgress } from "@material-ui/core";
+import { CircularProgress, TextField, Button } from "@material-ui/core";
 import gql from "graphql-tag";
 import axios from "axios";
 
@@ -26,35 +24,19 @@ const MainTitle = styled.div`
     font-weight: bold;
 `;
 
-const FormContainer = styled.form`
-    padding: 1rem;
-    margin: 5rem auto;
-    width: 400px;
-
-    box-shadow: 1px 1px 3px 2px #ccc;
-    @media (max-width: 680px) {
-        margin-top: 1rem;
-    }
+const LoginContainer = styled.div`
+    width: max-content;
+    margin-top: 3rem;
 `;
 
-const InputsContainer = ({ onChangeHandler, onSubmitHandler, email, password }) => {
-    return (
-        <>
-            <GenInput type="email" placeholder="Email Address" name="email" value={email} onChange={onChangeHandler} required></GenInput>
-            <GenInput
-                type="password"
-                placeholder="Password"
-                name="password"
-                value={password}
-                onChange={onChangeHandler}
-                required
-            ></GenInput>
-            <PrimaryButton type="submit" onClick={onSubmitHandler}>
-                Login
-            </PrimaryButton>
-        </>
-    );
-};
+const FormContainer = styled.form`
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    & > div {
+        margin: 0 0 1rem 0;
+    }
+`;
 
 const CircularContainer = styled.div`
     position: absolute;
@@ -89,9 +71,9 @@ const Login = () => {
         }
     });
 
-    const onChangeHandler = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+    const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-    const onSubmitHandler = (e) => {
+    const onSubmit = (e) => {
         e.preventDefault();
         login({
             variables: {
@@ -113,11 +95,17 @@ const Login = () => {
 
     return (
         <Container>
-            <MainTitle>Login</MainTitle>
+            <MainTitle>Zaloguj Sie</MainTitle>
             {loading && <Loading />}
-            <FormContainer onSubmit={onSubmitHandler}>
-                <InputsContainer onChangeHandler={onChangeHandler} onSubmitHandler={onSubmitHandler} email={email} password={password} />
-            </FormContainer>
+            <LoginContainer>
+                <FormContainer onSubmit={onSubmit}>
+                    <TextField name="email" type="text" onChange={onChange} value={email} label="Email" variant="filled" />
+                    <TextField name="password" type="password" onChange={onChange} value={password} label="Hasło" variant="filled" />
+                    <Button onClick={onSubmit} variant="contained" color="primary">
+                        Zaloguj Sie
+                    </Button>
+                </FormContainer>
+            </LoginContainer>
         </Container>
     );
 };

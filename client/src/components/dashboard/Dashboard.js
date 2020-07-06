@@ -50,7 +50,6 @@ const Dashboard = () => {
 
     return (
         <Container>
-            <MainTitle>Dashboard</MainTitle>
             <Paper>
                 <Tabs value={page} onChange={handleChange} aria-label="simple tabs example" centered>
                     <Tab style={{ textTransform: "capitalize" }} label="Info" />

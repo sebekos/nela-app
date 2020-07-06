@@ -39,14 +39,14 @@ const LinksContainer = styled.div`
 `;
 
 const GuestLinks = ({ currMenu }) => {
-    const links = ["Home", "Historia", "Rodzina", "Galeria", "Newsy", "Kontakt"];
+    const links = ["Główny", "Historia", "Rodzina", "Galeria", "Newsy", "Kontakt"];
     return (
         <>
             {links.map((link, index) => {
                 return (
                     <Link
                         route={link}
-                        to={`/${link !== "Home" ? link : ""}`}
+                        to={`/${link !== "Główny" ? link : ""}`}
                         key={`guestlinks-${index}`}
                         className={link.toLowerCase() === currMenu.toLowerCase() ? "active-link" : null}
                     >
@@ -87,14 +87,14 @@ const Navbar = ({ history }) => {
 
     useEffect(() => {
         let currPath = history.location.pathname.split("/")[1];
-        currPath = currPath === "" ? "Home" : currPath;
+        currPath = currPath === "" ? "Główny" : currPath;
         setCurrMenu(currPath);
         window.addEventListener("scroll", listenToScroll);
     }, [history.location.pathname]);
 
     history.listen((location, action) => {
         let currPath = location.pathname.split("/")[1];
-        currPath = currPath === "" ? "Home" : currPath;
+        currPath = currPath === "" ? "Główny" : currPath;
         setCurrMenu(currPath);
     });
 

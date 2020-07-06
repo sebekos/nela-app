@@ -87,15 +87,15 @@ const Footer = () => {
     return (
         <Container>
             <TitleText>Kontakt</TitleText>
-            <Link to="/login">
-                <LoginText>Login</LoginText>
-            </Link>
-            <Link to="/register">
-                <LoginText>Register</LoginText>
-            </Link>
             <ContactInfo />
             <AdminInfo />
             <CopyRight>&copy; Sebekos {currDate.getFullYear()}</CopyRight>
+            <Link to="/login">
+                <LoginText>Zaloguj sie</LoginText>
+            </Link>
+            <Link to="/register">
+                <LoginText>Zarejestrować</LoginText>
+            </Link>
         </Container>
     );
 };

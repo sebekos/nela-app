@@ -67,7 +67,7 @@ const AddEdit = () => {
     });
 
     useEffect(() => {
-        onSearch({ variables: { search: "" } });
+        onSearch({ variables: { search: "....." } });
     }, [onSearch]);
 
     return (
