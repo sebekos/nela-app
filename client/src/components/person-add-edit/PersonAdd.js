@@ -61,7 +61,7 @@ const Add = ({ first_name, middle_name, last_name, birth_date, passed_date, birt
                 <TextField
                     name="first_name"
                     onChange={onChange}
-                    label="First name"
+                    label="Imię"
                     variant="filled"
                     value={first_name}
                     inputProps={{
@@ -72,7 +72,7 @@ const Add = ({ first_name, middle_name, last_name, birth_date, passed_date, birt
                 <TextField
                     name="middle_name"
                     onChange={onChange}
-                    label="Middle name"
+                    label="Drugie Imię"
                     variant="filled"
                     value={middle_name}
                     inputProps={{
@@ -83,7 +83,7 @@ const Add = ({ first_name, middle_name, last_name, birth_date, passed_date, birt
                 <TextField
                     name="last_name"
                     onChange={onChange}
-                    label="Last name"
+                    label="Nazwisko"
                     variant="filled"
                     value={last_name}
                     inputProps={{
@@ -97,7 +97,7 @@ const Add = ({ first_name, middle_name, last_name, birth_date, passed_date, birt
                     name="birth_date"
                     variant="filled"
                     id="date"
-                    label="Birthday"
+                    label="Urodziny"
                     type="date"
                     onChange={onChange}
                     value={birth_date}
@@ -108,7 +108,7 @@ const Add = ({ first_name, middle_name, last_name, birth_date, passed_date, birt
                 <TextField
                     name="birth_location"
                     onChange={onChange}
-                    label="Birth location"
+                    label="Miejsce Urodzenia"
                     variant="filled"
                     value={birth_location}
                     inputProps={{
@@ -122,7 +122,7 @@ const Add = ({ first_name, middle_name, last_name, birth_date, passed_date, birt
                     name="passed_date"
                     variant="filled"
                     id="date"
-                    label="Passed date"
+                    label="Zmarły"
                     type="date"
                     onChange={onChange}
                     value={passed_date}
@@ -133,7 +133,7 @@ const Add = ({ first_name, middle_name, last_name, birth_date, passed_date, birt
                 <TextField
                     name="passed_location"
                     onChange={onChange}
-                    label="Passed location"
+                    label="Miejsce śmierci"
                     variant="filled"
                     value={passed_location}
                     inputProps={{
@@ -145,7 +145,7 @@ const Add = ({ first_name, middle_name, last_name, birth_date, passed_date, birt
             <AddRow3>
                 <TextareaAutosize
                     autoComplete="off"
-                    placeholder="Notes"
+                    placeholder="Notatki"
                     name="notes"
                     onChange={onChange}
                     value={notes}
@@ -156,7 +156,7 @@ const Add = ({ first_name, middle_name, last_name, birth_date, passed_date, birt
                 <Counter>{notes.length}/300</Counter>
             </AddRow3>
             <AddRow4>
-                <SuccessButton onClick={onAdd}>Add</SuccessButton>
+                <SuccessButton onClick={onAdd}>Dodaj</SuccessButton>
             </AddRow4>
         </AddContainer>
     );

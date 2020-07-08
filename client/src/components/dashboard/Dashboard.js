@@ -16,16 +16,6 @@ const Container = styled.div`
     min-height: 100vh;
 `;
 
-const MainTitle = styled.div`
-    font-size: 3rem;
-    color: #3e4444;
-    text-align: center;
-    padding: 0rem 0 1rem;
-    width: 100%;
-    background-color: white;
-    font-weight: bold;
-`;
-
 const Dashboard = () => {
     const [page, setPage] = useState(0);
 
