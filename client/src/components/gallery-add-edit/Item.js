@@ -62,7 +62,7 @@ const DeleteText = styled(SaveText)`
 const ShowContainer = ({ text, title, onEdit, galleryid }) => {
     return (
         <>
-            <EditText onClick={onEdit}>Edit Information</EditText>
+            <EditText onClick={onEdit}>Edytować</EditText>
             <Link to={`/galeria/${galleryid}`}>
                 <TitleText>{title}</TitleText>
             </Link>
@@ -106,15 +106,15 @@ const EditContainer = ({ text, title, onSave, onChange, onCancel, onDelete }) =>
     return (
         <>
             <SaveEditDeleteContainer>
-                <SaveText onClick={onSave}>Save</SaveText>
-                <CancelText onClick={onCancel}>Cancel</CancelText>
-                <DeleteText onClick={onDelete}>Delete</DeleteText>
+                <SaveText onClick={onSave}>Zapisać</SaveText>
+                <CancelText onClick={onCancel}>Anuluj</CancelText>
+                <DeleteText onClick={onDelete}>Usunąć</DeleteText>
             </SaveEditDeleteContainer>
             <Title>
                 <TextField
                     style={{ width: "100%" }}
                     onChange={onChange}
-                    label="Title"
+                    label="tytuł"
                     variant="filled"
                     value={title}
                     name="title"
@@ -127,7 +127,7 @@ const EditContainer = ({ text, title, onSave, onChange, onCancel, onDelete }) =>
             <TextArea>
                 <TextareaAutosize
                     autoComplete="off"
-                    placeholder="Body"
+                    placeholder="tekst"
                     name="text"
                     onChange={onChange}
                     value={text}
@@ -162,10 +162,10 @@ const Buttons = ({ currid }) => {
     return (
         <ButtonContainer>
             <Link to={`addphotos/${currid}`}>
-                <AddButton>Add Photos</AddButton>
+                <AddButton>Dodaj Zdjęcia</AddButton>
             </Link>
             <Link to={`deletephotos/${currid}`}>
-                <DeleteButton>Delete Photos</DeleteButton>
+                <DeleteButton>Usuń Zdjęcia</DeleteButton>
             </Link>
         </ButtonContainer>
     );
@@ -196,7 +196,7 @@ const AddEditItem = ({ data }) => {
             console.log(error);
         },
         onCompleted: () => {
-            toast.success("Gallery updated");
+            toast.success("Zaktualizowane");
             setEdit(false);
         }
     });
@@ -204,7 +204,7 @@ const AddEditItem = ({ data }) => {
     const [deleteGallery] = useMutation(DELETE_GALLERY_MUTATION, {
         refetchQueries: [{ query: GALLERIES_QUERY }],
         onCompleted: () => {
-            toast.success("Gallery deleted");
+            toast.success("Usunięte");
         }
     });
 
@@ -244,7 +244,7 @@ const AddEditItem = ({ data }) => {
     };
 
     const onDelete = () => {
-        var r = window.confirm("Press OK to delete");
+        var r = window.confirm("Jesteś pewny");
         if (r !== true) return;
         deleteGallery({ variables: { id: parseInt(data.id, 10) } });
     };

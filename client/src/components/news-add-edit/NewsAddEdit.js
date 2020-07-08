@@ -34,7 +34,7 @@ const NoDataContainer = styled.div`
 `;
 
 const NoData = () => {
-    return <NoDataContainer>No News :(</NoDataContainer>;
+    return <NoDataContainer>żadnych wiadomości :(</NoDataContainer>;
 };
 
 const AddContainer = styled.div`
@@ -73,7 +73,7 @@ const Add = ({ title, text, onChange, onAdd }) => {
                 <TextField
                     style={{ width: "100%" }}
                     onChange={onChange}
-                    label="Title"
+                    label="tytuł"
                     variant="filled"
                     value={title}
                     name="title"
@@ -86,7 +86,7 @@ const Add = ({ title, text, onChange, onAdd }) => {
             <TextArea>
                 <TextareaAutosize
                     autoComplete="off"
-                    placeholder="Body"
+                    placeholder="tekst"
                     name="text"
                     onChange={onChange}
                     value={text}
@@ -96,7 +96,7 @@ const Add = ({ title, text, onChange, onAdd }) => {
                 />
             </TextArea>
             <Counter>{text.length}/425</Counter>
-            <SuccessButton onClick={onAdd}>Add</SuccessButton>
+            <SuccessButton onClick={onAdd}>Dodaj</SuccessButton>
         </AddContainer>
     );
 };

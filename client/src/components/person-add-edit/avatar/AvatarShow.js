@@ -25,7 +25,7 @@ const AvatarShow = ({ link, onAvatarEdit }) => {
     return (
         <Container>
             <AvatarImage src={link ? `${link}?t=${new Date().getTime()}` : DefaultAvatar} alt="avatar" />
-            <ChangeAvatarContainer onClick={onAvatarEdit}>Change Avatar</ChangeAvatarContainer>
+            <ChangeAvatarContainer onClick={onAvatarEdit}>Zmień Obrazek</ChangeAvatarContainer>
         </Container>
     );
 };

@@ -71,7 +71,7 @@ const FamilyShow = ({ family_data, onFamilyEdit }) => {
     return (
         <FamilyShowContainer>
             <EditContainer>
-                <EditText onClick={onFamilyEdit}>Edit Family</EditText>
+                <EditText onClick={onFamilyEdit}>Edytuj Rodzinę</EditText>
             </EditContainer>
             {family_data ? (
                 family_data.map((item) => {
@@ -87,7 +87,7 @@ const FamilyShow = ({ family_data, onFamilyEdit }) => {
                     );
                 })
             ) : (
-                <p>No Family Members</p>
+                <p>brak rodziny</p>
             )}
         </FamilyShowContainer>
     );

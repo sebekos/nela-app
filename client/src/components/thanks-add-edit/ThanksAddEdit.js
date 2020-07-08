@@ -33,7 +33,7 @@ const NoDataContainer = styled.div`
 `;
 
 const NoData = () => {
-    return <NoDataContainer>No Thank You's :(</NoDataContainer>;
+    return <NoDataContainer>brak wpisów :(</NoDataContainer>;
 };
 
 const AddContainer = styled.div`
@@ -66,7 +66,7 @@ const Add = ({ text, onChange, onAdd }) => {
             <TextArea>
                 <TextareaAutosize
                     autoComplete="off"
-                    placeholder="Body"
+                    placeholder="tekst"
                     name="text"
                     onChange={onChange}
                     value={text}
@@ -76,7 +76,7 @@ const Add = ({ text, onChange, onAdd }) => {
                 />
                 <Counter>{text.length}/500</Counter>
             </TextArea>
-            <SuccessButton onClick={onAdd}>Add</SuccessButton>
+            <SuccessButton onClick={onAdd}>Dodaj</SuccessButton>
         </AddContainer>
     );
 };
@@ -125,7 +125,7 @@ const AddEdit = ({ index, value }) => {
         refetchQueries: [{ query: THANKS_QUERY }],
         onError: (err) => console.log(err),
         onCompleted: () => {
-            toast.success("Thanks added");
+            toast.success("Dodany");
             setFormData({
                 text: ""
             });

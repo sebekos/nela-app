@@ -38,7 +38,7 @@ const InfoShow = ({ data: { birth_date, birth_location, passed_date, passed_loca
     return (
         <Container>
             <EditContainer>
-                <EditText onClick={onInfoEdit}>Edit Info</EditText>
+                <EditText onClick={onInfoEdit}>Edytować</EditText>
             </EditContainer>
             <ShowDatesContainer>{[birth_date, passed_date].filter((item) => item !== null).join(" - ")}</ShowDatesContainer>
             <BirthLocationContainer>{[birth_location, passed_location].filter((item) => item !== null).join(" - ")}</BirthLocationContainer>

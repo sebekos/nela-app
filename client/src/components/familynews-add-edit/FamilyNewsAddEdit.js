@@ -35,7 +35,7 @@ const NoDataContainer = styled.div`
 `;
 
 const NoData = () => {
-    return <NoDataContainer>No Family News :(</NoDataContainer>;
+    return <NoDataContainer>żadnych wiadomości :(</NoDataContainer>;
 };
 
 const AddContainer = styled.div`
@@ -70,7 +70,7 @@ const Add = ({ text, type, onChange, onAdd }) => {
             <TextArea>
                 <TextareaAutosize
                     autoComplete="off"
-                    placeholder="Body"
+                    placeholder="tekst"
                     name="text"
                     onChange={onChange}
                     value={text}
@@ -82,13 +82,13 @@ const Add = ({ text, type, onChange, onAdd }) => {
             </TextArea>
             <GenSelect name="type" onChange={onChange} value={type}>
                 <option defaultValue disabled value="0">
-                    News Type
+                    rodzaj
                 </option>
                 <option value="1">Wydarzyło się</option>
                 <option value="2">Witamy w rodzinie</option>
                 <option value="3">Zabraklo miedzy nami</option>
             </GenSelect>
-            <SuccessButton onClick={onAdd}>Add</SuccessButton>
+            <SuccessButton onClick={onAdd}>Dodaj</SuccessButton>
         </AddContainer>
     );
 };

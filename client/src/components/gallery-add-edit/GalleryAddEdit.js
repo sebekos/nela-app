@@ -34,7 +34,7 @@ const NoDataContainer = styled.div`
 `;
 
 const NoData = () => {
-    return <NoDataContainer>No Galleries :(</NoDataContainer>;
+    return <NoDataContainer>brak wpisów :(</NoDataContainer>;
 };
 
 const AddContainer = styled.div`
@@ -74,7 +74,7 @@ const Add = ({ title, text, onChange, onAdd }) => {
                     autoComplete="off"
                     style={{ width: "100%" }}
                     onChange={onChange}
-                    label="Title"
+                    label="tytuł"
                     variant="filled"
                     value={title}
                     name="title"
@@ -87,7 +87,7 @@ const Add = ({ title, text, onChange, onAdd }) => {
             <TextArea>
                 <TextareaAutosize
                     autoComplete="off"
-                    placeholder="Body"
+                    placeholder="tekst"
                     name="text"
                     onChange={onChange}
                     value={text}
@@ -97,7 +97,7 @@ const Add = ({ title, text, onChange, onAdd }) => {
                 />
                 <Counter>{text.length}/500</Counter>
             </TextArea>
-            <SuccessButton onClick={onAdd}>Add</SuccessButton>
+            <SuccessButton onClick={onAdd}>Dodaj</SuccessButton>
         </AddContainer>
     );
 };
@@ -147,7 +147,7 @@ const GalleryAddEdit = ({ value, index }) => {
         refetchQueries: [{ query: GALLERIES_QUERY }],
         onError: (err) => console.log(err),
         onCompleted: () => {
-            toast.success("Gallery added");
+            toast.success("Dodany");
             setFormData({
                 title: "",
                 text: ""

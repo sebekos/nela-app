@@ -30,7 +30,7 @@ const AvatarEdit = ({ person_key, stopEdit }) => {
     return (
         <AvatarEditContainer>
             <CancelContainer>
-                <CancelText onClick={stopEdit}>Cancel</CancelText>
+                <CancelText onClick={stopEdit}>Anuluj</CancelText>
             </CancelContainer>
             <AvatarEditor person_key={person_key} stopEdit={stopEdit} />
         </AvatarEditContainer>

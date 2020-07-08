@@ -23,7 +23,7 @@ const PreviewButton = styled(LightButton)`
 `;
 
 const PreviewContainer = ({ onPreview }) => {
-    return <PreviewButton onClick={onPreview}>Preview</PreviewButton>;
+    return <PreviewButton onClick={onPreview}>Zapowiedź</PreviewButton>;
 };
 
 PreviewContainer.propTypes = {
@@ -36,7 +36,7 @@ const SaveButton = styled(GreenButton)`
 `;
 
 const SaveContainer = ({ onSave }) => {
-    return <SaveButton onClick={onSave}>Save</SaveButton>;
+    return <SaveButton onClick={onSave}>Dodaj</SaveButton>;
 };
 
 SaveContainer.propTypes = {
@@ -48,7 +48,7 @@ const SliderDiv = styled.div``;
 const SliderContainer = ({ onScale, scale }) => {
     return (
         <SliderDiv>
-            <p>Scale</p>
+            <p>Skala</p>
             <Slider min={0.5} max={3} step={0.1} onChange={(value) => onScale(value)} value={scale} />
         </SliderDiv>
     );
@@ -188,11 +188,11 @@ const PersonAvatarEdit = ({ person_key, stopEdit }) => {
                 }
             })
             .then(() => {
-                toast.success("Avatar uploaded");
+                toast.success("Zaktualizowane");
                 stopEdit(true);
             })
             .catch((err) => {
-                toast.error("Upload error");
+                toast.error("Error");
                 console.log(err);
                 setProgress(0);
             });
@@ -205,8 +205,8 @@ const PersonAvatarEdit = ({ person_key, stopEdit }) => {
     return (
         <Container>
             <SelectFile onChange={onChange} filenames={filenames} />
-            {filenames !== "Choose File" ? <AvatarEdit onEditor={onEditor} photo={photo} scale={scale} editor={editor} /> : null}
-            {filenames !== "Choose File" ? <SliderContainer scale={scale} onScale={onScale} /> : null}
+            {filenames !== "Wybierz plik" ? <AvatarEdit onEditor={onEditor} photo={photo} scale={scale} editor={editor} /> : null}
+            {filenames !== "Wybierz plik" ? <SliderContainer scale={scale} onScale={onScale} /> : null}
             {file !== "" ? <PreviewContainer onPreview={onPreview} /> : null}
             {preview !== "" ? <ImagePreview preview={preview} /> : null}
             {preview !== "" && progress === 0 ? <SaveContainer onSave={onSave} /> : null}

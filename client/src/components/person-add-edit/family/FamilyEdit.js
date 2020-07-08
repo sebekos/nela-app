@@ -111,7 +111,7 @@ const RelationItem = ({ tid, relation, first_name, last_name, info_date, onRemov
                 {infoDate}
             </FamilyName>
             <RemoveButton onClick={onRemove} id={tid}>
-                Remove
+                Usunąć
             </RemoveButton>
         </RelationItemContainer>
     );
@@ -166,10 +166,10 @@ const PeopleItem = ({ id, first_name, last_name, addParent, addSibling, addChild
                 {first_name} {last_name}
             </PersonText>
             <ButtonsContainer value={id}>
-                <AddParent onClick={addParent}>Parent</AddParent>
-                <AddSibling onClick={addSibling}>Sibling</AddSibling>
-                <AddChild onClick={addChild}>Child</AddChild>
-                <AddSpouse onClick={onSpouse}>Spouse</AddSpouse>
+                <AddParent onClick={addParent}>Rodzic</AddParent>
+                <AddSibling onClick={addSibling}>Rodzeństwo</AddSibling>
+                <AddChild onClick={addChild}>Dzieci</AddChild>
+                <AddSpouse onClick={onSpouse}>Małżonka</AddSpouse>
                 <input onChange={onWedChange} name="weddate" type="date" value={weddate}></input>
             </ButtonsContainer>
         </PeopleItemContainer>
@@ -362,10 +362,10 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
         <FamilyEditContainer>
             <CircularContainer>{curLoading ? <CircularProgress /> : null}</CircularContainer>
             <SaveEditDeleteContainer>
-                <CancelText onClick={stopEdit}>Done</CancelText>
+                <CancelText onClick={stopEdit}>Gotowe</CancelText>
             </SaveEditDeleteContainer>
             <Form onSubmit={onSubmit}>
-                <SearchInput placeholder="Search people" onChange={onChange} type="text" value={search} />
+                <SearchInput placeholder="szukaj rodziny" onChange={onChange} type="text" value={search} />
             </Form>
             {!loading && data && data.familySearchPeople && data.familySearchPeople.results.length > 0 ? (
                 <PeopleItems
@@ -385,7 +385,7 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
                     removeSpouse={removeSpouse}
                 />
             ) : (
-                <p>No Family Members</p>
+                <p>brak rodziny</p>
             )}
         </FamilyEditContainer>
     );

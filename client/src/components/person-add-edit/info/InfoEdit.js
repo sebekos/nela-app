@@ -77,7 +77,7 @@ const InfoEdit = ({ data, stopEdit }) => {
     const [updatePerson, { loading: updateLoading }] = useMutation(UPDATE_PERSON_MUTATION, {
         onError: (errors) => console.log(errors),
         onCompleted: () => {
-            toast.success("Person updated");
+            toast.success("Zaktualizowane");
             stopEdit();
         }
     });
@@ -86,7 +86,7 @@ const InfoEdit = ({ data, stopEdit }) => {
         refetchQueries: [{ query: SEARCH_PEOPLE_QUERY, variables: { search: "" } }],
         onError: (errors) => console.log(errors),
         onCompleted: () => {
-            toast.success("Person deleted");
+            toast.success("Usunięte");
             stopEdit();
         }
     });
@@ -129,7 +129,7 @@ const InfoEdit = ({ data, stopEdit }) => {
     };
 
     const onDelete = () => {
-        var r = window.confirm("Press OK to delete");
+        var r = window.confirm("Jesteś pewny");
         if (r !== true) return;
         deletePerson({
             variables: { id: parseInt(data.id, 10) }
@@ -140,15 +140,15 @@ const InfoEdit = ({ data, stopEdit }) => {
         <EditContainer>
             <CircularContainer>{updateLoading || deleteLoading ? <CircularProgress /> : null}</CircularContainer>
             <SaveEditDeleteContainer>
-                <SaveText onClick={onSave}>Save</SaveText>
-                <CancelText onClick={stopEdit}>Cancel</CancelText>
-                <DeleteText onClick={onDelete}>Delete</DeleteText>
+                <SaveText onClick={onSave}>Zapisać</SaveText>
+                <CancelText onClick={stopEdit}>Anuluj</CancelText>
+                <DeleteText onClick={onDelete}>Usunąć</DeleteText>
             </SaveEditDeleteContainer>
             <EditRow1>
                 <TextField
                     name="first_name"
                     onChange={onChange}
-                    label="First name"
+                    label="Imię"
                     variant="filled"
                     value={first_name}
                     inputProps={{
@@ -159,7 +159,7 @@ const InfoEdit = ({ data, stopEdit }) => {
                 <TextField
                     name="middle_name"
                     onChange={onChange}
-                    label="Middle name"
+                    label="Drugie Imię"
                     variant="filled"
                     value={middle_name}
                     inputProps={{
@@ -170,7 +170,7 @@ const InfoEdit = ({ data, stopEdit }) => {
                 <TextField
                     name="last_name"
                     onChange={onChange}
-                    label="Last name"
+                    label="Nazwisko"
                     variant="filled"
                     value={last_name}
                     inputProps={{
@@ -184,7 +184,7 @@ const InfoEdit = ({ data, stopEdit }) => {
                     name="birth_date"
                     variant="filled"
                     id="date"
-                    label="Birthday"
+                    label="Urodziny"
                     type="date"
                     onChange={onChange}
                     value={birth_date}
@@ -195,7 +195,7 @@ const InfoEdit = ({ data, stopEdit }) => {
                 <TextField
                     name="birth_location"
                     onChange={onChange}
-                    label="Birth location"
+                    label="Miejsce Urodzenia"
                     variant="filled"
                     value={birth_location}
                     inputProps={{
@@ -209,7 +209,7 @@ const InfoEdit = ({ data, stopEdit }) => {
                     name="passed_date"
                     variant="filled"
                     id="date"
-                    label="Passed"
+                    label="Zmarły"
                     type="date"
                     onChange={onChange}
                     value={passed_date}
@@ -220,7 +220,7 @@ const InfoEdit = ({ data, stopEdit }) => {
                 <TextField
                     name="passed_location"
                     onChange={onChange}
-                    label="Passed location"
+                    label="Miejsce śmierci"
                     variant="filled"
                     value={passed_location}
                     inputProps={{
@@ -233,7 +233,7 @@ const InfoEdit = ({ data, stopEdit }) => {
                 <TextareaAutosize
                     aria-label="empty textarea"
                     autoComplete="off"
-                    placeholder="Notes"
+                    placeholder="Notatki"
                     name="notes"
                     onChange={onChange}
                     value={notes}

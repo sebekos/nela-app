@@ -25,7 +25,7 @@ const NoDataContainer = styled.div`
 `;
 
 const NoData = () => {
-    return <NoDataContainer>No People :(</NoDataContainer>;
+    return <NoDataContainer>brak wpisów :(</NoDataContainer>;
 };
 
 const MapContainer = styled.div`

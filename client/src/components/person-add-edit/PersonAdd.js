@@ -194,7 +194,7 @@ const PersonAdd = () => {
         refetchQueries: [{ query: SEARCH_PEOPLE_QUERY, variables: { search: "" } }],
         onError: (err) => console.log(err),
         onCompleted: () => {
-            toast.success("Person added");
+            toast.success("Dodany");
             setFormData({
                 first_name: "",
                 middle_name: "",

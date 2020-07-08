@@ -36,7 +36,7 @@ const EditText = styled.div`
 const ShowContainer = ({ text, onEdit }) => {
     return (
         <>
-            <EditText onClick={onEdit}>Edit Information</EditText>
+            <EditText onClick={onEdit}>Edytować</EditText>
             <BodyText>{text}</BodyText>
         </>
     );
@@ -89,14 +89,14 @@ const EditContainer = ({ text, onSave, onChange, stopEdit, onDelete }) => {
     return (
         <>
             <SaveEditDeleteContainer>
-                <SaveText onClick={onSave}>Save</SaveText>
-                <CancelText onClick={stopEdit}>Cancel</CancelText>
-                <DeleteText onClick={onDelete}>Delete</DeleteText>
+                <SaveText onClick={onSave}>Zapisać</SaveText>
+                <CancelText onClick={stopEdit}>Anuluj</CancelText>
+                <DeleteText onClick={onDelete}>Usunąć</DeleteText>
             </SaveEditDeleteContainer>
             <TextArea>
                 <TextareaAutosize
                     autoComplete="off"
-                    placeholder="Body"
+                    placeholder="tekst"
                     name="text"
                     onChange={onChange}
                     value={text}
@@ -121,7 +121,7 @@ const AddEditItem = ({ data }) => {
             errors.graphQLErrors.forEach((error) => toast.error(error.message));
         },
         onCompleted: () => {
-            toast.success("Thank updated");
+            toast.success("Zaktualizowane");
             setEdit(false);
         }
     });
@@ -129,7 +129,7 @@ const AddEditItem = ({ data }) => {
     const [deleteNews] = useMutation(DELETE_THANK_MUTATION, {
         refetchQueries: [{ query: THANKS_QUERY }],
         onCompleted: () => {
-            toast.success("Thank deleted");
+            toast.success("Usunięte");
         }
     });
 

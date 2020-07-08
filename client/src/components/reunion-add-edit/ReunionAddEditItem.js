@@ -41,7 +41,7 @@ const EditText = styled.div`
 const ShowContainer = ({ text, title, onEdit }) => {
     return (
         <>
-            <EditText onClick={onEdit}>Edit Information</EditText>
+            <EditText onClick={onEdit}>Edytować</EditText>
             <TitleText>{title}</TitleText>
             <BodyText>{text}</BodyText>
         </>
@@ -95,15 +95,15 @@ const Edit = ({ text, title, onSave, onChange, stopEdit, onDelete }) => {
     return (
         <EditContainer>
             <SaveEditDeleteContainer>
-                <SaveText onClick={onSave}>Save</SaveText>
-                <CancelText onClick={stopEdit}>Cancel</CancelText>
-                <DeleteText onClick={onDelete}>Delete</DeleteText>
+                <SaveText onClick={onSave}>Zapisać</SaveText>
+                <CancelText onClick={stopEdit}>Anuluj</CancelText>
+                <DeleteText onClick={onDelete}>Usunąć</DeleteText>
             </SaveEditDeleteContainer>
             <Title>
                 <TextField
                     style={{ width: "100%" }}
                     onChange={onChange}
-                    label="Title"
+                    label="tytuł"
                     variant="filled"
                     value={title}
                     name="title"
@@ -116,7 +116,7 @@ const Edit = ({ text, title, onSave, onChange, stopEdit, onDelete }) => {
             <TextArea>
                 <TextareaAutosize
                     autoComplete="off"
-                    placeholder="Body"
+                    placeholder="tekst"
                     name="text"
                     onChange={onChange}
                     value={text}
@@ -140,7 +140,7 @@ const AddEditItem = ({ data }) => {
             errors.graphQLErrors.forEach((error) => toast.error(error.message));
         },
         onCompleted: () => {
-            toast.success("News updated");
+            toast.success("Zaktualizowane");
             setEdit(false);
         }
     });
@@ -148,7 +148,7 @@ const AddEditItem = ({ data }) => {
     const [deleteReunion] = useMutation(DELETE_REUNION_MUTATION, {
         refetchQueries: [{ query: REUNIONS_QUERY }],
         onCompleted: () => {
-            toast.success("News deleted");
+            toast.success("Usunięte");
         }
     });
 
@@ -188,7 +188,7 @@ const AddEditItem = ({ data }) => {
     };
 
     const onDelete = () => {
-        var r = window.confirm("Press OK to delete");
+        var r = window.confirm("Jesteś pewny");
         if (r !== true) return;
         deleteReunion({ variables: { id: parseInt(data.id, 10) } });
     };

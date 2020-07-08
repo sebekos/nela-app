@@ -48,7 +48,7 @@ const newsTypes = {
 const ShowContainer = ({ text, type, onEdit }) => {
     return (
         <>
-            <EditText onClick={onEdit}>Edit Information</EditText>
+            <EditText onClick={onEdit}>Edytować</EditText>
             <TitleText>{newsTypes[type]}</TitleText>
             <BodyText>{text}</BodyText>
         </>
@@ -103,13 +103,13 @@ const EditContainer = ({ text, type, onSave, onChange, stopEdit, onDelete }) => 
     return (
         <>
             <SaveEditDeleteContainer>
-                <SaveText onClick={onSave}>Save</SaveText>
-                <CancelText onClick={stopEdit}>Cancel</CancelText>
-                <DeleteText onClick={onDelete}>Delete</DeleteText>
+                <SaveText onClick={onSave}>Zapisać</SaveText>
+                <CancelText onClick={stopEdit}>Anuluj</CancelText>
+                <DeleteText onClick={onDelete}>Usunąć</DeleteText>
             </SaveEditDeleteContainer>
             <GenSelect name="type" onChange={onChange} value={type}>
                 <option defaultValue disabled value="0">
-                    News Type
+                    Rodzaj
                 </option>
                 <option value="1">Wydarzyło się</option>
                 <option value="2">Witamy w rodzinie</option>
@@ -118,7 +118,7 @@ const EditContainer = ({ text, type, onSave, onChange, stopEdit, onDelete }) => 
             <TextArea>
                 <TextareaAutosize
                     autoComplete="off"
-                    placeholder="Body"
+                    placeholder="rodzaj"
                     name="text"
                     onChange={onChange}
                     value={text}
@@ -144,7 +144,7 @@ const Item = ({ data }) => {
             errors.graphQLErrors.forEach((error) => toast.error(error.message));
         },
         onCompleted: () => {
-            toast.success("Family news updated");
+            toast.success("Zaktualizowane");
             setEdit(false);
         }
     });
@@ -152,7 +152,7 @@ const Item = ({ data }) => {
     const [deleteFamilyNews] = useMutation(DELETE_FAMILY_NEWS_MUTATION, {
         refetchQueries: [{ query: FAMILY_NEWS_QUERY }],
         onCompleted: () => {
-            toast.success("Family news deleted");
+            toast.success("Usunięte");
         }
     });
 
@@ -192,7 +192,7 @@ const Item = ({ data }) => {
     };
 
     const onDelete = () => {
-        var r = window.confirm("Press OK to delete");
+        var r = window.confirm("Jesteś pewny?");
         if (r !== true) return;
         deleteFamilyNews({ variables: { id: parseInt(data.id, 10) } });
     };

@@ -40,7 +40,8 @@ module.exports = {
                 WHERE MP.first_name LIKE :search AND deleted = 0
                 OR MP.middle_name LIKE :search AND deleted = 0
                 OR MP.last_name LIKE :search AND deleted = 0
-                ORDER BY first_name ASC;
+                ORDER BY first_name ASC
+                LIMIT 30;
                 `,
                 {
                     replacements: { search: `%${search}%` }
@@ -74,7 +75,8 @@ module.exports = {
                 WHERE MP.first_name LIKE :search AND deleted = 0
                 OR MP.middle_name LIKE :search AND deleted = 0
                 OR MP.last_name LIKE :search AND deleted = 0
-                ORDER BY updatedAt DESC;
+                ORDER BY updatedAt DESC
+                LIMIT 30;
                 `,
                 {
                     replacements: { search: `%${search}%` }
