@@ -9,6 +9,7 @@ const Container = styled.div`
 `;
 
 const AvatarImage = styled.img`
+    object-fit: cover;
     width: 150px;
     height: 150px;
     background-color: lightgrey;

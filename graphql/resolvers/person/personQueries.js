@@ -40,7 +40,7 @@ module.exports = {
                 WHERE MP.first_name LIKE :search AND deleted = 0
                 OR MP.middle_name LIKE :search AND deleted = 0
                 OR MP.last_name LIKE :search AND deleted = 0
-                ORDER BY first_name ASC
+                ORDER BY last_name ASC
                 LIMIT 30;
                 `,
                 {
@@ -220,7 +220,7 @@ module.exports = {
                 FROM main.people
                 WHERE last_name LIKE '${args.filter}%'
                 AND deleted = 0
-                ORDER BY first_name
+                ORDER BY last_name
                 `
             );
             const returnStuff = {

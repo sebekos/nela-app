@@ -68,16 +68,15 @@ const ListItems = ({ alphaData, history }) => {
         history.push(link);
     };
     return (
-        <List style={{ width: "500px" }}>
+        <List style={{ width: "500px", margin: "auto" }}>
             {alphaData.map((person) => {
-                const { first_name, middle_name, last_name, birth_date, birth_location } = person;
-                const name = [first_name, middle_name, last_name].map((item) => (item !== null ? item : null)).join(" ");
-                const dates = birth_date ? moment(birth_date, "YYYY-MM-DD").format("DD/MM/YYYY") : "";
-                const location = birth_location ? `${birth_location}, ` : "";
-                const secondary = `${location}${dates}`;
+                const { first_name, last_name, birth_date } = person;
+                const firstName = first_name ? `, ${first_name}` : "";
+                const dates = birth_date ? ` - ${moment(birth_date, "YYYY-MM-DD").format("DD.MM.YYYY")}` : "";
+                const secondary = `${last_name}${firstName}${dates}`;
                 return (
                     <ListItem divider={true} key={uuid()} onClick={(e) => onClick(`/Rodzina/${person.id}`)} style={{ cursor: "pointer" }}>
-                        <ListItemText primary={`${name} ${secondary}`} />
+                        <ListItemText primary={`${secondary}`} />
                     </ListItem>
                 );
             })}

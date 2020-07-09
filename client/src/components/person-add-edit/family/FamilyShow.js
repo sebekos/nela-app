@@ -28,24 +28,26 @@ const RelationItemContainer = styled.div`
     border: 1px solid lightgrey;
     margin: 0.1rem auto;
     display: flex;
-    width: 634px;
+    width: 700px;
 `;
 
 const FamilySpan = styled.div`
     padding: 0 1rem;
     background-color: lightgrey;
-    width: 100px;
+    width: 150px;
+    text-align: center;
 `;
 
 const FamilyName = styled.div`
-    margin: 0 0.5rem;
+    margin: 0 0 0 1rem;
+    white-space: nowrap;
 `;
 
 const RelationConversion = {
-    parents: "Parent",
-    siblings: "Sibling",
-    spouses: "Spouse",
-    children: "Child"
+    parents: "Rodzic",
+    siblings: "Rodzeństwo",
+    spouses: "Małżonka",
+    children: "Dzieci"
 };
 
 const RelationItem = ({ relation, first_name, last_name, info_date }) => {

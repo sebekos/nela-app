@@ -9,7 +9,6 @@ const MainContainer = styled.div`
     grid-template-columns: 1fr 350px;
     width: max-content;
     margin: 3rem auto;
-
     box-shadow: 1px 1px 3px 2px #ccc;
 `;
 
@@ -22,8 +21,10 @@ const ImageContainer = styled.div`
 `;
 
 const Image = styled.img`
+    height: 250px;
+    width: 250px;
+    object-fit: cover;
     background-color: black;
-    min-width: 200px;
     position: absolute;
     top: 50%;
     left: 50%;

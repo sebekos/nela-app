@@ -13,7 +13,9 @@ const InfoContainer = styled.div`
 `;
 
 const Image = styled.img`
-    width: 100px;
+    object-fit: cover;
+    width: 98px;
+    height: 98px;
     background-color: lightgrey;
     position: absolute;
     top: 50%;
@@ -26,15 +28,18 @@ const ImageDiv = styled.div`
     width: 100px;
     height: 100px;
     overflow: hidden;
+    background-color: lightgrey;
 `;
 
 const RootImage = styled.img`
-    width: 100px;
+    object-fit: cover;
+    width: 98px;
+    height: 98px;
+    background-color: lightgrey;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: lightgrey;
     border: 3px solid orange;
 `;
 
@@ -44,6 +49,7 @@ const NameContainer = styled.div`
 `;
 
 const FamilyNode = ({ node, isRoot, style }) => {
+    const currName = node.first_name ? node.first_name : node.last_name;
     return (
         <Container style={style}>
             <InfoContainer>
@@ -51,7 +57,7 @@ const FamilyNode = ({ node, isRoot, style }) => {
                     {isRoot ? <RootImage src={node.link_photo ? `${node.link_photo}` : DefaultAvatar} /> : null}
                     {!isRoot ? <Image src={node.link_photo ? `${node.link_photo}` : DefaultAvatar} /> : null}
                 </ImageDiv>
-                <NameContainer>{node.first_name}</NameContainer>
+                <NameContainer>{currName}</NameContainer>
             </InfoContainer>
         </Container>
     );

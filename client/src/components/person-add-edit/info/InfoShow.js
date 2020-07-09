@@ -42,7 +42,7 @@ const InfoShow = ({ data: { birth_date, birth_location, passed_date, passed_loca
             </EditContainer>
             <ShowDatesContainer>{[birth_date, passed_date].filter((item) => item !== null).join(" - ")}</ShowDatesContainer>
             <BirthLocationContainer>{[birth_location, passed_location].filter((item) => item !== null).join(" - ")}</BirthLocationContainer>
-            <ShowNotesContainer>{notes ? notes : "No Info"}</ShowNotesContainer>
+            <ShowNotesContainer>{notes ? notes : "brak"}</ShowNotesContainer>
         </Container>
     );
 };

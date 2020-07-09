@@ -43,7 +43,7 @@ const Form = styled(GenForm)`
 `;
 
 const PeopleItemContainer = styled.div`
-    width: 634px;
+    width: 700px;
     margin: 0.2rem auto;
     display: flex;
     justify-content: space-between;
@@ -81,24 +81,26 @@ const RelationItemContainer = styled.div`
     margin: 0.1rem auto;
     display: grid;
     grid-template-columns: 100px 1fr 1fr;
-    width: 634px;
+    width: 700px;
 `;
 
 const FamilySpan = styled.div`
     padding: 0 1rem;
     background-color: lightgrey;
-    width: 100px;
+    width: 150px;
+    text-align: center;
 `;
 
 const FamilyName = styled.div`
-    margin: 0 0.5rem;
+    margin: 0 0 0 4rem;
+    white-space: nowrap;
 `;
 
 const RelationConversion = {
-    parents: "Parent",
-    siblings: "Sibling",
-    spouses: "Spouse",
-    children: "Child"
+    parents: "Rodzic",
+    siblings: "Rodzeństwo",
+    spouses: "Małżonka",
+    children: "Dzieci"
 };
 
 const RelationItem = ({ tid, relation, first_name, last_name, info_date, onRemove }) => {
@@ -200,7 +202,7 @@ const PeopleItems = ({ data, addParent, addSibling, addChild, addSpouse }) => {
 
 const SearchInput = styled(GenInput)`
     margin: auto;
-    width: 634px;
+    width: 700px;
 `;
 
 const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
