@@ -223,7 +223,7 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
         },
         onCompleted: () => {
             setCurLoading(false);
-            toast.success("Parent added");
+            toast.success("Dodany");
         },
         refetchQueries: [{ query: RELATIONS_QUERY, variables: { id: person_key } }]
     });
@@ -236,7 +236,7 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
         refetchQueries: [{ query: RELATIONS_QUERY, variables: { id: person_key } }],
         onCompleted: () => {
             setCurLoading(false);
-            toast.success("Parent removed");
+            toast.success("Usunięte");
         }
     });
 
@@ -247,7 +247,7 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
         },
         onCompleted: () => {
             setCurLoading(false);
-            toast.success("Child added");
+            toast.success("Dodany");
         },
         refetchQueries: [{ query: RELATIONS_QUERY, variables: { id: person_key } }]
     });
@@ -259,7 +259,7 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
         },
         onCompleted: () => {
             setCurLoading(false);
-            toast.success("Child removed");
+            toast.success("Usunięte");
         },
         refetchQueries: [{ query: RELATIONS_QUERY, variables: { id: person_key } }]
     });
@@ -271,7 +271,7 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
         },
         onCompleted: () => {
             setCurLoading(false);
-            toast.success("Sibling added");
+            toast.success("Dodany");
         },
         refetchQueries: [{ query: RELATIONS_QUERY, variables: { id: person_key } }]
     });
@@ -283,7 +283,7 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
         },
         onCompleted: () => {
             setCurLoading(false);
-            toast.success("Sibling removed");
+            toast.success("Usunięte");
         },
         refetchQueries: [{ query: RELATIONS_QUERY, variables: { id: person_key } }]
     });
@@ -295,7 +295,7 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
         },
         onCompleted: () => {
             setCurLoading(false);
-            toast.success("Spouse added");
+            toast.success("Dodany");
         },
         refetchQueries: [{ query: RELATIONS_QUERY, variables: { id: person_key } }]
     });
@@ -307,7 +307,7 @@ const FamilyEdit = ({ person_key, family_data, stopEdit }) => {
         },
         onCompleted: () => {
             setCurLoading(false);
-            toast.success("Spouse removed");
+            toast.success("Usunięte");
         },
         refetchQueries: [{ query: RELATIONS_QUERY, variables: { id: person_key } }]
     });

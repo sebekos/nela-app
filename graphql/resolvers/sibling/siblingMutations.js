@@ -52,22 +52,23 @@ module.exports = {
         const { userId } = context;
         try {
             await sequelize.query(`
-                WITH RELATE (id) AS (
-                    SELECT id FROM main.siblings WHERE id = ${id}
-                    UNION ALL
-                    SELECT id FROM main.siblings WHERE person_key IN(
-                        SELECT sibling_key FROM main.siblings WHERE id = ${id}
-                    )
-                    AND sibling_key IN (
-                        SELECT person_key FROM main.siblings WHERE id = ${id}
-                    )
-                    AND deleted = 0
-                )
                 UPDATE main.siblings SET
                 deleted = 1,
                 lastUser = \"${userId}\",
                 updatedAt = CURRENT_DATE()
-                WHERE id IN(SELECT id FROM RELATE);
+                WHERE id IN(
+                    SELECT id FROM (
+                        SELECT id FROM main.siblings WHERE id = ${id}
+                        UNION ALL
+                        SELECT id FROM main.siblings WHERE person_key IN(
+                            SELECT sibling_key FROM main.siblings WHERE id = ${id}
+                        )
+                        AND sibling_key IN (
+                            SELECT person_key FROM main.siblings WHERE id = ${id}
+                        )
+                        AND deleted = 0
+                    ) AS A
+                );
             `);
             return true;
         } catch (err) {
