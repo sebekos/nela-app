@@ -12,12 +12,18 @@ const Container = styled.div`
     margin: auto;
     background-color: white;
     align-items: center;
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+    }
 `;
 
 const ImgContainer = styled.div`
     max-width: 650px;
     justify-self: start;
     padding: 5rem 3rem;
+    @media (max-width: 768px) {
+        display: none;
+    }
 `;
 
 const Img = styled.img`

@@ -17,6 +17,13 @@ const AlphaContainer = styled.div`
     display: flex;
     width: max-content;
     margin: 2rem auto 1rem;
+    @media (max-width: 768px) {
+        display: none;
+    }
+    @media (max-width: 768px) {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+    }
 `;
 
 const CountContainer = styled.div`

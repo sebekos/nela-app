@@ -10,17 +10,28 @@ const Container = styled.div`
     margin: auto;
     background-color: #f0f0f0;
     align-items: center;
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        justify-items: center;
+    }
 `;
 
 const ImgContainer = styled.div`
     max-width: 650px;
     justify-self: end;
     padding: 5rem 1rem;
+    @media (max-width: 768px) {
+        display: none;
+    }
 `;
 
 const Img = styled.img`
     width: 100%;
     height: auto;
+    @media (max-width: 768px) {
+        height: 300px;
+        width: auto;
+    }
 `;
 
 const Image = () => {

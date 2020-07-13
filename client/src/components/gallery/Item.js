@@ -8,9 +8,7 @@ import timeFormat from "../../utils/timeFormat";
 
 const useStyles = makeStyles({
     container: {
-        margin: "0rem auto",
-        display: "grid",
-        gridTemplateColumns: "1fr 1fr 1fr"
+        margin: "auto"
     },
     root: {
         width: 390,

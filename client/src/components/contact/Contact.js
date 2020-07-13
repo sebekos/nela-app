@@ -28,18 +28,29 @@ const IntroText = styled.div`
     font-weight: bold;
     white-space: nowrap;
     text-align: center;
+    @media (max-width: 768px) {
+        font-size: 1.3rem;
+    }
 `;
 
 const IntroTextSmall = styled.div`
     font-size: 1rem;
     font-weight: bold;
     white-space: nowrap;
+    @media (max-width: 768px) {
+        font-size: 0.8rem;
+        white-space: normal;
+        text-align: center;
+    }
 `;
 
 const Image1 = styled.img`
     height: 600px;
     width: 100%;
     object-fit: cover;
+    @media (max-width: 768px) {
+        height: 300px;
+    }
 `;
 
 const IntroTextContainer = styled.div`
@@ -69,6 +80,9 @@ const ContactInfoContainer = styled.div`
     max-width: 800px;
     margin: 5rem auto 5rem;
     text-align: center;
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+    }
 `;
 
 const ContactCol = styled.div`
@@ -83,6 +97,9 @@ const ContactTitle = styled.div`
 
 const ContactBody = styled.p`
     font-size: 1.3rem;
+    @media (max-width: 768px) {
+        font-size: 1rem;
+    }
 `;
 
 const ContactInfo = () => {

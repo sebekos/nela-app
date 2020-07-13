@@ -13,6 +13,9 @@ const Background = styled.div`
     background-position: center; /* Center the image */
     background-repeat: no-repeat; /* Do not repeat the image */
     background-size: cover; /* Resize the background image to cover the entire container */
+    @media (max-width: 768px) {
+        background-image: none;
+    }
 `;
 
 const Container = styled.div`
@@ -77,9 +80,8 @@ const GeneralNews = () => {
     return (
         <>
             <MainTitle>Newsy</MainTitle>
-
             <Background>
-                <Paper>
+                <Paper className="maintree">
                     <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" centered>
                         <Tab style={{ textTransform: "capitalize" }} label="Newsy" />
                         <Tab style={{ textTransform: "capitalize" }} label="Wydarzyło się" />

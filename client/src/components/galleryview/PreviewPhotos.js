@@ -8,6 +8,9 @@ const Container = styled.div`
     width: fit-content;
     display: grid;
     grid-template-columns: repeat(5, 200px);
+    @media (max-width: 768px) {
+        grid-template-columns: repeat(2, 200px);
+    }
 `;
 
 const ImageContainer = styled.div`

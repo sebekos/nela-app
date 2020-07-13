@@ -15,12 +15,19 @@ const Container = styled.div`
     background-color: white;
     position: fixed;
     z-index: 1;
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+    }
 `;
 
 const Title = styled.div`
     font-size: 2rem;
     color: #3e4444;
     margin-left: 3rem;
+    @media (max-width: 768px) {
+        margin: auto;
+        font-size: 1.5rem;
+    }
 `;
 
 const LinksContainer = styled.div`
@@ -34,6 +41,14 @@ const LinksContainer = styled.div`
         text-decoration: none;
         &:last-child {
             margin-right: 1.5rem;
+        }
+    }
+    @media (max-width: 768px) {
+        margin: auto;
+        & > a {
+            &:last-child {
+                margin: auto;
+            }
         }
     }
 `;

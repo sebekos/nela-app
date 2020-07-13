@@ -9,7 +9,8 @@ const useStyles = makeStyles({
     container: {
         margin: "2rem auto",
         display: "grid",
-        gridTemplateColumns: "1fr 1fr 1fr"
+        gridTemplateColumns: "1fr 1fr 1fr",
+        ["@media (min-height:768px)"]: { gridTemplateColumns: "1fr" }
     },
     root: {
         width: 400,

@@ -74,8 +74,9 @@ const Tree2 = ({ match }) => {
                 {!loading && data ? (
                     <>
                         <MainInfo data={data.person} />
-                        <SmallTitle>Rodzina</SmallTitle>
+                        <SmallTitle className="maintree">Rodzina</SmallTitle>
                         <ReactFamilyTree
+                            className="maintree"
                             nodes={singleTree(data)}
                             rootId={parseInt(match.params.id, 10)}
                             width={WIDTH}

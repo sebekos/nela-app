@@ -13,6 +13,10 @@ const MainBackground = styled.div`
     background-repeat: no-repeat;
     background-size: auto;
     background-color: lightgrey;
+    @media (max-width: 768px) {
+        min-height: 300px;
+        background-size: cover;
+    }
 `;
 
 const SiteContainer = styled.div`

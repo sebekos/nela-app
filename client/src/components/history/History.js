@@ -32,6 +32,9 @@ const IntroText = styled.div`
     font-size: 2rem;
     font-weight: bold;
     white-space: nowrap;
+    @media (max-width: 768px) {
+        font-size: 1rem;
+    }
 `;
 
 const Image1 = styled.img`
@@ -39,6 +42,9 @@ const Image1 = styled.img`
     width: 100%;
     object-fit: cover;
     background-color: lightgrey;
+    @media (max-width: 768px) {
+        height: 300px;
+    }
 `;
 
 const IntroTextContainer = styled.div`

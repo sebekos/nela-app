@@ -47,6 +47,10 @@ const Form = styled(GenForm)`
     & > div {
         width: 100%;
     }
+    @media (max-width: 768px) {
+        width: auto;
+        padding: 1rem;
+    }
 `;
 
 const MapContainer = styled.div`
@@ -55,6 +59,10 @@ const MapContainer = styled.div`
     & > a {
         color: #333;
         text-decoration: none;
+    }
+    @media (max-width: 768px) {
+        width: auto;
+        padding: 1rem;
     }
 `;
 
@@ -96,7 +104,7 @@ const NoResultsContainer = styled.div`
 `;
 
 const NoResults = () => {
-    return <NoResultsContainer>No Results Found</NoResultsContainer>;
+    return <NoResultsContainer>Brak wyników</NoResultsContainer>;
 };
 
 const TreeImgContainer = styled.div`
@@ -108,6 +116,9 @@ const Image = styled.img`
     width: 450px;
     height: auto;
     margin: 1rem 0;
+    @media (max-width: 768px) {
+        display: none;
+    }
 `;
 
 const Tree = ({ isVisible }) => {

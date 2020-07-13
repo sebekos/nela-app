@@ -72,6 +72,9 @@ const MapContainer = styled.div`
     margin: 0rem auto 3rem;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+    }
 `;
 
 const Map = ({ data }) => {

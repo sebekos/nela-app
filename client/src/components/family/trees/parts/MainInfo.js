@@ -10,19 +10,24 @@ const MainContainer = styled.div`
     width: max-content;
     margin: 3rem auto;
     box-shadow: 1px 1px 3px 2px #ccc;
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        width: 300px;
+    }
 `;
 
 const ImageContainer = styled.div`
-    height: 250px;
-    width: 250px;
+    height: 300px;
+    width: 300px;
     background-color: lightgrey;
     overflow: hidden;
     position: relative;
+    margin: auto;
 `;
 
 const Image = styled.img`
-    height: 250px;
-    width: 250px;
+    height: 300px;
+    width: 300px;
     object-fit: cover;
     background-color: black;
     position: absolute;
@@ -43,6 +48,11 @@ const TextInfoTitleContainer = styled.div`
     text-align: center;
     width: max-content;
     margin: auto;
+    @media (max-width: 768px) {
+        width: 200px;
+        white-space: normal;
+        text-align: center;
+    }
 `;
 
 const TextInfoTitle = styled.div`
@@ -52,6 +62,11 @@ const TextInfoTitle = styled.div`
 
 const TextInfoNotes = styled.div`
     font-size: 0.9rem;
+    @media (max-width: 768px) {
+        width: 250px;
+        white-space: normal;
+        text-align: center;
+    }
 `;
 
 const TextInfoDatesContainer = styled.div`

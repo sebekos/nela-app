@@ -85,3 +85,9 @@ body {
 .horizontal-menu {
     background-color: rgba(177, 177, 177, 0.15);
 }
+
+@media (max-width: 768px) {
+    .maintree {
+        display: none;
+    }
+}
