@@ -76,9 +76,9 @@ const GuestLinks = ({ currMenu }) => {
 const AuthLinks = ({ onLogout }) => {
     return (
         <>
-            <Link to="/dashboard">Dashboard</Link>
+            <Link to="/dashboard">Główny</Link>
             <Link to="/login" onClick={onLogout}>
-                Logout
+                Wyloguj
             </Link>
         </>
     );

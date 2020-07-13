@@ -79,7 +79,7 @@ const UploadButton = styled(SuccessButton)`
 const Upload = ({ onUpload }) => {
     return (
         <UploadContainer>
-            <UploadButton onClick={onUpload}>Upload Images</UploadButton>
+            <UploadButton onClick={onUpload}>Ściągnij</UploadButton>
         </UploadContainer>
     );
 };
@@ -196,7 +196,7 @@ const AddPhotos = ({ match }) => {
 
     return (
         <Container>
-            <MainTitle>Add Photos</MainTitle>
+            <MainTitle>Dodaj Zdjęcia</MainTitle>
             {loading && <Loading />}
             {!loading && error && <Error />}
             {!loading && !error && data && <Description title={data.gallery.title} text={data.gallery.text} />}

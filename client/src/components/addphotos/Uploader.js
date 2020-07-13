@@ -16,7 +16,7 @@ const Uploader = ({ onDrop, pictures }) => {
         <UploaderContainer>
             <ImageUploader
                 withIcon={false}
-                buttonText="Choose Images"
+                buttonText="Wybierz obrazy"
                 onChange={(pictures) => onDrop(pictures)}
                 imgExtension={[".jpg", ".gif", ".png", ".gif", "jpeg"]}
                 maxFileSize={30485760}
