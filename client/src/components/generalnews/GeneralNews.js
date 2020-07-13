@@ -9,7 +9,8 @@ import GenPanels from "./Panels/GenPanels";
 import LandingImage from "../../img/news.jpeg";
 
 const Background = styled.div`
-    background-image: url(${LandingImage});
+    background-image: none;
+    background-color: lightgrey;
     background-position: center; /* Center the image */
     background-repeat: no-repeat; /* Do not repeat the image */
     background-size: cover; /* Resize the background image to cover the entire container */
