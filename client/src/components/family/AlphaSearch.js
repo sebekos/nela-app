@@ -14,7 +14,8 @@ const Container = styled.div`
 `;
 
 const AlphaContainer = styled.div`
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
     width: max-content;
     margin: 2rem auto 1rem;
     @media (max-width: 768px) {
