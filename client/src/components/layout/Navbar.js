@@ -46,6 +46,7 @@ const LinksContainer = styled.div`
     @media (max-width: 768px) {
         margin: auto;
         & > a {
+            font-size: 0.8rem;
             &:last-child {
                 margin: auto;
             }
