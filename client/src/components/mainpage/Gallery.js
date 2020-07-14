@@ -25,13 +25,21 @@ const Container = styled.div`
 
 const CarouselContainer = styled.div`
     max-width: 1200px;
+    min-width: 1069px;
     margin: auto;
+    @media (max-width: 768px) {
+        min-width: 700px;
+    }
 `;
 
 const Img = styled.img`
-    max-width: 300px;
-    min-width: 250px;
+    max-width: 250px;
+    min-width: 200px;
     padding: 0.1rem;
+    @media (max-width: 768px) {
+        max-width: 150px;
+        min-width: 100px;
+    }
 `;
 
 const TextDesc = styled.div`
@@ -61,7 +69,7 @@ const Gallery = () => {
                 e-mail można znaleźć w dziale kontakt:) Życzymy przyjemnego oglądania.
             </TextDesc>
             <CarouselContainer>
-                <Carousel centered autoPlay={2000} animationSpeed={1000} infinite slidesPerPage={4}>
+                <Carousel centered autoPlay={2000} animationSpeed={1000} infinite slidesPerPage={5}>
                     <Img src={Slide1} />
                     <Img src={Slide2} />
                     <Img src={Slide3} />
