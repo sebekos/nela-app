@@ -33,7 +33,7 @@ const IntroText = styled.div`
     font-weight: bold;
     white-space: nowrap;
     @media (max-width: 768px) {
-        font-size: 1rem;
+        font-size: 0.8rem;
     }
 `;
 
