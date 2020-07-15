@@ -96,7 +96,7 @@ const GalleryList = ({ data, history }) => {
         history.push(`/galeria/${link}`);
     };
     return (
-        <Paper style={{ maxHeight: 400, overflow: "auto", width: "500px", margin: "auto", border: "1px solid lightgrey" }}>
+        <Paper className="gallerylistcontainer">
             <List>
                 {data.map((item) => (
                     <ListItem divider={true} key={uuid()} style={{ cursor: "pointer" }} onClick={(e) => onClick(item.id)}>

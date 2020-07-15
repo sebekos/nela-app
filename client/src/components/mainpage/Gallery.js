@@ -28,7 +28,7 @@ const CarouselContainer = styled.div`
     min-width: 1069px;
     margin: auto;
     @media (max-width: 768px) {
-        min-width: auto;
+        display: none;
     }
 `;
 
@@ -36,10 +36,6 @@ const Img = styled.img`
     max-width: 250px;
     min-width: 200px;
     padding: 0.1rem;
-    @media (max-width: 768px) {
-        max-width: 150px;
-        min-width: 100px;
-    }
 `;
 
 const TextDesc = styled.div`

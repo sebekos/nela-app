@@ -86,8 +86,25 @@ body {
     background-color: rgba(177, 177, 177, 0.15);
 }
 
+.gallerylistcontainer {
+    max-height: 400px;
+    overflow: auto;
+    max-width: 500px;
+    margin: auto;
+    border: 1px solid lightgrey;
+}
+
 @media (max-width: 768px) {
     .maintree {
         display: none;
+    }
+
+    .alphalist {
+        max-width: 400px;
+        white-space: normal;
+    }
+
+    .gallerylistcontainer {
+        max-width: 500px;
     }
 }

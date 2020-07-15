@@ -76,7 +76,7 @@ const ListItems = ({ alphaData, history }) => {
         history.push(link);
     };
     return (
-        <List style={{ width: "500px", margin: "auto" }}>
+        <List className="alphalist">
             {alphaData.map((person) => {
                 const { first_name, last_name, birth_date } = person;
                 const firstName = first_name ? `, ${first_name}` : "";
