@@ -35,7 +35,7 @@ const useStyles = makeStyles({
     }
 });
 
-const GenPanels = ({ value, index, data }) => {
+const GenPanels = ({ value, index, data, incDate = 1 }) => {
     const classes = useStyles();
     if (value !== index) return null;
     return (
@@ -52,7 +52,7 @@ const GenPanels = ({ value, index, data }) => {
                             {item.text}
                         </Typography>
                         <Typography className={classes.date} color="textSecondary" variant="body2" component="p" align="right">
-                            {timeFormat(item.createdAt)}
+                            {incDate ? timeFormat(item.createdAt) : ""}
                         </Typography>
                     </CardContent>
                 </Card>

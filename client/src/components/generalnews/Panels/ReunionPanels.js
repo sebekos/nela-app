@@ -32,7 +32,7 @@ const useStyles = makeStyles({
     }
 });
 
-const ReunionPanels = ({ value, index, data }) => {
+const ReunionPanels = ({ value, index, data, incDate = 1 }) => {
     const classes = useStyles();
     if (value !== index) return null;
     return (
@@ -49,7 +49,7 @@ const ReunionPanels = ({ value, index, data }) => {
                             {item.text}
                         </Typography>
                         <Typography className={classes.date} color="textSecondary" variant="body2" component="p" align="right">
-                            {timeFormat(item.createdAt)}
+                            {incDate ? timeFormat(item.createdAt) : ""}
                         </Typography>
                     </CardContent>
                 </Card>

@@ -6,7 +6,7 @@ import gql from "graphql-tag";
 import ReunionPanels from "./Panels/ReunionPanels";
 import GenPanels from "./Panels/GenPanels";
 
-import LandingImage from "../../img/news.jpeg";
+// import LandingImage from "../../img/news.jpeg";
 
 const Background = styled.div`
     background-image: none;
@@ -97,10 +97,10 @@ const GeneralNews = () => {
                     {!loading && !error && (
                         <>
                             <GenPanels value={value} data={data.news} index={0} />
-                            <GenPanels value={value} data={data.happened} index={1} />
-                            <GenPanels value={value} data={data.later} index={2} />
-                            <GenPanels value={value} data={data.hello} index={3} />
-                            <GenPanels value={value} data={data.thanks} index={4} />
+                            <GenPanels value={value} data={data.happened} index={1} incDate={0} />
+                            <GenPanels value={value} data={data.later} index={2} incDate={0} />
+                            <GenPanels value={value} data={data.hello} index={3} incDate={0} />
+                            <GenPanels value={value} data={data.thanks} index={4} incDate={0} />
                             <ReunionPanels value={value} data={data.reunion} index={5} />
                         </>
                     )}

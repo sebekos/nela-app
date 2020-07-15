@@ -28,7 +28,7 @@ const CarouselContainer = styled.div`
     min-width: 1069px;
     margin: auto;
     @media (max-width: 768px) {
-        min-width: 700px;
+        min-width: auto;
     }
 `;
 
