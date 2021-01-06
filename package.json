@@ -17,7 +17,7 @@
         "@brainhubeu/react-carousel": "^1.13.38",
         "apollo-server-express": "^2.14.2",
         "aws-sdk": "^2.695.0",
-        "axios": "^0.19.2",
+        "axios": "^0.21.1",
         "bcryptjs": "^2.4.3",
         "bluebird": "^3.7.2",
         "concurrently": "^5.1.0",
